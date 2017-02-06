@@ -12,6 +12,7 @@ gem "pg"
 gem "pry-rails"
 gem "pry-remote"
 gem "puma", "~> 3.0"
+gem "rack-cors"
 
 group :development, :test do
   gem "factory_girl_rails"
