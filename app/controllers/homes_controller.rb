@@ -42,6 +42,6 @@ class HomesController < ApplicationController
   private
 
   def home_params
-    params.require(:home).permit(:name, :location).merge(ip_address: request.ip)
+    params.require(:home).permit(:name, :location, :tunnel).merge(ip_address: request.ip)
   end
 end
