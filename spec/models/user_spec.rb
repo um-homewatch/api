@@ -10,4 +10,8 @@ describe User, type: :model do
 
     it { should validate_uniqueness_of(:email) }
   end
+
+  describe "relation validation" do
+    it { should have_many(:homes) }
+  end
 end
