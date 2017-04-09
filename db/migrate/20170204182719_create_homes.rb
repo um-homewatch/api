@@ -3,6 +3,7 @@ class CreateHomes < ActiveRecord::Migration[5.0]
     create_table :homes do |t|
       t.string :name, null: false
       t.string :location, null: false
+      t.string :tunnel, null: false
       t.inet :ip_address, null: false
       t.references :user
 

@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 20170204182719) do
   create_table "homes", force: :cascade do |t|
     t.string   "name",       null: false
     t.string   "location",   null: false
+    t.string   "tunnel",     null: false
     t.inet     "ip_address", null: false
     t.integer  "user_id"
     t.datetime "created_at", null: false
