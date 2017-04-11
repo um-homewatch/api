@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 ruby "2.4.0"
 
-gem "rails", "~> 5.0.0", ">= 5.0.0.1"
+gem "rails", "~> 5.0.2"
 
 gem "active_model_serializers", "~> 0.10.0"
 gem "bcrypt", "~> 3.1.7"
