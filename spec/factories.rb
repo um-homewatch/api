@@ -8,9 +8,15 @@ FactoryGirl.define do
 
   factory :home do
     user
-    name { Faker::Lorem.word}
+    name { Faker::Lorem.word }
     location { Faker::Lorem.word }
     ip_address { Faker::Internet.ip_v4_address }
     tunnel { Faker::Internet.url }
+  end
+
+  factory :thing do
+    home
+    type { Faker::Number.between(0, 3) }
+    subtype { Faker::Lorem.word }
   end
 end
