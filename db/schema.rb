@@ -28,12 +28,12 @@ ActiveRecord::Schema.define(version: 20170411213611) do
   end
 
   create_table "things", force: :cascade do |t|
-    t.integer  "type"
+    t.string   "type"
     t.string   "subtype"
-    t.json     "payload"
+    t.json     "connection_info"
     t.integer  "home_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
     t.index ["home_id"], name: "index_things_on_home_id", using: :btree
   end
 

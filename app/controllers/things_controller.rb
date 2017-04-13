@@ -15,17 +15,6 @@ class ThingsController < ApplicationController
     render json: thing
   end
 
-  def create
-    home = Home.find(params[:home_id])
-    thing = home.things.build(thing_params)
-
-    if thing.save
-      render json: thing, status: :created
-    else
-      render json: thing.errors, status: :unprocessable_entity
-    end
-  end
-
   def update
     home = Home.find(params[:home_id])
     thing = home.things.find(params[:id])
@@ -47,8 +36,8 @@ class ThingsController < ApplicationController
   private
 
   def thing_params
-    thing_params = params.require(:thing).permit(:id, :home_id, :type, :subtype)
-    thing_params[:payload] = params[:thing][:payload]
+    thing_params = params.require(:thing).permit(:id, :home_id, :subtype)
+    thing_params[:connection_info] = params[:thing][:connection_info].symbolize_keys
     thing_params.permit!
   end
 end

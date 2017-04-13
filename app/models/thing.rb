@@ -1,10 +1,10 @@
 class Thing < ApplicationRecord
-  self.inheritance_column = nil
-
-  enum type: %i[LIGHT LOCK WEATHER THERMOSTAT]
-
-  validates :type, :subtype, :payload, presence: true
+  validates :type, :subtype, :connection_info, presence: true
 
   belongs_to :home
   delegate :user, to: :home
+
+  def connection_info
+    self[:connection_info]&.symbolize_keys
+  end
 end

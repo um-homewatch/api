@@ -8,12 +8,7 @@ describe Thing, type: :model do
 
     it { should validate_presence_of(:subtype) }
 
-    it { should validate_presence_of(:payload) }
-
-    it {
-      should define_enum_for(:type).
-        with(%i[LIGHT LOCK WEATHER THERMOSTAT])
-    }
+    it { should validate_presence_of(:connection_info) }
   end
 
   describe "relation validation" do

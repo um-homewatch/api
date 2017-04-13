@@ -16,8 +16,12 @@ FactoryGirl.define do
 
   factory :thing do
     home
-    type { Thing.types.keys.sample }
     subtype { Faker::Lorem.word }
-    payload { "{ coisas: maradas}" }
+    connection_info { { ip_addr: "192.168.1.150" } }
+
+    factory :light, class: Things::Light
+    factory :lock, class: Things::Lock
+    factory :thermostat, class: Things::Thermostat
+    factory :weather, class: Things::Weather
   end
 end
