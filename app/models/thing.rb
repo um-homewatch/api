@@ -1,6 +1,8 @@
 class Thing < ApplicationRecord
-  enum type: %i[LIGHT LOCK WEATHER THERMOSTAT]
+  enum kind: %i[LIGHT LOCK WEATHER THERMOSTAT]
+
+  validates :kind, :subtype, :payload, presence: true
 
   belongs_to :home
-  has_one :user, through: :home
+  delegate :user, to: :home
 end

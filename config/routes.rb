@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   resource :users, only: [:create]
 
   resource :user, only: [:show, :update], path: "/users/me" do
-    resources :homes
+    resources :homes do
+      resources :things
+    end
   end
 end

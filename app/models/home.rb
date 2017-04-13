@@ -3,4 +3,5 @@ class Home < ApplicationRecord
   validates :ip_address, uniqueness: true
 
   belongs_to :user
+  has_many :things
 end

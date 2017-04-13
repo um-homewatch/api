@@ -28,8 +28,9 @@ ActiveRecord::Schema.define(version: 20170411213611) do
   end
 
   create_table "things", force: :cascade do |t|
-    t.integer  "type"
+    t.integer  "kind"
     t.string   "subtype"
+    t.json     "payload"
     t.integer  "home_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

@@ -15,5 +15,7 @@ describe Home, type: :model do
 
   describe "relation validation" do
     it { should belong_to(:user) }
+
+    it { should have_many(:things) }
   end
 end
