@@ -1,7 +1,7 @@
 class CreateThings < ActiveRecord::Migration[5.0]
   def change
     create_table :things do |t|
-      t.integer :kind
+      t.integer :type
       t.string :subtype
       t.json :payload
       t.references :home

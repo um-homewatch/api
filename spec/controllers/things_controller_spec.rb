@@ -53,7 +53,7 @@ describe ThingsController, type: :controller do
       authenticate(home.user)
       post :create, params: { home_id: home.id, thing: thing_params }
 
-      expect(parsed_response[:kind]).to eq(thing_params[:kind])
+      expect(parsed_response[:type]).to eq(thing_params[:type])
       expect(parsed_response[:subtype]).to eq(thing_params[:subtype])
       expect(parsed_response[:payload]).to eq(thing_params[:payload])
     end
@@ -68,7 +68,7 @@ describe ThingsController, type: :controller do
       put :update, params: { home_id: home.id, id: thing.id, thing: thing_params }
       thing.reload
 
-      expect(thing.kind).to eq(thing_params[:kind])
+      expect(thing.type).to eq(thing_params[:type])
       expect(thing.subtype).to eq(thing_params[:subtype])
       expect(thing.payload).to eq(thing_params[:payload])
     end

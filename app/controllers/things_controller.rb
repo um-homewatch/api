@@ -47,6 +47,8 @@ class ThingsController < ApplicationController
   private
 
   def thing_params
-    params.require(:thing).permit(:id, :home_id, :kind, :subtype, :payload)
+    thing_params = params.require(:thing).permit(:id, :home_id, :type, :subtype)
+    thing_params[:payload] = params[:thing][:payload]
+    thing_params.permit!
   end
 end

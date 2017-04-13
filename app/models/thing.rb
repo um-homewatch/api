@@ -1,7 +1,9 @@
 class Thing < ApplicationRecord
-  enum kind: %i[LIGHT LOCK WEATHER THERMOSTAT]
+  self.inheritance_column = nil
 
-  validates :kind, :subtype, :payload, presence: true
+  enum type: %i[LIGHT LOCK WEATHER THERMOSTAT]
+
+  validates :type, :subtype, :payload, presence: true
 
   belongs_to :home
   delegate :user, to: :home

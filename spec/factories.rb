@@ -16,7 +16,7 @@ FactoryGirl.define do
 
   factory :thing do
     home
-    kind { Thing.kinds.keys.sample }
+    type { Thing.types.keys.sample }
     subtype { Faker::Lorem.word }
     payload { "{ coisas: maradas}" }
   end

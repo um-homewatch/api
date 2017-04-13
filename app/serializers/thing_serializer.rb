@@ -1,3 +1,3 @@
 class ThingSerializer < ActiveModel::Serializer
-  attributes :id, :kind, :subtype, :payload
+  attributes :id, :type, :subtype, :payload
 end

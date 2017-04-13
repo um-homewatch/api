@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 20170411213611) do
   end
 
   create_table "things", force: :cascade do |t|
-    t.integer  "kind"
+    t.integer  "type"
     t.string   "subtype"
     t.json     "payload"
     t.integer  "home_id"
