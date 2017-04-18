@@ -10,8 +10,8 @@ AllCops:
     - "bin/**/*"
     - "vendor/**/*"
     - "node_modules/**/*"
-    - "spec/factories.rb"
-  TargetRubyVersion: 2.3
+    - "spec/**/*"
+  TargetRubyVersion: 2.4
 
 Metrics/LineLength:
   Enabled: false
@@ -29,6 +29,9 @@ Style/DotPosition:
   EnforcedStyle: trailing
 
 Style/IfUnlessModifier:
+  Enabled: false
+
+Style/SymbolArray:
   Enabled: false
 
 Style/PredicateName:

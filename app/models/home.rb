@@ -3,4 +3,9 @@ class Home < ApplicationRecord
   validates :ip_address, uniqueness: true
 
   belongs_to :user
+  has_many :things
+  has_many :lights, class_name: "Things::Light"
+  has_many :locks, class_name: "Things::Lock"
+  has_many :thermostats, class_name: "Things::Thermostat"
+  has_many :weathers, class_name: "Things::Weather"
 end

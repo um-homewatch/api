@@ -4,6 +4,13 @@ Rails.application.routes.draw do
   resource :users, only: [:create]
 
   resource :user, only: [:show, :update], path: "/users/me" do
-    resources :homes
+    resources :homes do
+      namespace :things do
+        resources :lights
+        resources :locks
+        resources :thermostats
+        resources :weathers
+      end
+    end
   end
 end
