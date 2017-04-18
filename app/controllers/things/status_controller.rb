@@ -1,14 +1,14 @@
 class Things::StatusController < ApplicationController
   def show
-    thing = fetch_thing
+    thing_status = fetch_thing.status
 
-    render json: thing.status
+    render json: thing_status, status: thing_status.code
   end
 
   def update
-    thing = fetch_thing
+    thing_status = fetch_thing.send_status(status_params)
 
-    render json: thing.send_status(status_params)
+    render json: thing_status, status: thing_status.code
   end
 
   protected
