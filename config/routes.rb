@@ -9,8 +9,11 @@ Rails.application.routes.draw do
         resources :lights do
           resource :status, only: [:show, :update], controller: "status/light"
         end
+
         resources :locks
+
         resources :thermostats
+
         resources :weathers
       end
     end
