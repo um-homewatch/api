@@ -11,14 +11,16 @@ class Thing < ApplicationRecord
   def status
     HTTParty.get(uri,
       headers: { "Content-Type" => "application/json" },
-      query: connection_params)
+      query: connection_params,
+      format: :json)
   end
 
   def send_status(status)
     HTTParty.put(uri,
       headers: { "Content-Type" => "application/json" },
       query: connection_params,
-      body: status.to_json)
+      body: status.to_json,
+      format: :json)
   end
 
   protected

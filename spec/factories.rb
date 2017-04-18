@@ -17,7 +17,7 @@ FactoryGirl.define do
   factory :thing do
     home
     subtype { Faker::Lorem.word }
-    connection_info { { ip_addr: "192.168.1.150" } }
+    connection_info { { address: "192.168.1.150" } }
 
     factory :light, class: Things::Light
     factory :lock, class: Things::Lock

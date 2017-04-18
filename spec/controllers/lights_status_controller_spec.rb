@@ -5,8 +5,8 @@ describe Things::Status::LightController, type: :controller do
 
   describe "GET #show" do
     it "returns the status of a light" do
-      allow_any_instance_of(Things::Light).to receive(:status).and_return(on: true)
       light = create(:light, home: home)
+      stub_status!(light, on: true)
 
       authenticate(home.user)
       get :show, params: { home_id: home.id, light_id: light.id }
@@ -17,8 +17,8 @@ describe Things::Status::LightController, type: :controller do
 
   describe "PUT #update" do
     it "should update the status of a light" do
-      allow_any_instance_of(Thing).to receive(:send_status).and_return(on: false)
       light = create(:light, home: home)
+      stub_send_status!(light, on: false)
 
       authenticate(home.user)
       put :update, params: { home_id: home.id, light_id: light.id, status: { on: false } }
