@@ -59,7 +59,7 @@ describe Things::LightsController, type: :controller do
   end
 
   describe "PUT #update" do
-    it "updates the status of a light" do
+    it "updates the info of a light" do
       light = create(:light, home: home)
       light_params = attributes_for(:light)
 
