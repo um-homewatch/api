@@ -6,15 +6,13 @@ describe Things::Status::WeatherController, type: :controller do
   describe "GET #show" do
     it "returns the status of a weather" do
       weather = create(:weather, home: home)
-      stub_status!(weather, temperature: 24.5, windSpeed: 11, raining: false, cloudy: true)
+      weather_status = { temperature: 24.5, windSpeed: 11, raining: false, cloudy: true }
+      stub_status!(weather, weather_status)
 
       authenticate(home.user)
       get :show, params: { home_id: home.id, weather_id: weather.id }
 
-      expect(parsed_response[:temperature]).to be(24.5)
-      expect(parsed_response[:windSpeed]).to be(11)
-      expect(parsed_response[:raining]).to be_falsey
-      expect(parsed_response[:cloudy]).to be_truthy
+      expect(parsed_response).to eq(weather_status)
     end
   end
 end
