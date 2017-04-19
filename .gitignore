@@ -25,3 +25,5 @@
 
 # Ignore Paperclip uploads
 public/system
+
+coverage/

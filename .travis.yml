@@ -18,4 +18,4 @@ install:
 script:
 - bundle exec rake db:reset
 - bundle exec rake lint
-- bundle exec rake spec
+- COVERAGE=true bundle exec rake spec
