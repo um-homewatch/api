@@ -6,24 +6,26 @@ describe Things::Status::LockController, type: :controller do
   describe "GET #show" do
     it "returns the status of a lock" do
       lock = create(:lock, home: home)
-      stub_status!(lock, locked: true)
+      lock_status = { locked: true }
+      stub_status!(lock, lock_status)
 
       authenticate(home.user)
       get :show, params: { home_id: home.id, lock_id: lock.id }
 
-      expect(parsed_response[:locked]).to be_truthy
+      expect(parsed_response).to eq(lock_status)
     end
   end
 
   describe "PUT #update" do
     it "should update the status of a lock" do
       lock = create(:lock, home: home)
-      stub_send_status!(lock, locked: false)
+      lock_status = { locked: false }
+      stub_send_status!(lock, lock_status)
 
       authenticate(home.user)
-      put :update, params: { home_id: home.id, lock_id: lock.id, status: { on: false } }
+      put :update, params: { home_id: home.id, lock_id: lock.id, status: lock_status }
 
-      expect(parsed_response[:locked]).to be_falsey
+      expect(parsed_response).to eq(lock_status)
     end
   end
 end

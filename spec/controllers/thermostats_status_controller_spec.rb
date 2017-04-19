@@ -6,24 +6,26 @@ describe Things::Status::ThermostatController, type: :controller do
   describe "GET #show" do
     it "returns the status of a thermostat" do
       thermostat = create(:thermostat, home: home)
-      stub_status!(thermostat, targetTemperature: 24.5)
+      thermostat_status = { targetTemperature: 24.5 }
+      stub_status!(thermostat, thermostat_status)
 
       authenticate(home.user)
       get :show, params: { home_id: home.id, thermostat_id: thermostat.id }
 
-      expect(parsed_response[:targetTemperature]).to be(24.5)
+      expect(parsed_response).to eq(thermostat_status)
     end
   end
 
   describe "PUT #update" do
     it "should update the status of a thermostat" do
       thermostat = create(:thermostat, home: home)
-      stub_send_status!(thermostat, targetTemperature: 20.5)
+      thermostat_status = { targetTemperature: 20.5 }
+      stub_send_status!(thermostat, thermostat_status)
 
       authenticate(home.user)
-      put :update, params: { home_id: home.id, thermostat_id: thermostat.id, status: { on: false } }
+      put :update, params: { home_id: home.id, thermostat_id: thermostat.id, status: thermostat_status }
 
-      expect(parsed_response[:targetTemperature]).to be(20.5)
+      expect(parsed_response).to eq(thermostat_status)
     end
   end
 end
