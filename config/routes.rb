@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   resource :user, only: [:show, :update], path: "/users/me" do
     resources :homes do
       namespace :things do
+        resources :discovery, only: [:index]
+
         resources :lights do
           resource :status, only: [:show, :update], controller: "status/light"
         end

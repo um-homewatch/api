@@ -20,7 +20,7 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
 
   config.include ControllerMacros, type: :controller
-  config.include ThingStatusHelper
+  config.include HubApiHelper
 end
 
 Shoulda::Matchers.configure do |config|
