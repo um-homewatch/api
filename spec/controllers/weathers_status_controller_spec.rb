@@ -14,5 +14,15 @@ describe Things::Status::WeatherController, type: :controller do
 
       expect(parsed_response).to eq(weather_status)
     end
+
+    it "should return a not found response" do
+      other_home = create(:home)
+      weather = create(:weather, home: other_home)
+
+      authenticate(home.user)
+      get :show, params: { home_id: other_home.id, weather_id: weather.id }
+
+      expect(response).to be_not_found
+    end
   end
 end

@@ -14,6 +14,16 @@ describe Things::Status::LockController, type: :controller do
 
       expect(parsed_response).to eq(lock_status)
     end
+
+    it "should return a not found response" do
+      other_home = create(:home)
+      lock = create(:lock, home: other_home)
+
+      authenticate(home.user)
+      get :show, params: { home_id: other_home.id, lock_id: lock.id }
+
+      expect(response).to be_not_found
+    end
   end
 
   describe "PUT #update" do
@@ -26,6 +36,16 @@ describe Things::Status::LockController, type: :controller do
       put :update, params: { home_id: home.id, lock_id: lock.id, status: lock_status }
 
       expect(parsed_response).to eq(lock_status)
+    end
+
+    it "should return a not found response" do
+      other_home = create(:home)
+      lock = create(:lock, home: other_home)
+
+      authenticate(home.user)
+      put :update, params: { home_id: other_home.id, lock_id: lock.id }
+
+      expect(response).to be_not_found
     end
   end
 end

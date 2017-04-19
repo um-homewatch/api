@@ -1,7 +1,9 @@
 class Things::DiscoveryController < ApplicationController
+  before_action :authenticate_user
+
   def index
     validate_params
-    home = Home.find(params[:home_id])
+    home = current_user.homes.find(params[:home_id])
     type = params[:type]
 
     response = DiscoverDevices.new(home: home, type: type).perform

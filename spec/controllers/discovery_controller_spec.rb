@@ -13,6 +13,16 @@ describe Things::DiscoveryController, type: :controller do
       expect(parsed_response).to eq(devices)
     end
 
+    it "should return not found response" do
+      user = create(:user)
+      home = create(:home)
+
+      authenticate(user)
+      get :index, params: { home_id: home.id, type: "light" }
+
+      expect(response).to be_not_found
+    end
+
     it "should return bad request response" do
       home = create(:home)
 
