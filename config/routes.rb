@@ -18,7 +18,9 @@ Rails.application.routes.draw do
           resource :status, only: [:show, :update], controller: "status/thermostat"
         end
 
-        resources :weathers
+        resources :weathers do
+          resource :status, only: [:show], controller: "status/weather"
+        end
       end
     end
   end
