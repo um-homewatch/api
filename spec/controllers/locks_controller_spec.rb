@@ -13,6 +13,16 @@ describe Things::LocksController, type: :controller do
 
       expect(response.body).to eq(json)
     end
+
+    it "returns a not found status code" do
+      other_home = create(:home)
+      create_list(:lock, 3, home: other_home)
+
+      authenticate(home.user)
+      get :index, params: { home_id: other_home.id }
+
+      expect(response).to have_http_status(:not_found)
+    end
   end
 
   describe "GET #show" do
@@ -27,10 +37,11 @@ describe Things::LocksController, type: :controller do
     end
 
     it "returns a not found status code" do
-      lock = create(:lock)
+      other_home = create(:home)
+      lock = create(:lock, home: other_home)
 
       authenticate(home.user)
-      get :show, params: { home_id: home.id, id: lock.id }
+      get :index, params: { home_id: other_home.id, lock_id: lock.id }
 
       expect(response).to have_http_status(:not_found)
     end
@@ -56,6 +67,16 @@ describe Things::LocksController, type: :controller do
       expect(parsed_response[:subtype]).to eq(lock_params[:subtype])
       expect(parsed_response[:connection_info]).to eq(lock_params[:connection_info])
     end
+
+    it "returns a not found status code" do
+      other_home = create(:home)
+      lock_params = attributes_for(:lock)
+
+      authenticate(home.user)
+      post :create, params: { home_id: other_home.id, lock: lock_params }
+
+      expect(response).to have_http_status(:not_found)
+    end
   end
 
   describe "PUT #update" do
@@ -72,11 +93,12 @@ describe Things::LocksController, type: :controller do
     end
 
     it "returns a not found status code" do
-      lock = create(:lock)
+      other_home = create(:home)
+      lock = create(:lock, home: other_home)
       lock_params = attributes_for(:lock)
 
       authenticate(home.user)
-      put :update, params: { home_id: home.id, id: lock.id, lock: lock_params }
+      put :update, params: { home_id: other_home.id, id: lock.id, lock: lock_params }
 
       expect(response).to have_http_status(:not_found)
     end
@@ -94,10 +116,11 @@ describe Things::LocksController, type: :controller do
     end
 
     it "returns a not found status code" do
-      lock = create(:lock)
+      other_home = create(:home)
+      lock = create(:lock, home: other_home)
 
       authenticate(home.user)
-      delete :destroy, params: { home_id: home.id, id: lock.id }
+      delete :destroy, params: { home_id: other_home.id, id: lock.id }
 
       expect(response).to have_http_status(:not_found)
     end

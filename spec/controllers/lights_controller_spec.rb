@@ -13,6 +13,16 @@ describe Things::LightsController, type: :controller do
 
       expect(response.body).to eq(json)
     end
+
+    it "returns a not found status code" do
+      other_home = create(:home)
+      create_list(:light, 3, home: other_home)
+
+      authenticate(home.user)
+      get :index, params: { home_id: other_home.id }
+
+      expect(response).to have_http_status(:not_found)
+    end
   end
 
   describe "GET #show" do
@@ -27,10 +37,11 @@ describe Things::LightsController, type: :controller do
     end
 
     it "returns a not found status code" do
-      light = create(:light)
+      other_home = create(:home)
+      light = create(:light, home: other_home)
 
       authenticate(home.user)
-      get :show, params: { home_id: home.id, id: light.id }
+      get :index, params: { home_id: other_home.id, light_id: light.id }
 
       expect(response).to have_http_status(:not_found)
     end
@@ -56,6 +67,16 @@ describe Things::LightsController, type: :controller do
       expect(parsed_response[:subtype]).to eq(light_params[:subtype])
       expect(parsed_response[:connection_info]).to eq(light_params[:connection_info])
     end
+
+    it "returns a not found status code" do
+      other_home = create(:home)
+      light_params = attributes_for(:light)
+
+      authenticate(home.user)
+      post :create, params: { home_id: other_home.id, light: light_params }
+
+      expect(response).to have_http_status(:not_found)
+    end
   end
 
   describe "PUT #update" do
@@ -72,11 +93,12 @@ describe Things::LightsController, type: :controller do
     end
 
     it "returns a not found status code" do
-      light = create(:light)
+      other_home = create(:home)
+      light = create(:light, home: other_home)
       light_params = attributes_for(:light)
 
       authenticate(home.user)
-      put :update, params: { home_id: home.id, id: light.id, light: light_params }
+      put :update, params: { home_id: other_home.id, id: light.id, light: light_params }
 
       expect(response).to have_http_status(:not_found)
     end
@@ -94,10 +116,11 @@ describe Things::LightsController, type: :controller do
     end
 
     it "returns a not found status code" do
-      light = create(:light)
+      other_home = create(:home)
+      light = create(:light, home: other_home)
 
       authenticate(home.user)
-      delete :destroy, params: { home_id: home.id, id: light.id }
+      delete :destroy, params: { home_id: other_home.id, id: light.id }
 
       expect(response).to have_http_status(:not_found)
     end

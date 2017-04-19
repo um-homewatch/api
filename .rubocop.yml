@@ -10,7 +10,6 @@ AllCops:
     - "bin/**/*"
     - "vendor/**/*"
     - "node_modules/**/*"
-    - "spec/**/*"
   TargetRubyVersion: 2.4
 
 Metrics/LineLength:

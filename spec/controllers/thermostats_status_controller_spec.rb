@@ -14,6 +14,16 @@ describe Things::Status::ThermostatController, type: :controller do
 
       expect(parsed_response).to eq(thermostat_status)
     end
+
+    it "should return a not found response" do
+      other_home = create(:home)
+      thermostat = create(:thermostat, home: other_home)
+
+      authenticate(home.user)
+      get :show, params: { home_id: other_home.id, thermostat_id: thermostat.id }
+
+      expect(response).to be_not_found
+    end
   end
 
   describe "PUT #update" do
@@ -26,6 +36,16 @@ describe Things::Status::ThermostatController, type: :controller do
       put :update, params: { home_id: home.id, thermostat_id: thermostat.id, status: thermostat_status }
 
       expect(parsed_response).to eq(thermostat_status)
+    end
+
+    it "should return a not found response" do
+      other_home = create(:home)
+      thermostat = create(:thermostat, home: other_home)
+
+      authenticate(home.user)
+      put :update, params: { home_id: other_home.id, thermostat_id: thermostat.id }
+
+      expect(response).to be_not_found
     end
   end
 end
