@@ -1,24 +1,3 @@
-# README
+# Homewatch
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Part of my master thesis project, it provides a HTTP based REST API that allows users to control their home devices connected to the [homewatch-hub](https://github.com/zeesousa/homewatch-hub), trough a [ngrok](https://ngrok.com) tunnel.
