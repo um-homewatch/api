@@ -42,8 +42,7 @@ class ScenarioThingsController < ApplicationController
   private
 
   def fetch_scenario
-    home = current_user.homes.find(params[:home_id])
-    home.scenarios.find(params[:scenario_id])
+    current_user.scenarios.find(params[:scenario_id])
   end
 
   def scenario_thing_params

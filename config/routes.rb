@@ -28,8 +28,10 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :scenarios do
-      resources :scenario_things, path: "things", as: "things"
-    end
+    resources :scenarios
+  end
+
+  resources :scenarios, only: [] do
+    resources :scenario_things, path: "things", as: "things"
   end
 end
