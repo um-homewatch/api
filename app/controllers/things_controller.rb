@@ -37,7 +37,7 @@ class ThingsController < ApplicationController
 
   def thing_params
     thing_params = params.require(:thing).permit(:id, :home_id, :subtype)
-    thing_params[:connection_info] = params[:thing][:connection_info].symbolize_keys
-    thing_params.permit!
+    thing_params[:connection_info] = params[:thing][:connection_info].transform_keys(&:to_sym).permit!
+    thing_params
   end
 end

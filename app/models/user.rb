@@ -5,4 +5,5 @@ class User < ApplicationRecord
   validates :email, uniqueness: true
 
   has_many :homes
+  has_many :scenarios, through: :homes
 end

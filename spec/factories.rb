@@ -30,17 +30,17 @@ FactoryGirl.define do
 
     factory :scenario_light do
       association :thing, factory: :light
-      status { { on: Faker::Boolean.boolean } }
+      status { { on: Faker::Boolean.boolean.to_s } }
     end
 
     factory :scenario_lock do
       association :thing, factory: :lock
-      status { { locked: Faker::Boolean.boolean } }
+      status { { locked: Faker::Boolean.boolean.to_s } }
     end
 
     factory :scenario_thermostat do
       association :thing, factory: :thermostat
-      status { { targetTemperature: Faker::Number.between(15, 25) } }
+      status { { targetTemperature: Faker::Number.between(15, 25).to_s } }
     end
   end
 

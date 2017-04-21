@@ -7,4 +7,8 @@ class ScenarioThing < ApplicationRecord
   def apply
     thing.send_status(status).code == 200
   end
+
+  def status
+    self[:status]&.symbolize_keys
+  end
 end

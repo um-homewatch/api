@@ -8,4 +8,5 @@ class Home < ApplicationRecord
   has_many :locks, class_name: "Things::Lock"
   has_many :thermostats, class_name: "Things::Thermostat"
   has_many :weathers, class_name: "Things::Weather"
+  has_many :scenarios
 end

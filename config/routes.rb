@@ -4,26 +4,32 @@ Rails.application.routes.draw do
   resource :users, only: [:create]
 
   resource :user, only: [:show, :update], path: "/users/me" do
-    resources :homes do
-      namespace :things do
-        resources :discovery, only: [:index]
+    resources :homes, only: [:index]
+  end
 
-        resources :lights do
-          resource :status, only: [:show, :update], controller: "status/light"
-        end
+  resources :homes, only: [:show, :update, :create, :destroy] do
+    namespace :things do
+      resources :discovery, only: [:index]
 
-        resources :locks do
-          resource :status, only: [:show, :update], controller: "status/lock"
-        end
-
-        resources :thermostats do
-          resource :status, only: [:show, :update], controller: "status/thermostat"
-        end
-
-        resources :weathers do
-          resource :status, only: [:show], controller: "status/weather"
-        end
+      resources :lights do
+        resource :status, only: [:show, :update], controller: "status/light"
       end
+
+      resources :locks do
+        resource :status, only: [:show, :update], controller: "status/lock"
+      end
+
+      resources :thermostats do
+        resource :status, only: [:show, :update], controller: "status/thermostat"
+      end
+
+      resources :weathers do
+        resource :status, only: [:show], controller: "status/weather"
+      end
+    end
+
+    resources :scenarios do
+      resources :scenario_things, path: "things", as: "things"
     end
   end
 end
