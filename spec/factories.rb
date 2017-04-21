@@ -24,4 +24,28 @@ FactoryGirl.define do
     factory :thermostat, class: Things::Thermostat
     factory :weather, class: Things::Weather
   end
+
+  factory :scenario_thing do
+    scenario
+
+    factory :scenario_light do
+      association :thing, factory: :light
+      status { { on: Faker::Boolean.boolean } }
+    end
+
+    factory :scenario_lock do
+      association :thing, factory: :lock
+      status { { locked: Faker::Boolean.boolean } }
+    end
+
+    factory :scenario_thermostat do
+      association :thing, factory: :thermostat
+      status { { targetTemperature: Faker::Number.between(15, 25) } }
+    end
+  end
+
+  factory :scenario do
+    home
+    name { Faker::Lorem.word }
+  end
 end
