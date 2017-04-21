@@ -30,7 +30,7 @@ describe Things::Status::LockController, type: :controller do
     it "should update the status of a lock" do
       lock = create(:lock, home: home)
       lock_status = { locked: false }
-      stub_send_status!(lock, lock_status)
+      stub_send_status!(lock, lock_status, true)
 
       authenticate(home.user)
       put :update, params: { home_id: home.id, lock_id: lock.id, status: lock_status }

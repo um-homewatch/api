@@ -14,4 +14,20 @@ describe ScenarioThing, type: :model do
     it { should belong_to(:thing) }
     it { should belong_to(:scenario) }
   end
+
+  describe "methods" do
+    it "should send the status of the thing" do
+      scenario_thing = create(:scenario_light)
+      stub_send_status!(scenario_thing.thing, scenario_thing.status)
+
+      expect(scenario_thing.apply).to eq(true)
+    end
+
+    it "should fail to send the status of the thing" do
+      scenario_thing = create(:scenario_light)
+      stub_send_status!(scenario_thing.thing, scenario_thing.status, status_code: 500)
+
+      expect(scenario_thing.apply).to eq(false)
+    end
+  end
 end

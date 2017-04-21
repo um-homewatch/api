@@ -30,7 +30,7 @@ describe Things::Status::LightController, type: :controller do
     it "should update the status of a light" do
       light = create(:light, home: home)
       light_status = { on: false }
-      stub_send_status!(light, light_status)
+      stub_send_status!(light, light_status, true)
 
       authenticate(home.user)
       put :update, params: { home_id: home.id, light_id: light.id, status: light_status }

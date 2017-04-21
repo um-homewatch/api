@@ -5,6 +5,6 @@ class Scenario < ApplicationRecord
   validates :name, presence: true
 
   def apply
-    scenario_things.each(&:apply)
+    scenario_things.map(&:apply).all?
   end
 end
