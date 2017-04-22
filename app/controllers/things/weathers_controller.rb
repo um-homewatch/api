@@ -11,12 +11,4 @@ class Things::WeathersController < ThingsController
       render json: thing.errors, status: :unprocessable_entity
     end
   end
-
-  private
-
-  def thing_params
-    thing_params = params.require(:weather).permit(:id, :home_id, :subtype)
-    thing_params[:connection_info] = params[:weather][:connection_info]
-    thing_params.permit!
-  end
 end

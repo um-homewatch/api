@@ -4,11 +4,12 @@ Rails.application.routes.draw do
   resource :users, only: [:create]
 
   resource :user, only: [:show, :update], path: "/users/me" do
-    resources :homes, only: [:index]
   end
 
-  resources :homes, only: [:show, :update, :create, :destroy] do
-    namespace :things do
+  resources :homes do
+    resources :things, only: [:index, :show, :update, :destroy]
+
+    namespace :things, only: [:index, :create] do
       resources :discovery, only: [:index]
 
       resources :lights do

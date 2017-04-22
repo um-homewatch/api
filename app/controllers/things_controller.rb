@@ -33,9 +33,11 @@ class ThingsController < ApplicationController
     thing.destroy
   end
 
-  protected
+  private
 
   def thing_params
-    # ...
+    thing_params = params.require(:thing).permit(:id, :home_id, :subtype)
+    thing_params[:connection_info] = params[:thing][:connection_info]
+    thing_params.permit!
   end
 end
