@@ -49,7 +49,7 @@ describe ScenarioThingsController, type: :controller do
 
   context "POST #create" do
     it "creates a user scenario" do
-      thing = create(:light)
+      thing = create(:light, home: scenario.home)
       scenario_thing_params = attributes_for(:scenario_light).merge(thing_id: thing.id)
 
       authenticate(scenario.home.user)
@@ -60,7 +60,7 @@ describe ScenarioThingsController, type: :controller do
     end
 
     it "returns the created resource" do
-      thing = create(:light)
+      thing = create(:light, home: scenario.home)
       scenario_thing_params = attributes_for(:scenario_light).merge(thing_id: thing.id)
 
       authenticate(scenario.home.user)
@@ -72,7 +72,7 @@ describe ScenarioThingsController, type: :controller do
 
     it "returns a not found status code" do
       other_scenario = create(:scenario)
-      thing = create(:light)
+      thing = create(:light, home: other_scenario.home)
       scenario_thing_params = attributes_for(:scenario_light).merge(thing_id: thing.id)
 
       authenticate(scenario.home.user)
@@ -85,7 +85,7 @@ describe ScenarioThingsController, type: :controller do
   describe "PUT #update" do
     it "updates the info of a scenario" do
       scenario_thing = create(:scenario_light, scenario: scenario)
-      thing = create(:light)
+      thing = create(:light, home: scenario.home)
       scenario_thing_params = attributes_for(:scenario_light).merge(thing_id: thing.id)
 
       authenticate(scenario.home.user)
@@ -99,7 +99,7 @@ describe ScenarioThingsController, type: :controller do
     it "returns a not found status code" do
       other_scenario = create(:scenario)
       scenario_thing = create(:scenario_light, scenario: other_scenario)
-      thing = create(:light)
+      thing = create(:light, home: other_scenario.home)
       scenario_thing_params = attributes_for(:scenario_light).merge(thing_id: thing.id)
 
       authenticate(scenario.home.user)

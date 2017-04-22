@@ -8,6 +8,10 @@ describe ScenarioThing, type: :model do
 
       expect(other_scenario_thing).to be_invalid
     end
+
+    it "should validate that thing belongs to user" do
+      scenario_thing = create(:scenario_light)
+    end
   end
 
   describe "relation validation" do

@@ -29,17 +29,23 @@ FactoryGirl.define do
     scenario
 
     factory :scenario_light do
-      association :thing, factory: :light
+      before(:create) do |scenario_thing|
+        scenario_thing.thing = FactoryGirl.create(:light, home: scenario_thing.home)
+      end
       status { { on: Faker::Boolean.boolean.to_s } }
     end
 
     factory :scenario_lock do
-      association :thing, factory: :lock
+      before(:create) do |scenario_thing|
+        scenario_thing.thing = FactoryGirl.create(:lock, home: scenario_thing.home)
+      end
       status { { locked: Faker::Boolean.boolean.to_s } }
     end
 
     factory :scenario_thermostat do
-      association :thing, factory: :thermostat
+      before(:create) do |scenario_thing|
+        scenario_thing.thing = FactoryGirl.create(:thermostat, home: scenario_thing.home)
+      end
       status { { targetTemperature: Faker::Number.between(15, 25).to_s } }
     end
   end
