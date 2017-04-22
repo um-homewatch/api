@@ -10,7 +10,10 @@ describe ScenarioThing, type: :model do
     end
 
     it "should validate that thing belongs to user" do
-      scenario_thing = create(:scenario_light)
+      thing = create(:light)
+      scenario_thing = build(:scenario_light, thing: thing)
+
+      expect(scenario_thing).to be_invalid
     end
   end
 
