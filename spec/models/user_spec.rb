@@ -13,5 +13,7 @@ describe User, type: :model do
 
   describe "relation validation" do
     it { should have_many(:homes) }
+
+    it { should have_many(:scenarios) }
   end
 end

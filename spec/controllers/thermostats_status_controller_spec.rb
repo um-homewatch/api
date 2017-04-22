@@ -30,7 +30,7 @@ describe Things::Status::ThermostatController, type: :controller do
     it "should update the status of a thermostat" do
       thermostat = create(:thermostat, home: home)
       thermostat_status = { targetTemperature: 20.5 }
-      stub_send_status!(thermostat, thermostat_status)
+      stub_send_status!(thermostat, thermostat_status, true)
 
       authenticate(home.user)
       put :update, params: { home_id: home.id, thermostat_id: thermostat.id, status: thermostat_status }

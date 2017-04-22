@@ -25,5 +25,7 @@ describe Home, type: :model do
     it { should have_many(:thermostats) }
 
     it { should have_many(:weathers) }
+
+    it { should have_many(:scenarios) }
   end
 end
