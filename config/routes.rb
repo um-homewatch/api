@@ -33,5 +33,7 @@ Rails.application.routes.draw do
 
   resources :scenarios, only: [] do
     resources :scenario_things, path: "things", as: "things"
+
+    resource :scenario_apply, only: [:create], controller: "scenario_apply", path: "apply", as: "apply"
   end
 end
