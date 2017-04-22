@@ -15,6 +15,9 @@ AllCops:
 Metrics/LineLength:
   Enabled: false
 
+Metrics/BlockLength:
+  Enabled: false
+
 Style/AlignParameters:
   EnforcedStyle: with_fixed_indentation
 
