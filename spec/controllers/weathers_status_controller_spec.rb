@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Things::Status::WeatherController, type: :controller do
+describe Things::StatusController, type: :controller do
   let(:home) { create(:home) }
 
   describe "GET #show" do
@@ -10,7 +10,7 @@ describe Things::Status::WeatherController, type: :controller do
       stub_status!(weather, weather_status)
 
       authenticate(home.user)
-      get :show, params: { home_id: home.id, weather_id: weather.id }
+      get :show, params: { thing_id: weather.id }
 
       expect(parsed_response).to eq(weather_status)
     end
@@ -20,7 +20,7 @@ describe Things::Status::WeatherController, type: :controller do
       weather = create(:weather, home: other_home)
 
       authenticate(home.user)
-      get :show, params: { home_id: other_home.id, weather_id: weather.id }
+      get :show, params: { thing_id: weather.id }
 
       expect(response).to be_not_found
     end

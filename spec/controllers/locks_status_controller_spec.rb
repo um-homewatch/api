@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Things::Status::LockController, type: :controller do
+describe Things::StatusController, type: :controller do
   let(:home) { create(:home) }
 
   describe "GET #show" do
@@ -10,7 +10,7 @@ describe Things::Status::LockController, type: :controller do
       stub_status!(lock, lock_status)
 
       authenticate(home.user)
-      get :show, params: { home_id: home.id, lock_id: lock.id }
+      get :show, params: { thing_id: lock.id }
 
       expect(parsed_response).to eq(lock_status)
     end
@@ -20,7 +20,7 @@ describe Things::Status::LockController, type: :controller do
       lock = create(:lock, home: other_home)
 
       authenticate(home.user)
-      get :show, params: { home_id: other_home.id, lock_id: lock.id }
+      get :show, params: { thing_id: lock.id }
 
       expect(response).to be_not_found
     end
@@ -33,7 +33,7 @@ describe Things::Status::LockController, type: :controller do
       stub_send_status!(lock, lock_status, true)
 
       authenticate(home.user)
-      put :update, params: { home_id: home.id, lock_id: lock.id, status: lock_status }
+      put :update, params: { thing_id: lock.id, status: lock_status }
 
       expect(parsed_response).to eq(lock_status)
     end
@@ -43,7 +43,7 @@ describe Things::Status::LockController, type: :controller do
       lock = create(:lock, home: other_home)
 
       authenticate(home.user)
-      put :update, params: { home_id: other_home.id, lock_id: lock.id }
+      put :update, params: { thing_id: lock.id }
 
       expect(response).to be_not_found
     end

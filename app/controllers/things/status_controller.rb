@@ -6,7 +6,8 @@ class Things::StatusController < ApplicationController
   end
 
   def update
-    thing_status = fetch_thing.send_status(status_params)
+    thing = fetch_thing
+    thing_status = thing.send_status(status_params(thing))
 
     render json: thing_status, status: thing_status.code
   end
@@ -14,10 +15,10 @@ class Things::StatusController < ApplicationController
   protected
 
   def fetch_thing
-    # ...
+    current_user.things.find(params[:thing_id])
   end
 
-  def status_params
-    # ...
+  def status_params(thing)
+    params.require(:status).permit(thing.allowed_params)
   end
 end

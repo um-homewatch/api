@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Things::Status::ThermostatController, type: :controller do
+describe Things::StatusController, type: :controller do
   let(:home) { create(:home) }
 
   describe "GET #show" do
@@ -10,7 +10,7 @@ describe Things::Status::ThermostatController, type: :controller do
       stub_status!(thermostat, thermostat_status)
 
       authenticate(home.user)
-      get :show, params: { home_id: home.id, thermostat_id: thermostat.id }
+      get :show, params: { thing_id: thermostat.id }
 
       expect(parsed_response).to eq(thermostat_status)
     end
@@ -20,7 +20,7 @@ describe Things::Status::ThermostatController, type: :controller do
       thermostat = create(:thermostat, home: other_home)
 
       authenticate(home.user)
-      get :show, params: { home_id: other_home.id, thermostat_id: thermostat.id }
+      get :show, params: { thing_id: thermostat.id }
 
       expect(response).to be_not_found
     end
@@ -33,7 +33,7 @@ describe Things::Status::ThermostatController, type: :controller do
       stub_send_status!(thermostat, thermostat_status, true)
 
       authenticate(home.user)
-      put :update, params: { home_id: home.id, thermostat_id: thermostat.id, status: thermostat_status }
+      put :update, params: { thing_id: thermostat.id, status: thermostat_status }
 
       expect(parsed_response).to eq(thermostat_status)
     end
@@ -43,7 +43,7 @@ describe Things::Status::ThermostatController, type: :controller do
       thermostat = create(:thermostat, home: other_home)
 
       authenticate(home.user)
-      put :update, params: { home_id: other_home.id, thermostat_id: thermostat.id }
+      put :update, params: { thing_id: thermostat.id }
 
       expect(response).to be_not_found
     end
