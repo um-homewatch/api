@@ -11,25 +11,33 @@ Rails.application.routes.draw do
 
     namespace :things, only: [:index, :create] do
       resources :discovery, only: [:index]
-
-      resources :lights do
-        resource :status, only: [:show, :update], controller: "status/light"
-      end
-
-      resources :locks do
-        resource :status, only: [:show, :update], controller: "status/lock"
-      end
-
-      resources :thermostats do
-        resource :status, only: [:show, :update], controller: "status/thermostat"
-      end
-
-      resources :weathers do
-        resource :status, only: [:show], controller: "status/weather"
-      end
+      resources :lights
+      resources :locks
+      resources :thermostats
+      resources :weathers
     end
 
     resources :scenarios
+  end
+
+  namespace :things, only: [:index, :create] do
+    resources :discovery, only: [:index]
+
+    resources :lights, only: [] do
+      resource :status, only: [:show, :update], controller: "status/light"
+    end
+
+    resources :locks, only: [] do
+      resource :status, only: [:show, :update], controller: "status/lock"
+    end
+
+    resources :thermostats, only: [] do
+      resource :status, only: [:show, :update], controller: "status/thermostat"
+    end
+
+    resources :weathers, only: [] do
+      resource :status, only: [:show], controller: "status/weather"
+    end
   end
 
   resources :scenarios, only: [] do
