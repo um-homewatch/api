@@ -26,7 +26,7 @@ class Thing < ApplicationRecord
   protected
 
   def connection_params
-    connection_info.merge(subType: subtype)
+    connection_info.merge(subtype: subtype)
   end
 
   def uri

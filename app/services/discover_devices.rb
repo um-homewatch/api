@@ -1,7 +1,7 @@
 class DiscoverDevices
-  def initialize(home:, type:)
+  def initialize(home:, params:)
     @home = home
-    @type = type
+    @params = params
   end
 
   def perform
@@ -14,11 +14,12 @@ class DiscoverDevices
 
   private
 
-  attr_reader :home, :type
+  attr_reader :home, :params
 
   def do_request(uri)
     HTTParty.get(uri,
       headers: { "Content-Type" => "application/json" },
+      query: params,
       format: :json)
   end
 
@@ -28,14 +29,14 @@ class DiscoverDevices
   end
 
   def uri_base
-    case type
-    when "light"
+    case params[:type]
+    when "Things::Light"
       "/lights"
-    when "lock"
+    when "Things::Lock"
       "/locks"
-    when "thermostat"
+    when "Things::Thermostat"
       "/thermostat"
-    when "weather"
+    when "Things::Weather"
       "/weather"
     end
   end

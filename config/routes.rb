@@ -7,11 +7,11 @@ Rails.application.routes.draw do
   end
 
   resources :homes do
-    resources :things
-
     namespace :things, only: [:index, :create] do
       resources :discovery, only: [:index]
     end
+
+    resources :things
 
     resources :scenarios
   end

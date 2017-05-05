@@ -4,7 +4,7 @@ module HubApiHelper
   def stub_status!(thing, body, status_code: 200)
     uri = thing.send(:uri)
 
-    stub_request(:get, "#{uri}?address=#{thing.connection_info[:address]}&subType=#{thing.subtype}").
+    stub_request(:get, "#{uri}?address=#{thing.connection_info[:address]}&subtype=#{thing.subtype}").
       with(headers: HEADERS).
       to_return(status: status_code, body: body.to_json, headers: HEADERS)
   end
@@ -12,7 +12,7 @@ module HubApiHelper
   def stub_send_status!(thing, body, stringify = nil, status_code: 200)
     uri = thing.send(:uri)
 
-    stub_request(:put, "#{uri}?address=#{thing.connection_info[:address]}&subType=#{thing.subtype}").
+    stub_request(:put, "#{uri}?address=#{thing.connection_info[:address]}&subtype=#{thing.subtype}").
       with(body: (stringify ? stringify_hash(body) : body), headers: HEADERS).
       to_return(status: status_code, body: body.to_json, headers: HEADERS)
   end

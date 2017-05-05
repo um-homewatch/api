@@ -2,11 +2,8 @@ class Things::DiscoveryController < ApplicationController
   before_action :authenticate_user
 
   def index
-    validate_params
     home = current_user.homes.find(params[:home_id])
-    type = params[:type]
-
-    response = DiscoverDevices.new(home: home, type: type).perform
+    response = DiscoverDevices.new(home: home, params: discovery_params.to_h).perform
 
     if response
       render json: response.body, status: response.code
@@ -17,7 +14,7 @@ class Things::DiscoveryController < ApplicationController
 
   private
 
-  def validate_params
-    head :bad_request unless params[:type]
+  def discovery_params
+    params.permit(:type, :subtype, :port)
   end
 end
