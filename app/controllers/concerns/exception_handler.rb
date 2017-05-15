@@ -25,7 +25,9 @@ module ExceptionHandler
     render status: :bad_request, json: { "error" => "Missing params." }
   end
 
-  def internal_server_error(_error)
+  def internal_server_error(error)
+    Rollbar.error(error)
+
     render(
       status: :internal_server_error,
       json: {

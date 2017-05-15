@@ -14,6 +14,7 @@ gem "pry-rails"
 gem "pry-remote"
 gem "puma", "~> 3.0"
 gem "rack-cors"
+gem "rollbar"
 
 group :development, :test do
   gem "factory_girl_rails"
