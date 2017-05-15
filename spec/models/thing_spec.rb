@@ -4,6 +4,8 @@ describe Thing, type: :model do
   describe "attribute validation" do
     subject { build(:thing) }
 
+    it { should validate_presence_of(:name) }
+
     it { should validate_presence_of(:type) }
 
     it { should validate_presence_of(:subtype) }

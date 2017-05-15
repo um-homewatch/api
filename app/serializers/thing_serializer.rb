@@ -1,3 +1,3 @@
 class ThingSerializer < ActiveModel::Serializer
-  attributes :id, :type, :subtype, :connection_info
+  attributes :id, :name, :type, :subtype, :connection_info
 end

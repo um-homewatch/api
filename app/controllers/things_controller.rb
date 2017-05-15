@@ -47,7 +47,7 @@ class ThingsController < ApplicationController
   private
 
   def thing_params
-    thing_params = params.require(:thing).permit(:subtype, :type)
+    thing_params = params.require(:thing).permit(:name, :subtype, :type)
     thing_params[:connection_info] = params[:thing][:connection_info]
     thing_params.permit!
   end

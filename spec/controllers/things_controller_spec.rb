@@ -49,7 +49,7 @@ describe ThingsController, type: :controller do
 
   context "POST #create" do
     it "creates a user light" do
-      light_params = attributes_for(:light, type: "Things::Light", home: home)
+      light_params = attributes_for(:light, home: home)
 
       authenticate(home.user)
 
@@ -59,7 +59,7 @@ describe ThingsController, type: :controller do
     end
 
     it "creates a light" do
-      light_params = attributes_for(:light, type: "Things::Light", home: home)
+      light_params = attributes_for(:light, home: home)
 
       authenticate(home.user)
 
@@ -79,7 +79,7 @@ describe ThingsController, type: :controller do
     end
 
     it "creates a thermostat" do
-      light_params = attributes_for(:thermostat, type: "Things::Thermostat", home: home)
+      light_params = attributes_for(:thermostat, home: home)
 
       authenticate(home.user)
 
@@ -89,7 +89,7 @@ describe ThingsController, type: :controller do
     end
 
     it "creates a weather" do
-      light_params = attributes_for(:weather, type: "Things::Weather", home: home)
+      light_params = attributes_for(:weather, home: home)
 
       authenticate(home.user)
 
@@ -99,11 +99,12 @@ describe ThingsController, type: :controller do
     end
 
     it "returns the created resource" do
-      light_params = attributes_for(:light, type: "Things::Light", home: home)
+      light_params = attributes_for(:light, home: home)
 
       authenticate(home.user)
       post :create, params: { home_id: home.id, thing: light_params }
 
+      expect(parsed_response[:name]).to eq(light_params[:name])
       expect(parsed_response[:type]).to eq(light_params[:type])
       expect(parsed_response[:subtype]).to eq(light_params[:subtype])
       expect(parsed_response[:connection_info]).to eq(light_params[:connection_info])
@@ -111,7 +112,7 @@ describe ThingsController, type: :controller do
 
     it "returns a not found status code" do
       other_home = create(:home)
-      light_params = attributes_for(:light, type: "Things::Light")
+      light_params = attributes_for(:light)
 
       authenticate(home.user)
       post :create, params: { home_id: other_home.id, thing: light_params }
@@ -129,6 +130,8 @@ describe ThingsController, type: :controller do
       put :update, params: { home_id: home.id, id: light.id, thing: light_params }
       light.reload
 
+      expect(light.name).to eq(light_params[:name])
+      expect(light.type).to eq(light_params[:type])
       expect(light.subtype).to eq(light_params[:subtype])
       expect(light.connection_info).to eq(light_params[:connection_info])
     end

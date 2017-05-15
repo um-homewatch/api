@@ -1,5 +1,5 @@
 class Thing < ApplicationRecord
-  validates :type, :subtype, :connection_info, presence: true
+  validates :name, :type, :subtype, :connection_info, presence: true
 
   belongs_to :home
   delegate :user, to: :home

@@ -16,13 +16,22 @@ FactoryGirl.define do
 
   factory :thing do
     home
+    name { Faker::Lorem.word }
     subtype { Faker::Lorem.word }
     connection_info { { address: "192.168.1.150" } }
 
-    factory :light, class: Things::Light
-    factory :lock, class: Things::Lock
-    factory :thermostat, class: Things::Thermostat
-    factory :weather, class: Things::Weather
+    factory :light, class: Things::Light do
+      type { "Things::Light" }
+    end
+    factory :lock, class: Things::Lock do
+      type { "Things::Lock" }
+    end
+    factory :thermostat, class: Things::Thermostat do
+      type { "Things::Thermostat" }
+    end
+    factory :weather, class: Things::Weather do
+      type { "Things::Weather" }
+    end
   end
 
   factory :scenario_thing do
