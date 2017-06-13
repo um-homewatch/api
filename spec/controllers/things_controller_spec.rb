@@ -98,6 +98,16 @@ describe ThingsController, type: :controller do
       end.to change { Things::Weather.count }.by(1)
     end
 
+    it "creates a motion_sensor" do
+      light_params = attributes_for(:motion_sensor, home: home)
+
+      authenticate(home.user)
+
+      expect do
+        post :create, params: { home_id: home.id, thing: light_params }
+      end.to change { Things::MotionSensor.count }.by(1)
+    end
+
     it "returns the created resource" do
       light_params = attributes_for(:light, home: home)
 

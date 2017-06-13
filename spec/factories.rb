@@ -32,6 +32,9 @@ FactoryGirl.define do
     factory :weather, class: Things::Weather do
       type { "Things::Weather" }
     end
+    factory :motion_sensor, class: Things::MotionSensor do
+      type { "Things::MotionSensor" }
+    end
   end
 
   factory :scenario_thing do

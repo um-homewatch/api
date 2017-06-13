@@ -12,7 +12,7 @@ class Things::StatusController < ApplicationController
     render json: thing_status, status: thing_status.code
   end
 
-  protected
+  private
 
   def fetch_thing
     current_user.things.find(params[:thing_id])
