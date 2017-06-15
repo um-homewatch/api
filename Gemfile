@@ -5,6 +5,7 @@ gem "rails", "~> 5.0.2"
 
 gem "active_model_serializers", "~> 0.10.0"
 gem "bcrypt", "~> 3.1.7"
+gem "delayed_job_active_record"
 gem "devise_token_auth"
 gem "foreman"
 gem "httparty"
