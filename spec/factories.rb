@@ -66,4 +66,29 @@ FactoryGirl.define do
     home
     name { Faker::Lorem.word }
   end
+
+  factory :timed_task, class: Tasks::TimedTask do
+    home
+
+    factory :timed_task_light do
+      before(:create) do |timed_task|
+        timed_task.thing = FactoryGirl.create(:light, home: timed_task.home)
+      end
+      status { { on: Faker::Boolean.boolean.to_s } }
+    end
+
+    factory :timed_task_lock do
+      before(:create) do |timed_task|
+        timed_task.thing = FactoryGirl.create(:lock, home: timed_task.home)
+      end
+      status { { locked: Faker::Boolean.boolean.to_s } }
+    end
+
+    factory :timed_task_thermostat do
+      before(:create) do |timed_task|
+        timed_task.thing = FactoryGirl.create(:thermostat, home: timed_task.home)
+      end
+      status { { targetTemperature: Faker::Number.between(15, 25).to_s } }
+    end
+  end
 end

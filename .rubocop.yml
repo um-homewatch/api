@@ -18,7 +18,7 @@ Metrics/LineLength:
 Metrics/BlockLength:
   Enabled: false
 
-Style/AlignParameters:
+Layout/AlignParameters:
   EnforcedStyle: with_fixed_indentation
 
 Style/ClassAndModuleChildren:
@@ -27,7 +27,7 @@ Style/ClassAndModuleChildren:
 Style/Documentation:
   Enabled: false
 
-Style/DotPosition:
+Layout/DotPosition:
   EnforcedStyle: trailing
 
 Style/IfUnlessModifier:
@@ -50,10 +50,10 @@ Style/NumericLiterals:
 Style/SingleLineBlockParams:
   Enabled: false
 
-Style/MultilineOperationIndentation:
+Layout/MultilineOperationIndentation:
   EnforcedStyle: indented
 
-Style/MultilineMethodCallIndentation:
+Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
 
 Style/TrailingCommaInArguments:

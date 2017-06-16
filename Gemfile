@@ -5,7 +5,9 @@ gem "rails", "~> 5.0.2"
 
 gem "active_model_serializers", "~> 0.10.0"
 gem "bcrypt", "~> 3.1.7"
-gem "delayed_job_active_record"
+gem "delayed_job", "4.1.2"
+gem "delayed_job_active_record", "4.1.2"
+gem "delayed_cron_job"
 gem "devise_token_auth"
 gem "foreman"
 gem "httparty"
@@ -15,6 +17,7 @@ gem "pry-rails"
 gem "pry-remote"
 gem "puma", "~> 3.0"
 gem "rack-cors"
+gem "resque-scheduler"
 gem "rollbar"
 
 group :development, :test do

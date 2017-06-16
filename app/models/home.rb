@@ -10,4 +10,5 @@ class Home < ApplicationRecord
   has_many :weathers, class_name: "Things::Weather"
   has_many :motion_sensors, class_name: "Things::MotionSensor"
   has_many :scenarios
+  has_many :timed_tasks, class_name: "Tasks::TimedTask"
 end
