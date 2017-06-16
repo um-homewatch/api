@@ -1,20 +1,18 @@
-class CreateTimedTask
+class UpdateTimedTask
   attr_reader :status
 
-  def initialize(home:, params:)
-    @home = home
+  def initialize(timed_task:, params:)
+    @timed_task = timed_task
     @params = params.clone
     @cron = @params.delete(:cron)
     @status = false
   end
 
   def perform
-    @timed_task = home.timed_tasks.build(params)
-
     ActiveRecord::Base.transaction do
-      create_job
+      delete_old_job
 
-      raise ActiveRecord::Rollback if timed_task.errors.count.positive?
+      update_timed_task
     end
 
     timed_task
@@ -22,9 +20,15 @@ class CreateTimedTask
 
   private
 
-  attr_reader :home, :params, :cron, :timed_task
+  attr_reader :timed_task, :cron, :params
 
-  def create_job
+  def delete_old_job
+    timed_task.delayed_job.destroy
+  end
+
+  def update_timed_task
+    timed_task.update(params)
+
     timed_task.delayed_job = timed_task.thing.delay(cron: cron).send_status(timed_task.status)
 
     @status = timed_task.save

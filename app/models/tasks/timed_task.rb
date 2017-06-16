@@ -8,7 +8,11 @@ class Tasks::TimedTask < ApplicationRecord
   validate :thing_must_belong_to_user
 
   def cron
-    delayed_job.cron
+    delayed_job&.cron
+  end
+
+  def apply
+    thing.send_status(status)
   end
 
   private

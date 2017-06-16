@@ -70,6 +70,15 @@ FactoryGirl.define do
   factory :timed_task, class: Tasks::TimedTask do
     home
 
+    before(:create) do |timed_task|
+      timed_task.thing = FactoryGirl.create(:light, home: timed_task.home)
+    end
+
+    after(:create) do |timed_task|
+      timed_task.delayed_job = timed_task.delay(cron: "*/5 * * * *").apply
+      timed_task.save
+    end
+
     factory :timed_task_light do
       before(:create) do |timed_task|
         timed_task.thing = FactoryGirl.create(:light, home: timed_task.home)
