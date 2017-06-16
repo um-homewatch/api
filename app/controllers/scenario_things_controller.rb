@@ -8,7 +8,7 @@ class ScenarioThingsController < ApplicationController
   end
 
   def show
-    scenario_thing = fetch_scenario.scenario_things.find(params[:id])
+    scenario_thing = current_user.scenario_things.find(params[:id])
 
     render json: scenario_thing
   end
@@ -24,7 +24,7 @@ class ScenarioThingsController < ApplicationController
   end
 
   def update
-    scenario_thing = fetch_scenario.scenario_things.find(params[:id])
+    scenario_thing = current_user.scenario_things.find(params[:id])
 
     if scenario_thing.update(scenario_thing_params)
       render json: scenario_thing
@@ -34,7 +34,7 @@ class ScenarioThingsController < ApplicationController
   end
 
   def destroy
-    scenario_thing = fetch_scenario.scenario_things.find(params[:id])
+    scenario_thing = current_user.scenario_things.find(params[:id])
 
     scenario_thing.destroy
   end

@@ -7,5 +7,6 @@ class User < ApplicationRecord
   has_many :homes
   has_many :things, through: :homes
   has_many :scenarios, through: :homes
+  has_many :scenario_things, through: :scenarios
   has_many :timed_tasks, through: :homes
 end

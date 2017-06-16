@@ -31,7 +31,7 @@ describe ScenarioThingsController, type: :controller do
       json = serialize_to_json(scenario_thing)
 
       authenticate(scenario.home.user)
-      get :show, params: { scenario_id: scenario.id, id: scenario_thing.id }
+      get :show, params: { id: scenario_thing.id }
 
       expect(response.body).to eq(json)
     end
@@ -41,7 +41,7 @@ describe ScenarioThingsController, type: :controller do
       scenario_thing = create(:scenario_light, scenario: other_scenario)
 
       authenticate(scenario.home.user)
-      get :index, params: { scenario_id: other_scenario.id, id: scenario_thing.id }
+      get :show, params: { id: scenario_thing.id }
 
       expect(response).to have_http_status(:not_found)
     end
@@ -89,7 +89,7 @@ describe ScenarioThingsController, type: :controller do
       scenario_thing_params = attributes_for(:scenario_light).merge(thing_id: thing.id)
 
       authenticate(scenario.home.user)
-      put :update, params: { scenario_id: scenario.id, id: scenario_thing.id, scenario_thing: scenario_thing_params }
+      put :update, params: { id: scenario_thing.id, scenario_thing: scenario_thing_params }
       scenario_thing.reload
 
       expect(scenario_thing.thing.id).to eq(scenario_thing_params[:thing_id])
@@ -103,7 +103,7 @@ describe ScenarioThingsController, type: :controller do
       scenario_thing_params = attributes_for(:scenario_light).merge(thing_id: thing.id)
 
       authenticate(scenario.home.user)
-      put :update, params: { scenario_id: other_scenario.id, id: scenario_thing.id, scenario_thing: scenario_thing_params }
+      put :update, params: { id: scenario_thing.id, scenario_thing: scenario_thing_params }
 
       expect(response).to have_http_status(:not_found)
     end
@@ -116,7 +116,7 @@ describe ScenarioThingsController, type: :controller do
       authenticate(scenario.home.user)
 
       expect do
-        delete :destroy, params: { scenario_id: scenario.id, id: scenario_thing.id }
+        delete :destroy, params: { id: scenario_thing.id }
       end.to change { ScenarioThing.count }.by(-1)
     end
 
@@ -125,7 +125,7 @@ describe ScenarioThingsController, type: :controller do
       create(:scenario_light, scenario: other_scenario)
 
       authenticate(scenario.home.user)
-      delete :destroy, params: { scenario_id: other_scenario.id, id: scenario.id }
+      delete :destroy, params: { id: scenario.id }
 
       expect(response).to have_http_status(:not_found)
     end
