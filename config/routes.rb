@@ -3,26 +3,25 @@ Rails.application.routes.draw do
 
   resource :users, only: [:create]
 
-  resource :user, only: [:show, :update], path: "/users/me" do
-  end
+  resource :user, only: [:show, :update], path: "/users/me"
 
-  resources :homes do
+  resources :homes, shallow: true do
     namespace :things, only: [:index, :create] do
       resources :discovery, only: [:index]
     end
 
-    resources :things
+    resources :things do
+      resource :status, only: [:show, :update], controller: "things/status"
+    end
 
-    resources :scenarios
+    resources :timed_tasks, path: "tasks/timed", controller: "tasks/timed_task"
+
+    resources :scenarios, only: [:index, :create]
   end
 
-  resources :things, only: [] do
-    resource :status, only: [:show, :update], controller: "things/status"
-  end
-
-  resources :scenarios, only: [] do
+  resources :scenarios, except: [:index, :create] do
     resources :scenario_things, path: "things", as: "things"
 
-    resource :scenario_apply, only: [:create], controller: "scenario_apply", path: "apply", as: "apply"
+    resource :scenario_apply, only: [:create], path: "apply", as: "apply"
   end
 end

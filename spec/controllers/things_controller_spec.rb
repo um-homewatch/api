@@ -31,7 +31,7 @@ describe ThingsController, type: :controller do
       json = serialize_to_json(light)
 
       authenticate(home.user)
-      get :show, params: { home_id: home.id, id: light.id }
+      get :show, params: { id: light.id }
 
       expect(response.body).to eq(json)
     end
@@ -41,7 +41,7 @@ describe ThingsController, type: :controller do
       light = create(:light, home: other_home)
 
       authenticate(home.user)
-      get :index, params: { home_id: other_home.id, light_id: light.id }
+      get :show, params: { id: light.id }
 
       expect(response).to have_http_status(:not_found)
     end
@@ -137,7 +137,7 @@ describe ThingsController, type: :controller do
       light_params = attributes_for(:light)
 
       authenticate(home.user)
-      put :update, params: { home_id: home.id, id: light.id, thing: light_params }
+      put :update, params: { id: light.id, thing: light_params }
       light.reload
 
       expect(light.name).to eq(light_params[:name])
@@ -152,7 +152,7 @@ describe ThingsController, type: :controller do
       light_params = attributes_for(:light)
 
       authenticate(home.user)
-      put :update, params: { home_id: other_home.id, id: light.id, thing: light_params }
+      put :update, params: { id: light.id, thing: light_params }
 
       expect(response).to have_http_status(:not_found)
     end
@@ -165,7 +165,7 @@ describe ThingsController, type: :controller do
       authenticate(home.user)
 
       expect do
-        delete :destroy, params: { home_id: home.id, id: light.id }
+        delete :destroy, params: { id: light.id }
       end.to change { Thing.count }.by(-1)
     end
 
@@ -174,7 +174,7 @@ describe ThingsController, type: :controller do
       light = create(:light, home: other_home)
 
       authenticate(home.user)
-      delete :destroy, params: { home_id: other_home.id, id: light.id }
+      delete :destroy, params: { id: light.id }
 
       expect(response).to have_http_status(:not_found)
     end

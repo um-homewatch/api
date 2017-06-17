@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe ScenarioApplyController, type: :controller do
+describe ScenarioAppliesController, type: :controller do
   context "POST #create" do
     it "applies a user scenario" do
       scenario = create(:scenario)

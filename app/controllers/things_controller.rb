@@ -9,8 +9,7 @@ class ThingsController < ApplicationController
   end
 
   def show
-    home = current_user.homes.find(params[:home_id])
-    thing = home.things.find(params[:id])
+    thing = current_user.things.find(params[:id])
 
     render json: thing
   end
@@ -27,8 +26,7 @@ class ThingsController < ApplicationController
   end
 
   def update
-    home = current_user.homes.find(params[:home_id])
-    thing = home.things.find(params[:id])
+    thing = current_user.things.find(params[:id])
 
     if thing.update(thing_params)
       render json: thing
@@ -38,8 +36,7 @@ class ThingsController < ApplicationController
   end
 
   def destroy
-    home = current_user.homes.find(params[:home_id])
-    thing = home.things.find(params[:id])
+    thing = current_user.things.find(params[:id])
 
     thing.destroy
   end
