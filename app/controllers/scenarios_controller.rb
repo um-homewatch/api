@@ -8,8 +8,7 @@ class ScenariosController < ApplicationController
   end
 
   def show
-    home = current_user.homes.find(params[:home_id])
-    scenario = home.scenarios.find(params[:id])
+    scenario = current_user.scenarios.find(params[:id])
 
     render json: scenario
   end
@@ -26,8 +25,7 @@ class ScenariosController < ApplicationController
   end
 
   def update
-    home = current_user.homes.find(params[:home_id])
-    scenario = home.scenarios.find(params[:id])
+    scenario = current_user.scenarios.find(params[:id])
 
     if scenario.update(scenario_params)
       render json: scenario
@@ -37,8 +35,7 @@ class ScenariosController < ApplicationController
   end
 
   def destroy
-    home = current_user.homes.find(params[:home_id])
-    scenario = home.scenarios.find(params[:id])
+    scenario = current_user.scenarios.find(params[:id])
 
     scenario.destroy
   end

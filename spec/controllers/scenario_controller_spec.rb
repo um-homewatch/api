@@ -41,7 +41,7 @@ describe ScenariosController, type: :controller do
       scenario = create(:scenario, home: other_home)
 
       authenticate(home.user)
-      get :index, params: { home_id: other_home.id, scenario_id: scenario.id }
+      get :show, params: { id: scenario.id }
 
       expect(response).to have_http_status(:not_found)
     end
