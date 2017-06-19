@@ -12,6 +12,9 @@ AllCops:
     - "node_modules/**/*"
   TargetRubyVersion: 2.4
 
+Bundler/OrderedGems:
+  Enabled: false
+
 Metrics/LineLength:
   Enabled: false
 
