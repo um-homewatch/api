@@ -42,7 +42,7 @@ describe Tasks::TimedTaskController, type: :controller do
   end
 
   describe "GET #show" do
-    it "returns a timed_task from a home" do
+    it "returns a timed_task" do
       timed_task = create(:timed_task, home: home)
       json = serialize_to_json(timed_task)
 
@@ -64,7 +64,7 @@ describe Tasks::TimedTaskController, type: :controller do
   end
 
   context "POST #create with thing" do
-    it "creates a user timed_task" do
+    it "creates a timed_task" do
       thing = create(:light, home: home)
       timed_task_params = timed_task_params_thing(thing)
 
@@ -85,6 +85,7 @@ describe Tasks::TimedTaskController, type: :controller do
       expect(parsed_response[:cron]).to eq(timed_task_params[:cron])
       expect(parsed_response[:thing][:id]).to eq(timed_task_params[:thing_id])
       expect(parsed_response[:status]).to eq(timed_task_params[:status])
+      expect(parsed_response[:next_run]).to be_truthy
     end
 
     it "returns a not found status code" do
@@ -99,7 +100,7 @@ describe Tasks::TimedTaskController, type: :controller do
   end
 
   context "POST #create with scenario" do
-    it "creates a user timed_task" do
+    it "creates a timed_task" do
       scenario = create(:scenario, home: home)
       timed_task_params = timed_task_params_scenario(scenario)
 
@@ -119,6 +120,7 @@ describe Tasks::TimedTaskController, type: :controller do
 
       expect(parsed_response[:cron]).to eq(timed_task_params[:cron])
       expect(parsed_response[:scenario][:id]).to eq(timed_task_params[:scenario_id])
+      expect(parsed_response[:next_run]).to be_truthy
     end
   end
 
