@@ -25,7 +25,9 @@ class CreateTimedTask
   attr_reader :home, :params, :cron, :timed_task
 
   def create_job
-    timed_task.delayed_job = timed_task.thing.delay(cron: cron).send_status(timed_task.status)
+    return unless timed_task.save
+
+    timed_task.delayed_job = timed_task.delay(cron: cron).apply
 
     @status = timed_task.save
   end
