@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170616102518) do
+ActiveRecord::Schema.define(version: 20170621154318) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,14 +73,16 @@ ActiveRecord::Schema.define(version: 20170616102518) do
   end
 
   create_table "timed_tasks", force: :cascade do |t|
-    t.integer  "thing_id"
     t.integer  "home_id"
     t.integer  "delayed_job_id"
+    t.integer  "thing_id"
     t.json     "status"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+    t.integer  "scenario_id"
     t.index ["delayed_job_id"], name: "index_timed_tasks_on_delayed_job_id", using: :btree
     t.index ["home_id"], name: "index_timed_tasks_on_home_id", using: :btree
+    t.index ["scenario_id"], name: "index_timed_tasks_on_scenario_id", using: :btree
     t.index ["thing_id"], name: "index_timed_tasks_on_thing_id", using: :btree
   end
 
@@ -94,5 +96,6 @@ ActiveRecord::Schema.define(version: 20170616102518) do
   end
 
   add_foreign_key "timed_tasks", "homes"
+  add_foreign_key "timed_tasks", "scenarios"
   add_foreign_key "timed_tasks", "things"
 end

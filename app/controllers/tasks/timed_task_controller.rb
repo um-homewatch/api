@@ -49,7 +49,7 @@ class Tasks::TimedTaskController < ApplicationController
   private
 
   def timed_task_params
-    timed_task_params = params.require(:timed_task).permit(:thing_id, :cron)
+    timed_task_params = params.require(:timed_task).permit(:thing_id, :scenario_id, :cron)
     timed_task_params[:status] = params[:timed_task][:status]
     timed_task_params.permit!
   end

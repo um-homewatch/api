@@ -29,7 +29,7 @@ class UpdateTimedTask
   def update_timed_task
     timed_task.update(params)
 
-    timed_task.delayed_job = timed_task.thing.delay(cron: cron).send_status(timed_task.status)
+    timed_task.delayed_job = timed_task.delay(cron: cron).apply
 
     @status = timed_task.save
   end

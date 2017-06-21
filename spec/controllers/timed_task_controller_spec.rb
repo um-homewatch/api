@@ -3,10 +3,18 @@ require "rails_helper"
 describe Tasks::TimedTaskController, type: :controller do
   let(:home) { create(:home) }
 
-  def timed_task_params(thing)
+  def timed_task_params_thing(thing)
     attributes_for(
       :timed_task_light,
       thing_id: thing.id,
+      cron: "10 * * * *",
+    )
+  end
+
+  def timed_task_params_scenario(scenario)
+    attributes_for(
+      :timed_task,
+      scenario_id: scenario.id,
       cron: "10 * * * *",
     )
   end
@@ -55,10 +63,10 @@ describe Tasks::TimedTaskController, type: :controller do
     end
   end
 
-  context "POST #create" do
+  context "POST #create with thing" do
     it "creates a user timed_task" do
       thing = create(:light, home: home)
-      timed_task_params = timed_task_params(thing)
+      timed_task_params = timed_task_params_thing(thing)
 
       authenticate(home.user)
 
@@ -69,7 +77,7 @@ describe Tasks::TimedTaskController, type: :controller do
 
     it "returns the created resource" do
       thing = create(:light, home: home)
-      timed_task_params = timed_task_params(thing)
+      timed_task_params = timed_task_params_thing(thing)
 
       authenticate(home.user)
       post :create, params: { home_id: home.id, timed_task: timed_task_params }
@@ -90,11 +98,35 @@ describe Tasks::TimedTaskController, type: :controller do
     end
   end
 
+  context "POST #create with scenario" do
+    it "creates a user timed_task" do
+      scenario = create(:scenario, home: home)
+      timed_task_params = timed_task_params_scenario(scenario)
+
+      authenticate(home.user)
+
+      expect do
+        post :create, params: { home_id: home.id, timed_task: timed_task_params }
+      end.to change { Tasks::TimedTask.count }.by(1)
+    end
+
+    it "returns the created resource" do
+      scenario = create(:scenario, home: home)
+      timed_task_params = timed_task_params_scenario(scenario)
+
+      authenticate(home.user)
+      post :create, params: { home_id: home.id, timed_task: timed_task_params }
+
+      expect(parsed_response[:cron]).to eq(timed_task_params[:cron])
+      expect(parsed_response[:scenario][:id]).to eq(timed_task_params[:scenario_id])
+    end
+  end
+
   describe "PUT #update" do
     it "updates the info of a timed_task" do
       timed_task = create(:timed_task, home: home)
       thing = create(:light, home: home)
-      timed_task_params = timed_task_params(thing)
+      timed_task_params = timed_task_params_thing(thing)
 
       authenticate(home.user)
       put :update, params: { id: timed_task.id, timed_task: timed_task_params }
@@ -125,7 +157,17 @@ describe Tasks::TimedTaskController, type: :controller do
 
       expect do
         delete :destroy, params: { id: timed_task.id }
-      end.to change { home.timed_tasks.count }.by(-1)
+      end.to change { Tasks::TimedTask.count }.by(-1)
+    end
+
+    it "destroys the associated delayed job" do
+      timed_task = create(:timed_task, home: home)
+
+      authenticate(home.user)
+
+      expect do
+        delete :destroy, params: { id: timed_task.id }
+      end.to change { Delayed::Job.count }.by(-1)
     end
 
     it "returns a not found status code" do
