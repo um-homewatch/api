@@ -6,6 +6,6 @@ class Things::Thermostat < Thing
   private
 
   def uri
-    home.tunnel + "/thermostats"
+    home.tunnel + "/devices/thermostats"
   end
 end

@@ -6,6 +6,6 @@ class Things::MotionSensor < Thing
   private
 
   def uri
-    home.tunnel + "/motionsensors"
+    home.tunnel + "/devices/motionsensors"
   end
 end

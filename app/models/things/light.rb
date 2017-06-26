@@ -6,6 +6,6 @@ class Things::Light < Thing
   private
 
   def uri
-    home.tunnel + "/lights"
+    home.tunnel + "/devices/lights"
   end
 end
