@@ -10,14 +10,20 @@ class Thing < ApplicationRecord
 
   def status
     HTTParty.get(uri,
-      headers: { "Content-Type" => "application/json" },
+      headers: {
+        "Content-Type" => "application/json",
+        "TunnelAuthorization" => ENV["TUNNEL_ACCESS_TOKEN"],
+      },
       query: connection_params,
       format: :json)
   end
 
   def send_status(status)
     HTTParty.put(uri,
-      headers: { "Content-Type" => "application/json" },
+      headers: {
+        "Content-Type" => "application/json",
+        "TunnelAuthorization" => ENV["TUNNEL_ACCESS_TOKEN"],
+      },
       query: connection_params,
       body: status.to_json,
       format: :json)
