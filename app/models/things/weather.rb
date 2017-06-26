@@ -6,6 +6,6 @@ class Things::Weather < Thing
   private
 
   def uri
-    home.tunnel + "/weather"
+    home.tunnel + "/devices/weather"
   end
 end

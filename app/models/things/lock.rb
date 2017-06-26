@@ -6,6 +6,6 @@ class Things::Lock < Thing
   private
 
   def uri
-    home.tunnel + "/locks"
+    home.tunnel + "/devices/locks"
   end
 end
