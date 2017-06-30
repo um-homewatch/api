@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   post "auth" => "user_token#create"
+  get "auth" => "user_token#show"
 
   resource :users, only: [:create]
 
