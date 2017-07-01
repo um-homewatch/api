@@ -7,9 +7,15 @@ class Things::StatusController < ApplicationController
 
   def update
     thing = fetch_thing
-    thing_status = thing.send_status(status_params(thing))
+    thing_status_params = filter_status_params(thing)
 
-    render json: thing_status, status: thing_status.code
+    if thing_status_params.empty?
+      render json: { message: "Update not supported" }, status: :bad_request
+    else
+      thing_status = thing.send_status(thing_status_params)
+
+      render json: thing_status, status: thing_status.code
+    end
   end
 
   private
@@ -18,7 +24,7 @@ class Things::StatusController < ApplicationController
     current_user.things.find(params[:thing_id])
   end
 
-  def status_params(thing)
+  def filter_status_params(thing)
     params.require(:status).permit(thing.allowed_params)
   end
 end
