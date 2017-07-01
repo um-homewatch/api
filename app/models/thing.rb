@@ -4,6 +4,14 @@ class Thing < ApplicationRecord
   belongs_to :home
   delegate :user, to: :home
 
+  def allowed_params
+    []
+  end
+
+  def returned_params
+    []  
+  end
+
   def connection_info
     self[:connection_info]&.symbolize_keys
   end
@@ -29,6 +37,45 @@ class Thing < ApplicationRecord
       format: :json)
   end
 
+  def equals(keys, status)
+    remote_status = setup_comparison_params(keys, status)
+    return false unless remote_status
+
+    keys.each do |key|
+      return false unless status[key] == remote_status[key]
+    end
+
+    true
+  rescue NoMethodError
+    false
+  end
+
+  def greater(keys, status)
+    remote_status = setup_comparison_params(keys, status)
+    return false unless remote_status
+
+    keys.each do |key|
+      return false unless status[key] < remote_status[key]
+    end
+
+    true
+  rescue NoMethodError
+    false
+  end
+
+  def less(keys, status)
+    remote_status = setup_comparison_params(keys, status)
+    return false unless remote_status
+
+    keys.each do |key|
+      return false unless status[key] > remote_status[key]
+    end
+
+    true
+  rescue NoMethodError
+    false
+  end
+
   protected
 
   def connection_params
@@ -37,5 +84,19 @@ class Thing < ApplicationRecord
 
   def uri
     # ...
+  end
+
+  private
+
+  def setup_comparison_params(keys, status)    
+    keys.map &:to_sym
+    status.symbolize_keys
+
+    return false unless (keys - returned_params).empty?
+    return false unless (status.keys - keys).empty?
+    remote_status = self.status.parsed_response&.symbolize_keys
+    return false unless remote_status
+
+    remote_status
   end
 end

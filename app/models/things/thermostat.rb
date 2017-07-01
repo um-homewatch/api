@@ -3,6 +3,10 @@ class Things::Thermostat < Thing
     [:targetTemperature]
   end
 
+  def returned_params
+    [:targetTemperature]
+  end
+
   private
 
   def uri
