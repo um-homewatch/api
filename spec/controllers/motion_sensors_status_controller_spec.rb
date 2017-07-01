@@ -27,7 +27,7 @@ describe Things::StatusController, type: :controller do
   end
 
   describe "PUT #update" do
-    it "should update the status of a motion_sensor" do
+    it "should return 400" do
       motion_sensor = create(:motion_sensor, home: home)
       motion_sensor_status = { movement: Faker::Boolean.boolean }
       stub_send_status!(motion_sensor, motion_sensor_status, true)
@@ -35,7 +35,7 @@ describe Things::StatusController, type: :controller do
       authenticate(home.user)
       put :update, params: { thing_id: motion_sensor.id, status: motion_sensor_status }
 
-      expect(parsed_response).to eq(motion_sensor_status)
+      expect(response).to be_bad_request
     end
 
     it "should return a not found response" do
