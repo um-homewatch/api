@@ -9,7 +9,7 @@ class Thing < ApplicationRecord
   end
 
   def returned_params
-    []  
+    []
   end
 
   def connection_info
@@ -88,8 +88,8 @@ class Thing < ApplicationRecord
 
   private
 
-  def setup_comparison_params(keys, status)    
-    keys.map &:to_sym
+  def setup_comparison_params(keys, status)
+    keys.map(&:to_sym)
     status.symbolize_keys
 
     return false unless (keys - returned_params).empty?
