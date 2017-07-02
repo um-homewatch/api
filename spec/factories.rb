@@ -85,19 +85,28 @@ FactoryGirl.define do
       end
       status { { on: Faker::Boolean.boolean.to_s } }
     end
+  end
 
-    factory :timed_task_lock do
-      before(:create) do |timed_task|
-        timed_task.thing = FactoryGirl.create(:lock, home: timed_task.home)
-      end
-      status { { locked: Faker::Boolean.boolean.to_s } }
+  factory :triggered_task, class: Tasks::TriggeredTask do
+    home
+
+    before(:create) do |triggered_task|
+      triggered_task.thing = FactoryGirl.create(:light, home: triggered_task.home)
     end
 
-    factory :timed_task_thermostat do
-      before(:create) do |timed_task|
-        timed_task.thing = FactoryGirl.create(:thermostat, home: timed_task.home)
+    after(:create) do |triggered_task|
+      triggered_task.delayed_job = triggered_task.delay(cron: "*/5 * * * * *").apply
+      triggered_task.save
+    end
+
+    factory :triggered_task_light do
+      before(:create) do |triggered_task|
+        triggered_task.thing = FactoryGirl.create(:light, home: triggered_task.home)
       end
-      status { { targetTemperature: Faker::Number.between(15, 25).to_s } }
+      status_to_apply { { on: Faker::Boolean.boolean.to_s } }
+      status_to_compare { { on: Faker::Boolean.boolean.to_s } }
+      keys_to_compare { [:on] }
+      comparator_type { "equals" }
     end
   end
 end

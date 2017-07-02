@@ -39,6 +39,7 @@ class Thing < ApplicationRecord
 
   def equals(keys, status)
     remote_status = setup_comparison_params(keys, status)
+    
     return false unless remote_status
 
     keys.each do |key|
@@ -89,8 +90,8 @@ class Thing < ApplicationRecord
   private
 
   def setup_comparison_params(keys, status)
-    keys.map(&:to_sym)
-    status.symbolize_keys
+    keys = keys.map!(&:to_sym)
+    status = status.symbolize_keys!
 
     return false unless (keys - returned_params).empty?
     return false unless (status.keys - keys).empty?

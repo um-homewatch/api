@@ -60,7 +60,7 @@ describe Thing, type: :model do
       expect(value).to be_falsy
     end
 
-    it "sould return true for less" do
+    it "should return true for less" do
       thing = create(:weather)
       thing_status = { temperature: 24.5, windSpeed: 11, raining: false, cloudy: true }
       stub_status!(thing, thing_status)
@@ -70,7 +70,7 @@ describe Thing, type: :model do
       expect(value).to be_truthy
     end
 
-    it "sould return false for less" do
+    it "should return false for less" do
       thing = create(:weather)
       thing_status = { temperature: 24.5, windSpeed: 11, raining: false, cloudy: true }
       stub_status!(thing, thing_status)
