@@ -1,10 +1,10 @@
 require "rails_helper"
 
 describe UpdateTimedTask do
-  let(:timed_task) { create(:timed_task_light) }
+  let(:timed_task) { create(:timed_task, :thing) }
   let(:params) do
     attributes_for(
-      :timed_task_light,
+      :timed_task,
       thing: create(:light, home: timed_task.home),
       cron: "10 * * * *",
     )

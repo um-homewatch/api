@@ -25,7 +25,7 @@ describe Thing, type: :model do
       thing_status = { temperature: 24.5, windSpeed: 11, raining: false, cloudy: true }
       stub_status!(thing, thing_status)
 
-      value = thing.equals([:temperature, :raining], temperature: 24.5, raining: false)
+      value = thing.compare("==", temperature: 24.5, raining: false)
 
       expect(value).to be_truthy
     end
@@ -35,7 +35,7 @@ describe Thing, type: :model do
       thing_status = { temperature: 24.5, windSpeed: 11, raining: false, cloudy: true }
       stub_status!(thing, thing_status)
 
-      value = thing.equals([:temperature, :raining], temperature: 34.5, raining: true)
+      value = thing.compare("==", temperature: 34.5, raining: true)
 
       expect(value).to be_falsy
     end
@@ -45,9 +45,9 @@ describe Thing, type: :model do
       thing_status = { temperature: 24.5, windSpeed: 11, raining: false, cloudy: true }
       stub_status!(thing, thing_status)
 
-      value = thing.greater([:temperature, :windSpeed], temperature: 10, windSpeed: 5)
+      value = thing.compare(">", temperature: 10, windSpeed: 10)
 
-      expect(value).to be_truthy
+      expect(value).to be(true)
     end
 
     it "sould return false for greater" do
@@ -55,9 +55,9 @@ describe Thing, type: :model do
       thing_status = { temperature: 24.5, windSpeed: 11, raining: false, cloudy: true }
       stub_status!(thing, thing_status)
 
-      value = thing.greater([:temperature, :raining], temperature: 34.5, windSpeed: 2)
+      value = thing.compare(">", temperature: 100, windSpeed: 10)
 
-      expect(value).to be_falsy
+      expect(value).to be(false)
     end
 
     it "should return true for less" do
@@ -65,9 +65,9 @@ describe Thing, type: :model do
       thing_status = { temperature: 24.5, windSpeed: 11, raining: false, cloudy: true }
       stub_status!(thing, thing_status)
 
-      value = thing.less([:temperature, :windSpeed], temperature: 30, windSpeed: 15)
+      value = thing.compare("<", temperature: 30, windSpeed: 15)
 
-      expect(value).to be_truthy
+      expect(value).to be(true)
     end
 
     it "should return false for less" do
@@ -75,9 +75,9 @@ describe Thing, type: :model do
       thing_status = { temperature: 24.5, windSpeed: 11, raining: false, cloudy: true }
       stub_status!(thing, thing_status)
 
-      value = thing.less([:temperature, :raining], temperature: 5, windSpeed: 2)
+      value = thing.compare("<", temperature: 5, windSpeed: 2)
 
-      expect(value).to be_falsy
+      expect(value).to be(false)
     end
   end
 end

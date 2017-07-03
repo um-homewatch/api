@@ -11,6 +11,7 @@ module Task
 
     validate :thing_must_belong_to_home
     validate :must_have_scenario_or_thing_not_both
+    validate :scenario_and_thing_cannot_be_empty
 
     def apply
       if thing
@@ -36,8 +37,15 @@ module Task
     def must_have_scenario_or_thing_not_both
       return unless scenario && thing
 
-      errors.add(:thing_id, "task must active scenario or thing, not both")
-      errors.add(:scenario_id, "task must active scenario or thing, not both")
+      errors.add(:thing_id, "task must activate a scenario or a thing, not both")
+      errors.add(:scenario_id, "task must activate a scenario or a thing, not both")
+    end
+
+    def scenario_and_thing_cannot_be_empty
+      return if scenario || thing
+
+      errors.add(:thing_id, "must have a thing or a scenario")
+      errors.add(:scenario_id, "must have a thing or a scenario")
     end
   end
 end

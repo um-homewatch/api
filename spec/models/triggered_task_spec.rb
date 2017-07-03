@@ -26,8 +26,8 @@ RSpec.describe Tasks::TriggeredTask, type: :model do
 
   describe "method validation" do
     it "should apply status" do
-      task = create(:triggered_task_light, status_to_compare: { on: true })
-      stub_status!(task.thing, on: true)
+      task = create(:triggered_task, :thing, status_to_compare: { on: true })
+      stub_status!(task.thing_to_compare, on: true)
 
       expect(task).to receive(:apply)
 
@@ -35,8 +35,8 @@ RSpec.describe Tasks::TriggeredTask, type: :model do
     end
 
     it "should not apply status" do
-      task = create(:triggered_task_light, status_to_compare: { on: true })
-      stub_status!(task.thing, on: false)
+      task = create(:triggered_task, :thing, status_to_compare: { on: true })
+      stub_status!(task.thing_to_compare, on: false)
 
       expect(task).to_not receive(:apply)
 

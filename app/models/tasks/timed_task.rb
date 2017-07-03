@@ -1,5 +1,5 @@
 class Tasks::TimedTask < ApplicationRecord
-  include Task  
+  include Task
 
   def cron
     delayed_job&.cron

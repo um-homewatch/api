@@ -1,13 +1,15 @@
 require "rails_helper"
 
 describe CreateTimedTask do
-  let(:thing) { create(:light) }
-  let(:scenario) { create(:scenario) }
+  let(:home) { create(:home) }
+  let(:thing) { create(:light, home: home) }
+  let(:scenario) { create(:scenario, home: home) }
+  let(:cron) { "5 * * * *" }
 
   describe "perform" do
     it "should create a timed task" do
-      params = attributes_for(:timed_task_light, thing: thing, cron: "5 * * * *")
-      create_timed_task = CreateTimedTask.new(home: thing.home, params: params)
+      params = attributes_for(:timed_task, thing: thing, cron: cron)
+      create_timed_task = CreateTimedTask.new(home: home, params: params)
 
       expect do
         create_timed_task.perform
@@ -15,8 +17,8 @@ describe CreateTimedTask do
     end
 
     it "should create a delayed job" do
-      params = attributes_for(:timed_task_light, thing: thing, cron: "5 * * * *")
-      create_timed_task = CreateTimedTask.new(home: thing.home, params: params)
+      params = attributes_for(:timed_task, thing: thing, cron: cron)
+      create_timed_task = CreateTimedTask.new(home: home, params: params)
 
       expect do
         create_timed_task.perform
@@ -24,8 +26,8 @@ describe CreateTimedTask do
     end
 
     it "should set status to true if saved" do
-      params = attributes_for(:timed_task_light, thing: thing, cron: "5 * * * *")
-      create_timed_task = CreateTimedTask.new(home: thing.home, params: params)
+      params = attributes_for(:timed_task, thing: thing, cron: cron)
+      create_timed_task = CreateTimedTask.new(home: home, params: params)
 
       create_timed_task.perform
 
@@ -33,8 +35,8 @@ describe CreateTimedTask do
     end
 
     it "should create a timed task with the provided params" do
-      params = attributes_for(:timed_task_light, thing: thing, cron: "5 * * * *")
-      create_timed_task = CreateTimedTask.new(home: thing.home, params: params)
+      params = attributes_for(:timed_task, thing: thing, cron: cron)
+      create_timed_task = CreateTimedTask.new(home: home, params: params)
 
       timed_task = create_timed_task.perform
 
@@ -44,7 +46,7 @@ describe CreateTimedTask do
     end
 
     it "should set status to false if it fails" do
-      params = attributes_for(:timed_task_light, thing: thing, cron: "5 * * * *")
+      params = attributes_for(:timed_task, thing: thing, cron: cron)
       create_timed_task = CreateTimedTask.new(home: create(:home), params: params)
 
       # should fail the 'thing belongs to home' validation
@@ -54,7 +56,7 @@ describe CreateTimedTask do
     end
 
     it "should not create a job if service fails" do
-      params = attributes_for(:timed_task_light, thing: thing, cron: "5 * * * *")
+      params = attributes_for(:timed_task, thing: thing, cron: cron)
       create_timed_task = CreateTimedTask.new(home: create(:home), params: params)
 
       # should fail the 'thing belongs to home' validation
@@ -66,7 +68,7 @@ describe CreateTimedTask do
     end
 
     it "should not create a timed task if service fails" do
-      params = attributes_for(:timed_task_light, thing: thing, cron: "5 * * * *")
+      params = attributes_for(:timed_task, thing: thing, cron: cron)
       create_timed_task = CreateTimedTask.new(home: create(:home), params: params)
 
       # should fail the 'thing belongs to home' validation
@@ -80,7 +82,7 @@ describe CreateTimedTask do
 
   describe "perform with scenario" do
     it "should create a timed task with the provided params" do
-      params = attributes_for(:timed_task_light, scenario: scenario, cron: "5 * * * *")
+      params = attributes_for(:timed_task, scenario: scenario, cron: cron)
       create_timed_task = CreateTimedTask.new(home: scenario.home, params: params)
 
       timed_task = create_timed_task.perform

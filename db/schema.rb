@@ -87,20 +87,21 @@ ActiveRecord::Schema.define(version: 20170702150158) do
   end
 
   create_table "triggered_tasks", force: :cascade do |t|
-    t.integer  "home_id",           null: false
-    t.integer  "thing_id",          null: false
+    t.integer  "home_id",             null: false
+    t.integer  "thing_id"
+    t.integer  "thing_to_compare_id", null: false
     t.integer  "scenario_id"
     t.integer  "delayed_job_id"
     t.json     "status_to_apply"
-    t.json     "status_to_compare", null: false
-    t.string   "keys_to_compare",                array: true
-    t.integer  "comparator_type",   null: false
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.json     "status_to_compare",   null: false
+    t.string   "comparator",          null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
     t.index ["delayed_job_id"], name: "index_triggered_tasks_on_delayed_job_id", using: :btree
     t.index ["home_id"], name: "index_triggered_tasks_on_home_id", using: :btree
     t.index ["scenario_id"], name: "index_triggered_tasks_on_scenario_id", using: :btree
     t.index ["thing_id"], name: "index_triggered_tasks_on_thing_id", using: :btree
+    t.index ["thing_to_compare_id"], name: "index_triggered_tasks_on_thing_to_compare_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
@@ -118,4 +119,5 @@ ActiveRecord::Schema.define(version: 20170702150158) do
   add_foreign_key "triggered_tasks", "homes"
   add_foreign_key "triggered_tasks", "scenarios"
   add_foreign_key "triggered_tasks", "things"
+  add_foreign_key "triggered_tasks", "things", column: "thing_to_compare_id"
 end

@@ -1,4 +1,6 @@
 class Thing < ApplicationRecord
+  VALID_COMPARATORS = ["==", "<", ">", ">=", "<="].freeze
+
   validates :name, :type, :subtype, :connection_info, presence: true
 
   belongs_to :home
@@ -37,39 +39,15 @@ class Thing < ApplicationRecord
       format: :json)
   end
 
-  def equals(keys, status)
-    remote_status = setup_comparison_params(keys, status)
-    
+  def compare(comparator, status)
+    return false unless VALID_COMPARATORS.include?(comparator)
+
+    remote_status = setup_comparison_params(status)
+
     return false unless remote_status
 
-    keys.each do |key|
-      return false unless status[key] == remote_status[key]
-    end
-
-    true
-  rescue NoMethodError
-    false
-  end
-
-  def greater(keys, status)
-    remote_status = setup_comparison_params(keys, status)
-    return false unless remote_status
-
-    keys.each do |key|
-      return false unless status[key] < remote_status[key]
-    end
-
-    true
-  rescue NoMethodError
-    false
-  end
-
-  def less(keys, status)
-    remote_status = setup_comparison_params(keys, status)
-    return false unless remote_status
-
-    keys.each do |key|
-      return false unless status[key] > remote_status[key]
+    status.keys.each do |key|
+      return false unless remote_status[key].send(comparator, status[key])
     end
 
     true
@@ -89,9 +67,9 @@ class Thing < ApplicationRecord
 
   private
 
-  def setup_comparison_params(keys, status)
-    keys = keys.map!(&:to_sym)
+  def setup_comparison_params(status)
     status = status.symbolize_keys!
+    keys = status.keys
 
     return false unless (keys - returned_params).empty?
     return false unless (status.keys - keys).empty?
