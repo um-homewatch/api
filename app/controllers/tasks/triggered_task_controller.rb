@@ -1,4 +1,4 @@
-class Tasks::TimedTaskController < ApplicationController
+class Tasks::TriggeredTaskController < ApplicationController
   before_action :authenticate_user
 
   def index
@@ -49,8 +49,9 @@ class Tasks::TimedTaskController < ApplicationController
   private
 
   def triggered_task_params
-    triggered_task_params = params.require(:triggered_task).permit(:thing_id, :scenario_id, :cron)
-    triggered_task_params[:status] = params[:triggered_task][:status]
+    triggered_task_params = params.require(:triggered_task).permit(:thing_id, :thing_to_compare_id, :scenario_id, :comparator)
+    triggered_task_params[:status_to_compare] = params[:triggered_task][:status_to_compare]
+    triggered_task_params[:status_to_apply] = params[:triggered_task][:status_to_apply]
     triggered_task_params.permit!
   end
 end

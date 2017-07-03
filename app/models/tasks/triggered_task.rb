@@ -8,6 +8,14 @@ class Tasks::TriggeredTask < ApplicationRecord
     status_to_apply
   end
 
+  def status_to_compare
+    self[:status_to_compare]&.symbolize_keys
+  end
+
+  def status_to_apply
+    self[:status_to_apply]&.symbolize_keys
+  end
+
   def apply_if
     apply if thing_to_compare.compare(comparator, status_to_compare)
   end

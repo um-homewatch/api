@@ -41,7 +41,8 @@ describe CreateTriggeredTask do
       triggered_task = create_triggered_task.perform
 
       expect(triggered_task.thing).to eq(thing)
-      expect(triggered_task.delayed_job.cron).to eq("*/5 * * * * *")
+      expect(triggered_task.thing_to_compare).to eq(thing_to_compare)
+      expect(triggered_task.delayed_job.cron).to eq(POLLING_RATE_CRON)
       expect(triggered_task.status_to_apply.symbolize_keys).to eq(params[:status_to_apply])
       expect(triggered_task.status_to_compare.symbolize_keys).to eq(params[:status_to_compare])
       expect(triggered_task.comparator).to eq(params[:comparator])
@@ -90,7 +91,7 @@ describe CreateTriggeredTask do
       triggered_task = create_triggered_task.perform
 
       expect(triggered_task.scenario).to eq(scenario)
-      expect(triggered_task.delayed_job.cron).to eq("*/5 * * * * *")
+      expect(triggered_task.delayed_job.cron).to eq(POLLING_RATE_CRON)
       expect(triggered_task.status_to_apply.symbolize_keys).to eq(params[:status_to_apply])
       expect(triggered_task.status_to_compare.symbolize_keys).to eq(params[:status_to_compare])
       expect(triggered_task.comparator).to eq(params[:comparator])

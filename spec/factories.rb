@@ -103,7 +103,7 @@ FactoryGirl.define do
     end
 
     after(:create) do |triggered_task|
-      triggered_task.delayed_job = triggered_task.delay(cron: "*/5 * * * * *").apply_if
+      triggered_task.delayed_job = triggered_task.delay(cron: POLLING_RATE_CRON).apply_if
       triggered_task.save
     end
 

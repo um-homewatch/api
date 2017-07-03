@@ -5,7 +5,7 @@ describe UpdateTimedTask do
   let(:params) do
     attributes_for(
       :timed_task,
-      thing: create(:light, home: timed_task.home),
+      thing_id: create(:light, home: timed_task.home).id,
       cron: "10 * * * *",
     )
   end
@@ -24,7 +24,7 @@ describe UpdateTimedTask do
 
       timed_task = update_timed_task.perform
 
-      expect(timed_task.thing).to eq(params[:thing])
+      expect(timed_task.thing.id).to eq(params[:thing_id])
       expect(timed_task.delayed_job.cron).to eq(params[:cron])
       expect(timed_task.status.symbolize_keys).to eq(params[:status])
     end
