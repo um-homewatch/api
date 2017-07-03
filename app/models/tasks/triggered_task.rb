@@ -17,7 +17,14 @@ class Tasks::TriggeredTask < ApplicationRecord
   end
 
   def apply_if
-    apply if thing_to_compare.compare(comparator, status_to_compare)
+    comparison = thing_to_compare.compare(comparator, status_to_compare)
+
+    if comparison && should_apply?
+      apply
+      update_attribute(:should_apply?, false)
+    elsif !comparison
+      update_attribute(:should_apply?, true)
+    end
   end
 
   private

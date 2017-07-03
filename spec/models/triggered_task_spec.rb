@@ -34,6 +34,16 @@ RSpec.describe Tasks::TriggeredTask, type: :model do
       task.apply_if
     end
 
+    it "should set 'should_apply?' to false" do
+      task = create(:triggered_task, :thing, status_to_compare: { on: true })
+      stub_status!(task.thing_to_compare, on: true)
+      expect(task).to receive(:apply)
+
+      task.apply_if
+
+      expect(task.should_apply?).to be(false)
+    end
+
     it "should not apply status" do
       task = create(:triggered_task, :thing, status_to_compare: { on: true })
       stub_status!(task.thing_to_compare, on: false)
@@ -41,6 +51,26 @@ RSpec.describe Tasks::TriggeredTask, type: :model do
       expect(task).to_not receive(:apply)
 
       task.apply_if
+    end
+
+    it "should not apply status if 'should_apply?' flag is set" do
+      task = create(:triggered_task, :thing, status_to_compare: { on: true }, should_apply?: false)
+      stub_status!(task.thing_to_compare, on: true)
+
+      expect(task).to_not receive(:apply)
+
+      task.apply_if
+    end
+
+    it "should set 'should_apply?' to true" do
+      task = create(:triggered_task, :thing, status_to_compare: { on: true })
+      stub_status!(task.thing_to_compare, on: false)
+
+      expect(task).to_not receive(:apply)
+
+      task.apply_if
+
+      expect(task.should_apply?).to be(true)
     end
   end
 end

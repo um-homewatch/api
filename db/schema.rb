@@ -87,16 +87,17 @@ ActiveRecord::Schema.define(version: 20170702150158) do
   end
 
   create_table "triggered_tasks", force: :cascade do |t|
-    t.integer  "home_id",             null: false
+    t.integer  "home_id",                            null: false
     t.integer  "thing_id"
-    t.integer  "thing_to_compare_id", null: false
+    t.integer  "thing_to_compare_id",                null: false
     t.integer  "scenario_id"
     t.integer  "delayed_job_id"
     t.json     "status_to_apply"
-    t.json     "status_to_compare",   null: false
-    t.string   "comparator",          null: false
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
+    t.json     "status_to_compare",                  null: false
+    t.string   "comparator",                         null: false
+    t.boolean  "should_apply?",       default: true
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
     t.index ["delayed_job_id"], name: "index_triggered_tasks_on_delayed_job_id", using: :btree
     t.index ["home_id"], name: "index_triggered_tasks_on_home_id", using: :btree
     t.index ["scenario_id"], name: "index_triggered_tasks_on_scenario_id", using: :btree

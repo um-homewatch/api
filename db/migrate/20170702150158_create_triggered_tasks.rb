@@ -9,6 +9,7 @@ class CreateTriggeredTasks < ActiveRecord::Migration[5.0]
       t.json :status_to_apply
       t.json :status_to_compare, null: false
       t.string :comparator, null: false
+      t.boolean :should_apply?, default: true
 
       t.timestamps
     end
