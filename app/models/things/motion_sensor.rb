@@ -1,6 +1,6 @@
 class Things::MotionSensor < Thing
-  def allowed_params
-    []
+  def returned_params
+    [:movement]
   end
 
   private
