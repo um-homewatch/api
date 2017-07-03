@@ -69,35 +69,56 @@ FactoryGirl.define do
 
   factory :timed_task, class: Tasks::TimedTask do
     home
-
-    before(:create) do |timed_task|
-      timed_task.thing = FactoryGirl.create(:light, home: timed_task.home)
-    end
+    status { { on: Faker::Boolean.boolean.to_s } }
 
     after(:create) do |timed_task|
       timed_task.delayed_job = timed_task.delay(cron: "*/5 * * * *").apply
       timed_task.save
     end
 
-    factory :timed_task_light do
+    trait :scenario do
+      before(:create) do |timed_task|
+        timed_task.scenario = FactoryGirl.create(:scenario, home: timed_task.home)
+        timed_task.save
+      end
+    end
+
+    trait :thing do
       before(:create) do |timed_task|
         timed_task.thing = FactoryGirl.create(:light, home: timed_task.home)
+        timed_task.save
       end
-      status { { on: Faker::Boolean.boolean.to_s } }
+    end
+  end
+
+  factory :triggered_task, class: Tasks::TriggeredTask do
+    home
+    status_to_apply { { on: Faker::Boolean.boolean.to_s } }
+    status_to_compare { { on: Faker::Boolean.boolean.to_s } }
+    comparator { "==" }
+
+    before(:create) do |triggered_task|
+      triggered_task.thing_to_compare = FactoryGirl.create(:light, home: triggered_task.home)
+      triggered_task.save
     end
 
-    factory :timed_task_lock do
-      before(:create) do |timed_task|
-        timed_task.thing = FactoryGirl.create(:lock, home: timed_task.home)
-      end
-      status { { locked: Faker::Boolean.boolean.to_s } }
+    after(:create) do |triggered_task|
+      triggered_task.delayed_job = triggered_task.delay(cron: POLLING_RATE_CRON).apply_if
+      triggered_task.save
     end
 
-    factory :timed_task_thermostat do
-      before(:create) do |timed_task|
-        timed_task.thing = FactoryGirl.create(:thermostat, home: timed_task.home)
+    trait :scenario do
+      before(:create) do |triggered_task|
+        triggered_task.scenario = FactoryGirl.create(:scenario, home: triggered_task.home)
+        triggered_task.save
       end
-      status { { targetTemperature: Faker::Number.between(15, 25).to_s } }
+    end
+
+    trait :thing do
+      before(:create) do |triggered_task|
+        triggered_task.thing = FactoryGirl.create(:light, home: triggered_task.home)
+        triggered_task.save
+      end
     end
   end
 end

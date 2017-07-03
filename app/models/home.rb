@@ -11,4 +11,5 @@ class Home < ApplicationRecord
   has_many :motion_sensors, class_name: "Things::MotionSensor"
   has_many :scenarios
   has_many :timed_tasks, class_name: "Tasks::TimedTask"
+  has_many :triggered_tasks, class_name: "Tasks::TriggeredTask"
 end

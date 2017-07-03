@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     end
 
     resources :timed_tasks, path: "tasks/timed", controller: "tasks/timed_task"
+    resources :triggered_tasks, path: "tasks/triggered", controller: "tasks/triggered_task"
 
     resources :scenarios, only: [:index, :create]
   end

@@ -3,6 +3,10 @@ class Things::Light < Thing
     [:on]
   end
 
+  def returned_params
+    [:on]
+  end
+
   private
 
   def uri

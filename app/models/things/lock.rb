@@ -3,6 +3,10 @@ class Things::Lock < Thing
     [:locked]
   end
 
+  def returned_params
+    [:locked]
+  end
+
   private
 
   def uri

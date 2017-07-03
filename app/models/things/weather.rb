@@ -1,6 +1,6 @@
 class Things::Weather < Thing
-  def allowed_params
-    []
+  def returned_params
+    [:temperature, :windSpeed, :raining, :cloudy]
   end
 
   private

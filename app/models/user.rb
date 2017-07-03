@@ -9,4 +9,5 @@ class User < ApplicationRecord
   has_many :scenarios, through: :homes
   has_many :scenario_things, through: :scenarios
   has_many :timed_tasks, through: :homes
+  has_many :triggered_tasks, through: :homes
 end
