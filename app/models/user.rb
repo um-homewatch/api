@@ -1,3 +1,5 @@
+# This class represents the user model
+# Users are composed of their homes, things, scenarios and tasks
 class User < ApplicationRecord
   has_secure_password
 

@@ -1,3 +1,4 @@
+# Serializer for triggered task objects
 class TriggeredTaskSerializer < OmmitNilSerializer
   attributes :id, :status_to_compare, :status_to_apply, :comparator
 

@@ -1,3 +1,4 @@
+# Service object to create timed tasks
 class CreateTimedTask
   attr_reader :status
 

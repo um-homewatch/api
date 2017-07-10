@@ -1,3 +1,4 @@
+# This class is responsible for representing devices of type "motion sensor"
 class Things::MotionSensor < Thing
   def returned_params
     [:movement]
@@ -5,7 +6,7 @@ class Things::MotionSensor < Thing
 
   private
 
-  def uri
-    home.tunnel + "/devices/motionsensors"
+  def route
+    "/devices/motionsensors".freeze
   end
 end

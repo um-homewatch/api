@@ -1,5 +1,8 @@
 require "active_model_serializers"
 
+# This module contains several utilities to be used on testing
+# It offers authentication methods for integration testing and
+# serialization to JSON
 module ControllerMacros
   def authenticate(user = nil)
     user ||= FactoryGirl.create(:user)

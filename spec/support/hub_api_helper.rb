@@ -1,3 +1,4 @@
+# This module is responsible for stubbing api calls to the homewatch hub
 module HubApiHelper
   HEADERS = { "Content-Type" => "application/json" }.freeze
 
@@ -26,8 +27,8 @@ module HubApiHelper
   private
 
   def stringify_hash(data)
-    data.map do |k, v|
-      [k.to_s, v.to_s]
+    data.map do |key, value|
+      [key.to_s, value.to_s]
     end.to_h
   end
 end

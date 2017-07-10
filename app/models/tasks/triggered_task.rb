@@ -1,6 +1,9 @@
+# This class represents the triggered task model, a task that is applied on a specific
+# value change from another thing
 class Tasks::TriggeredTask < ApplicationRecord
   include Task
   belongs_to :thing_to_compare, class_name: "Thing"
+  validates :status_to_compare, :status_to_apply, presence: true
 
   validate :thing_to_compare_must_belong_to_home
 
@@ -9,11 +12,11 @@ class Tasks::TriggeredTask < ApplicationRecord
   end
 
   def status_to_compare
-    self[:status_to_compare]&.symbolize_keys
+    self[:status_to_compare].symbolize_keys
   end
 
   def status_to_apply
-    self[:status_to_apply]&.symbolize_keys
+    self[:status_to_apply].symbolize_keys
   end
 
   def apply_if
