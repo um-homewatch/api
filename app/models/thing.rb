@@ -1,3 +1,4 @@
+# This class represents the base model for all of the api supported devices/things
 class Thing < ApplicationRecord
   VALID_COMPARATORS = ["==", "<", ">", ">=", "<="].freeze
 
@@ -15,7 +16,7 @@ class Thing < ApplicationRecord
   end
 
   def connection_info
-    self[:connection_info]&.symbolize_keys
+    self[:connection_info].symbolize_keys
   end
 
   def status
@@ -46,36 +47,43 @@ class Thing < ApplicationRecord
 
     return false unless remote_status
 
-    status.keys.each do |key|
-      return false unless remote_status[key].send(comparator, status[key])
-    end
-
-    true
-  rescue NoMethodError
-    false
+    compare_remote_status
   end
 
   protected
+
+  def route
+    # ...
+  end
+
+  private
 
   def connection_params
     connection_info.merge(subtype: subtype)
   end
 
   def uri
-    # ...
+    home.tunnel + route
   end
-
-  private
 
   def setup_comparison_params(status)
     status = status.symbolize_keys!
-    keys = status.keys
 
-    return false unless (keys - returned_params).empty?
-    return false unless (status.keys - keys).empty?
-    remote_status = self.status.parsed_response&.symbolize_keys
+    return false unless (status.keys - returned_params).empty?
+
+    remote_status = self.status.parsed_response
     return false unless remote_status
 
-    remote_status
+    remote_status.symbolize_keys
+  end
+
+  def compare_remote_status(remote_status, status)
+    status.each do |key, value|
+      return false unless remote_status[key].send(comparator, value)
+    end
+
+    true
+  rescue NoMethodError
+    false
   end
 end

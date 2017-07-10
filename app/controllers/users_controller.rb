@@ -1,3 +1,5 @@
+# This controller allows the creation of users, and the rendering and update
+# of the user currently logged in (via JWT token)
 class UsersController < ApplicationController
   before_action :authenticate_user, except: [:create]
 

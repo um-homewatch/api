@@ -1,3 +1,4 @@
+# Service object to discover devices
 class DiscoverDevices
   def initialize(home:, params:)
     @home = home

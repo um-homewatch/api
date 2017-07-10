@@ -1,3 +1,4 @@
+# This controller allows the logged user to manage his triggered tasks
 class Tasks::TriggeredTaskController < ApplicationController
   before_action :authenticate_user
 

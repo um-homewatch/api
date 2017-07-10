@@ -1,3 +1,4 @@
+# This controller allows an authenticated user to apply a given scenario
 class ScenarioAppliesController < ApplicationController
   before_action :authenticate_user
 

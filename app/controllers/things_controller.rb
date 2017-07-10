@@ -1,3 +1,4 @@
+# This controller allows the manipulation of the logged user's things
 class ThingsController < ApplicationController
   before_action :authenticate_user
 

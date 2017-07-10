@@ -1,3 +1,4 @@
+# This controller allows the logged user to discover devices in his home
 class Things::DiscoveryController < ApplicationController
   before_action :authenticate_user
 

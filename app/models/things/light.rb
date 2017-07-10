@@ -1,3 +1,4 @@
+# This class is responsible for representing devices of type "light"
 class Things::Light < Thing
   def allowed_params
     [:on]
@@ -9,7 +10,7 @@ class Things::Light < Thing
 
   private
 
-  def uri
-    home.tunnel + "/devices/lights"
+  def route
+    "/devices/lights".freeze
   end
 end

@@ -1,3 +1,4 @@
+# Service object to create triggered tasks
 class CreateTriggeredTask
   attr_reader :status
 

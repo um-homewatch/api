@@ -1,3 +1,4 @@
+# Serializer for timed tasks objects
 class TimedTaskSerializer < OmmitNilSerializer
   attributes :id, :status, :cron, :next_run
 

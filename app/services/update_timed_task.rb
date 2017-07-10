@@ -1,3 +1,4 @@
+# Service object to update timed tasks
 class UpdateTimedTask
   attr_reader :status
 

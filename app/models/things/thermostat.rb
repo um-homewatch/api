@@ -1,3 +1,4 @@
+# This class is responsible for representing devices of type "thermostat"
 class Things::Thermostat < Thing
   def allowed_params
     [:targetTemperature]
@@ -9,7 +10,7 @@ class Things::Thermostat < Thing
 
   private
 
-  def uri
-    home.tunnel + "/devices/thermostats"
+  def route
+    "/devices/thermostats".freeze
   end
 end
