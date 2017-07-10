@@ -1,3 +1,4 @@
+# This class is responsible for representing devices of type "weather"
 class Things::Weather < Thing
   def returned_params
     [:temperature, :windSpeed, :raining, :cloudy]
@@ -5,7 +6,7 @@ class Things::Weather < Thing
 
   private
 
-  def uri
-    home.tunnel + "/devices/weather"
+  def route
+    "/devices/weather".freeze
   end
 end

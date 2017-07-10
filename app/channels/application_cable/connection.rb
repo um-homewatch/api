@@ -1,4 +1,5 @@
 module ApplicationCable
+  # This class is responsible for handling connections in websocket communication
   class Connection < ActionCable::Connection::Base
     identified_by :current_user
 

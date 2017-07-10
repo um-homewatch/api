@@ -1,3 +1,4 @@
+# Service object to update triggered tasks
 class UpdateTriggeredTask
   attr_reader :status
 

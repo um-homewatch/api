@@ -1,0 +1,20 @@
+UtilityFunction:
+  public_methods_only: true
+  exclude:
+    - 'build_uri'
+DuplicateMethodCall:
+  allow_calls:
+    - !ruby/regexp /.*\.save/
+    - !ruby/regexp /params\[:triggered_task\]/
+TooManyInstanceVariables:
+  max_instance_variables: 5
+NilCheck:
+  enabled: false
+exclude_paths:
+  - spec/support/
+  - db/
+  - config/
+  - script/
+  - bin/
+  - vendor/
+  - node_modules/

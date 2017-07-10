@@ -1,3 +1,5 @@
+# When this module is included by a controller it manages all of it's exceptions
+# with custom handlers, reporting internal servor errors to an external provider
 module ExceptionHandler
   extend ActiveSupport::Concern
 

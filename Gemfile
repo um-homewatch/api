@@ -23,6 +23,7 @@ group :development, :test do
   gem "factory_girl_rails"
   gem "faker", "~> 1.7.0"
   gem "pry-byebug"
+  gem "reek", require: false
   gem "rspec-rails"
   gem "rubocop", require: false
   gem "webmock"

@@ -1,4 +1,7 @@
+# This controller allows the manipulation of the logged user thing status
 class Things::StatusController < ApplicationController
+  before_action :authenticate_user
+
   def show
     thing_status = fetch_thing.status
 

@@ -1,3 +1,4 @@
+# This class is responsible for representing devices of type "lock"
 class Things::Lock < Thing
   def allowed_params
     [:locked]
@@ -9,7 +10,7 @@ class Things::Lock < Thing
 
   private
 
-  def uri
-    home.tunnel + "/devices/locks"
+  def route
+    "/devices/locks".freeze
   end
 end

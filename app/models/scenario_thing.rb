@@ -1,8 +1,11 @@
+# This class represents the scenario thing model
+# It belongs to a scenario and a thing. It contains a status
+# that can be applied to the thing associated with this object
 class ScenarioThing < ApplicationRecord
   belongs_to :scenario
   belongs_to :thing
 
-  validates :thing_id, :scenario_id, presence: true
+  validates :thing_id, :scenario_id, :status, presence: true
   validates :thing_id, uniqueness: { scope: :scenario_id }
   validate :thing_must_belong_to_home
 

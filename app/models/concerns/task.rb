@@ -1,3 +1,7 @@
+# This class is a concern that contains all the shared functionality of tasks
+# A task belongs to a thing, a scenario and a home. It also has a delayed job.
+# A task can be applied, updating the associated thing with a given status
+# Tasks can belong to a scenario and a thing, but not both.
 module Task
   extend ActiveSupport::Concern
 

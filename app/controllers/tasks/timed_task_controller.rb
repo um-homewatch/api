@@ -1,3 +1,4 @@
+# This controller allows the logged user to manage his timed tasks
 class Tasks::TimedTaskController < ApplicationController
   before_action :authenticate_user
 
