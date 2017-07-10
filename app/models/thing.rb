@@ -16,7 +16,7 @@ class Thing < ApplicationRecord
   end
 
   def connection_info
-    self[:connection_info].symbolize_keys
+    self[:connection_info]&.symbolize_keys
   end
 
   def status
@@ -47,7 +47,7 @@ class Thing < ApplicationRecord
 
     return false unless remote_status
 
-    compare_remote_status
+    compare_remote_status(remote_status, status, comparator)
   end
 
   protected
@@ -77,7 +77,7 @@ class Thing < ApplicationRecord
     remote_status.symbolize_keys
   end
 
-  def compare_remote_status(remote_status, status)
+  def compare_remote_status(remote_status, status, comparator)
     status.each do |key, value|
       return false unless remote_status[key].send(comparator, value)
     end

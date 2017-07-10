@@ -9,8 +9,7 @@ DuplicateMethodCall:
 TooManyInstanceVariables:
   max_instance_variables: 5
 NilCheck:
-  exclude:
-    - 'cron'
+  enabled: false
 exclude_paths:
   - spec/support/
   - db/

@@ -18,7 +18,7 @@ class ScenarioThing < ApplicationRecord
   end
 
   def status
-    self[:status].symbolize_keys
+    self[:status]&.symbolize_keys
   end
 
   private
