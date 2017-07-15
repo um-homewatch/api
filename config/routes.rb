@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  mount SwaggerEngine::Engine, at: "/docs"
+
   post "auth" => "user_token#create"
   get "auth" => "user_token#show"
 

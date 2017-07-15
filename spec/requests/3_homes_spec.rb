@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "homes", type: :request do
+describe "homes", type: :request do
   let(:Authorization) { "Bearer nil" }
   let(:user) { create(:user) }
   let(:id) { create(:home, user: user).id }
@@ -29,7 +29,7 @@ RSpec.describe "homes", type: :request do
   home_params_schema[:properties][:home][:properties].delete(:id)
   home_params_schema[:properties][:home][:properties].delete(:ip_address)
 
-  path "/homes" do
+  path "/homes", tags: ["Homes"] do
     parameter "Authorization", required: true, in: :header, type: :string, description: "auth token"
 
     get(summary: "list homes") do
@@ -57,7 +57,7 @@ RSpec.describe "homes", type: :request do
     end
   end
 
-  path "/homes/{id}" do
+  path "/homes/{id}", tags: ["Homes"] do
     parameter "Authorization", required: true, in: :header, type: :string, description: "auth token"
     parameter "id", in: :path, type: :integer
 

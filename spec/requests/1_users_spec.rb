@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "users", type: :request do
+describe "users", type: :request do
   let(:Authorization) { "Bearer nil" }
 
   user_schema = {
@@ -25,7 +25,7 @@ RSpec.describe "users", type: :request do
   user_token_schema[:properties][:user][:properties].delete(:id)
   user_token_schema[:properties][:user][:properties][:jwt] = { type: :string }
 
-  path "/users" do
+  path "/users", tags: ["Users"] do
     post(summary: "create user") do
       consumes "application/json"
       parameter "body", required: true, in: :body, schema: user_password_schema, description: "user to register"
@@ -38,7 +38,7 @@ RSpec.describe "users", type: :request do
     end
   end
 
-  path "/users/me" do
+  path "/users/me", tags: ["Users"] do
     parameter "Authorization", required: true, in: :header, type: :string, description: "auth token"
 
     get(summary: "show user") do
