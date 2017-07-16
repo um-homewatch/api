@@ -49,7 +49,7 @@ RSpec.describe "user_token", type: :request do
 
     get(summary: "show user_token") do
       parameter "Authorization", required: true, in: :header, type: :string, description: "auth token"
-      
+
       response(200, description: "successful", schema: user_schema) do
         let(:Authorization) { "Bearer #{token_for}" }
       end

@@ -1,11 +1,14 @@
 # This class represents the base model for all of the api supported devices/things
 class Thing < ApplicationRecord
-  VALID_COMPARATORS = ["==", "<", ">", ">=", "<="].freeze
-
+  include ThingComparator
   validates :name, :type, :subtype, :connection_info, presence: true
 
   belongs_to :home
   delegate :user, to: :home
+
+  def self.types
+    subclasses.map(&:name)
+  end
 
   def allowed_params
     []
@@ -40,16 +43,6 @@ class Thing < ApplicationRecord
       format: :json)
   end
 
-  def compare(comparator, status)
-    return false unless VALID_COMPARATORS.include?(comparator)
-
-    remote_status = setup_comparison_params(status)
-
-    return false unless remote_status
-
-    compare_remote_status(remote_status, status, comparator)
-  end
-
   protected
 
   def route
@@ -64,26 +57,5 @@ class Thing < ApplicationRecord
 
   def uri
     home.tunnel + route
-  end
-
-  def setup_comparison_params(status)
-    status = status.symbolize_keys!
-
-    return false unless (status.keys - returned_params).empty?
-
-    remote_status = self.status.parsed_response
-    return false unless remote_status
-
-    remote_status.symbolize_keys
-  end
-
-  def compare_remote_status(remote_status, status, comparator)
-    status.each do |key, value|
-      return false unless remote_status[key].send(comparator, value)
-    end
-
-    true
-  rescue NoMethodError
-    false
   end
 end

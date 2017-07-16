@@ -13,7 +13,7 @@ describe "things", type: :request do
         properties: {
           id: { type: :integer },
           name: { type: :string },
-          type: { type: :string, enum: Thing.subclasses.map(&:name) },
+          type: { type: :string, enum: Thing.types },
           subtype: { type: :string },
           connection_info: { type: :object },
         },

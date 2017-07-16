@@ -4,7 +4,7 @@ describe DiscoverDevices do
   let(:home) { create(:home) }
 
   def build_uri(home, type)
-    service = DiscoverDevices.new(home: home, params: { type: type })
+    service = DiscoverDevices.new(home: home, params: { type: type, port: 1234 })
 
     service.send(:make_uri)
   end
@@ -35,8 +35,8 @@ describe DiscoverDevices do
     devices = [{ address: "192.168.1.200" }, { address: "192.168.1.150" }]
 
     it "should return a list of devices" do
-      service = DiscoverDevices.new(home: home, params: { type: "Things::Light", subtype: "hue" })
-      stub_discover!(home, "/lights/discover?type=Things::Light&subtype=hue", devices)
+      service = DiscoverDevices.new(home: home, params: { type: "Things::Light", subtype: "hue", port: "1234" })
+      stub_discover!(home, "/lights/discover?subtype=hue&port=1234", devices)
 
       devices = service.perform
 

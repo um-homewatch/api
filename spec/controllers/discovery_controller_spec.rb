@@ -5,7 +5,7 @@ describe Things::DiscoveryController, type: :controller do
     it "should return discovered devices" do
       home = create(:home)
       devices = { meme: true }
-      stub_discover!(home, "/lights/discover?subtype=hue&type=Things::Light", devices)
+      stub_discover!(home, "/lights/discover?subtype=hue", devices)
 
       authenticate(home.user)
       get :index, params: { home_id: home.id, type: "Things::Light", subtype: "hue" }

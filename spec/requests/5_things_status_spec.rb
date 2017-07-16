@@ -26,6 +26,8 @@ RSpec.describe "things/status", type: :request do
 
         before { stub_status!(thing, thing_status) }
       end
+
+      response(401, description: "not authenticated")
     end
 
     patch(summary: "update status") do
@@ -37,6 +39,12 @@ RSpec.describe "things/status", type: :request do
         let(:body) { { status: thing_status } }
         before { stub_send_status!(thing, thing_status) }
       end
+
+      response(400, description: "bad request") do
+        let(:Authorization) { "Bearer #{token_for(user)}" }
+      end
+
+      response(401, description: "not authenticated")
     end
 
     put(summary: "update status") do
@@ -48,6 +56,12 @@ RSpec.describe "things/status", type: :request do
         let(:body) { { status: thing_status } }
         before { stub_send_status!(thing, thing_status) }
       end
+
+      response(400, description: "bad request") do
+        let(:Authorization) { "Bearer #{token_for(user)}" }
+      end
+
+      response(401, description: "not authenticated")
     end
   end
 end

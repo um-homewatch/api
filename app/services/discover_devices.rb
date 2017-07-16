@@ -26,6 +26,7 @@ class DiscoverDevices
 
   def make_uri
     base = uri_base
+    params.delete(:type)
     home.tunnel + base + "/discover" if base
   end
 
