@@ -4,9 +4,7 @@ class Things::MotionSensor < Thing
     [:movement]
   end
 
-  private
-
-  def route
+  def self.route
     "/devices/motionsensors".freeze
   end
 end

@@ -8,9 +8,7 @@ class Things::Light < Thing
     [:on]
   end
 
-  private
-
-  def route
+  def self.route
     "/devices/lights".freeze
   end
 end

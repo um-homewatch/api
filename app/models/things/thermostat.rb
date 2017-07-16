@@ -8,9 +8,7 @@ class Things::Thermostat < Thing
     [:targetTemperature]
   end
 
-  private
-
-  def route
+  def self.route
     "/devices/thermostats".freeze
   end
 end
