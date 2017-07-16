@@ -16,7 +16,7 @@ RSpec.describe "things/status", type: :request do
     },
   }
 
-  path "/things/{thing_id}/status" do
+  path "/things/{thing_id}/status", tags: ["Thing Status"] do
     parameter "Authorization", required: true, in: :header, type: :string, description: "auth token"
     parameter "thing_id", in: :path, type: :string
 

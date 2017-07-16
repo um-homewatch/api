@@ -12,6 +12,7 @@ RSpec.describe "things/discovery", type: :request do
     parameter "home_id", required: true, in: :path, type: :string
     parameter "type", required: true, in: :query, type: :string, enum: Thing.types
     parameter "subtype", required: true, in: :query, type: :string
+    parameter "port", in: :query, type: :integer
 
     let(:type) { "Things::Light" }
     let(:subtype) { "rest" }
