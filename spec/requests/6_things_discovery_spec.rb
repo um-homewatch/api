@@ -7,6 +7,19 @@ RSpec.describe "things/discovery", type: :request do
   let(:home_id) { home.id }
   let(:devices) { [{ address: 123 }, { address: 321 }] }
 
+  discovered_items_schema = {
+    type: :array,
+    items: {
+      type: :object,
+      properties: {
+        address: { type: :string, format: :uri },
+        port: { type: :integer },
+        subtype: { type: :string },
+        type: { type: :string, enum: Thing.types },
+      },
+    },
+  }
+
   path "/homes/{home_id}/things/discovery", tags: ["Things Discovery"] do
     parameter "Authorization", required: true, in: :header, type: :string, description: "auth token"
     parameter "home_id", required: true, in: :path, type: :string
@@ -18,10 +31,10 @@ RSpec.describe "things/discovery", type: :request do
     let(:subtype) { "rest" }
 
     get(summary: "list discoveries") do
-      response(200, description: "successful") do
+      response(200, description: "successful", schema: discovered_items_schema) do
         let(:Authorization) { "Bearer #{token_for(user)}" }
 
-        before { stub_discover!(home, "/lights/discover?subtype=#{subtype}", devices) }
+        before { stub_discover!(home, "/devices/lights/discover?subtype=#{subtype}", devices) }
       end
 
       response(400, description: "bad request") do

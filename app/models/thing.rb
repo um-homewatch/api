@@ -43,9 +43,7 @@ class Thing < ApplicationRecord
       format: :json)
   end
 
-  protected
-
-  def route
+  def self.route
     # ...
   end
 
@@ -56,6 +54,6 @@ class Thing < ApplicationRecord
   end
 
   def uri
-    home.tunnel + route
+    home.tunnel + self.class.route
   end
 end

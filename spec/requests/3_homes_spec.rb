@@ -5,27 +5,27 @@ describe "homes", type: :request do
   let(:user) { create(:user) }
   let(:id) { create(:home, user: user).id }
 
-  home_schema = {
+  home_response_schema = {
+    type: :object,
     properties: {
-      home: {
-        type: :object,
-        properties: {
-          id: { type: :integer },
-          name: { type: :string },
-          tunnel: { type: :string },
-          location: { type: :string },
-          ip_address: { type: :string },
-        },
-      },
+      id: { type: :integer },
+      name: { type: :string },
+      tunnel: { type: :string, format: :uri },
+      location: { type: :string },
+      ip_address: { type: :string, format: :ip_address },
     },
   }
 
   home_array_schema = {
     type: :array,
-    items: home_schema[:properties][:home].deep_dup,
+    items: home_response_schema,
   }
 
-  home_params_schema = home_schema.deep_dup
+  home_params_schema = {
+    properties: {
+      home: home_response_schema.deep_dup,
+    },
+  }
   home_params_schema[:properties][:home][:properties].delete(:id)
   home_params_schema[:properties][:home][:properties].delete(:ip_address)
 
@@ -44,7 +44,7 @@ describe "homes", type: :request do
       consumes "application/json"
       parameter "body", in: :body, required: true, schema: home_params_schema, description: "home to create"
 
-      response(201, description: "successful", schema: home_schema) do
+      response(201, description: "successful", schema: home_response_schema) do
         let(:Authorization) { "Bearer #{token_for(user)}" }
         let(:body) { { home: attributes_for(:home) } }
       end
@@ -62,7 +62,7 @@ describe "homes", type: :request do
     parameter "id", in: :path, type: :integer
 
     get(summary: "show home") do
-      response(200, description: "successful", schema: home_schema) do
+      response(200, description: "successful", schema: home_response_schema) do
         let(:Authorization) { "Bearer #{token_for(user)}" }
       end
 
@@ -73,7 +73,7 @@ describe "homes", type: :request do
       consumes "application/json"
       parameter "body", in: :body, required: true, schema: home_params_schema, description: "new home data"
 
-      response(200, description: "successful", schema: home_schema) do
+      response(200, description: "successful", schema: home_response_schema) do
         let(:Authorization) { "Bearer #{token_for(user)}" }
         let(:body) { { home: attributes_for(:home) } }
       end
@@ -89,7 +89,7 @@ describe "homes", type: :request do
       consumes "application/json"
       parameter "body", in: :body, required: true, schema: home_params_schema, description: "new home data"
 
-      response(200, description: "successful", schema: home_schema) do
+      response(200, description: "successful", schema: home_response_schema) do
         let(:Authorization) { "Bearer #{token_for(user)}" }
         let(:body) { { home: attributes_for(:home) } }
       end

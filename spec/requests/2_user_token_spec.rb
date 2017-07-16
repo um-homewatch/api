@@ -19,15 +19,10 @@ RSpec.describe "user_token", type: :request do
 
   user_schema = {
     properties: {
-      user: {
-        type: :object,
-        properties: {
-          id: { type: :integer },
-          name: { type: :string },
-          email: { type: :string, format: :email },
-          jwt: { type: :string },
-        },
-      },
+      id: { type: :integer },
+      name: { type: :string },
+      email: { type: :string, format: :email },
+      jwt: { type: :string },
     },
   }
 

@@ -3,27 +3,26 @@ require "rails_helper"
 describe "users", type: :request do
   let(:Authorization) { "Bearer nil" }
 
-  user_schema = {
+  user_response_schema = {
+    type: :object,
     properties: {
-      user: {
-        type: :object,
-        properties: {
-          id: { type: :integer },
-          name: { type: :string },
-          email: { type: :string, format: :email },
-        },
-      },
+      id: { type: :integer },
+      name: { type: :string },
+      email: { type: :string, format: :email },
     },
   }
 
-  user_password_schema = user_schema.deep_dup
+  user_token_schema = user_response_schema.deep_dup
+  user_token_schema[:properties][:jwt] = { type: :string }
+
+  user_password_schema = {
+    properties: {
+      user: user_response_schema.deep_dup,
+    },
+  }
   user_password_schema[:properties][:user][:properties].delete(:id)
   user_password_schema[:properties][:user][:properties].merge!(password: { type: :string },
                                                                password_confirmation: { type: :string })
-
-  user_token_schema = user_schema.deep_dup
-  user_token_schema[:properties][:user][:properties].delete(:id)
-  user_token_schema[:properties][:user][:properties][:jwt] = { type: :string }
 
   path "/users", tags: ["Users"] do
     post(summary: "create user") do
@@ -42,7 +41,7 @@ describe "users", type: :request do
     parameter "Authorization", required: true, in: :header, type: :string, description: "auth token"
 
     get(summary: "show user") do
-      response(200, description: "successful", schema: user_schema) do
+      response(200, description: "successful", schema: user_response_schema) do
         let(:Authorization) { "Bearer #{token_for}" }
       end
 

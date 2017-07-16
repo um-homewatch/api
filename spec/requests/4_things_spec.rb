@@ -6,27 +6,27 @@ describe "things", type: :request do
   let(:home_id) { create(:home, user: user).id }
   let(:id) { create(:light, home_id: home_id).id }
 
-  thing_schema = {
+  thing_response_schema = {
+    type: :object,
     properties: {
-      thing: {
-        type: :object,
-        properties: {
-          id: { type: :integer },
-          name: { type: :string },
-          type: { type: :string, enum: Thing.types },
-          subtype: { type: :string },
-          connection_info: { type: :object },
-        },
-      },
+      id: { type: :integer },
+      name: { type: :string },
+      type: { type: :string, enum: Thing.types },
+      subtype: { type: :string },
+      connection_info: { type: :object },
     },
   }
 
   thing_array_schema = {
     type: :array,
-    items: thing_schema[:properties][:thing].deep_dup,
+    items: thing_response_schema,
   }
 
-  thing_params_schema = thing_schema.deep_dup
+  thing_params_schema = {
+    properties: {
+      thing: thing_response_schema.deep_dup,
+    },
+  }
   thing_params_schema[:properties][:thing][:properties].delete(:id)
 
   path "/homes/{home_id}/things", tags: ["Things"] do
@@ -45,7 +45,7 @@ describe "things", type: :request do
       consumes "application/json"
       parameter "body", in: :body, required: true, schema: thing_params_schema, description: "thing to create"
 
-      response(201, description: "successful", schema: thing_schema) do
+      response(201, description: "successful", schema: thing_response_schema) do
         let(:Authorization) { "Bearer #{token_for(user)}" }
         let(:body) { { thing: attributes_for(:light) } }
       end
@@ -63,7 +63,7 @@ describe "things", type: :request do
     parameter "id", in: :path, type: :number
 
     get(summary: "show thing") do
-      response(200, description: "successful", schema: thing_schema) do
+      response(200, description: "successful", schema: thing_response_schema) do
         let(:Authorization) { "Bearer #{token_for(user)}" }
       end
 
@@ -74,7 +74,7 @@ describe "things", type: :request do
       consumes "application/json"
       parameter "body", in: :body, required: true, schema: thing_params_schema, description: "new thing data"
 
-      response(200, description: "successful", schema: thing_schema) do
+      response(200, description: "successful", schema: thing_response_schema) do
         let(:Authorization) { "Bearer #{token_for(user)}" }
         let(:body) { { thing: attributes_for(:light) } }
       end
@@ -90,7 +90,7 @@ describe "things", type: :request do
       consumes "application/json"
       parameter "body", in: :body, required: true, schema: thing_params_schema, description: "new thing data"
 
-      response(200, description: "successful", schema: thing_schema) do
+      response(200, description: "successful", schema: thing_response_schema) do
         let(:Authorization) { "Bearer #{token_for(user)}" }
         let(:body) { { thing: attributes_for(:light) } }
       end

@@ -1,21 +1,23 @@
 # Service object to discover devices
 class DiscoverDevices
+  attr_reader :status
+
   def initialize(home:, params:)
     @home = home
     @params = params
+    @status = false
   end
 
   def perform
     uri = make_uri
 
-    return false unless uri
-
-    do_request(uri)
+    return do_request(uri) if status
   end
 
   private
 
   attr_reader :home, :params
+  attr_writer :status
 
   def do_request(uri)
     HTTParty.get(uri,
@@ -26,20 +28,17 @@ class DiscoverDevices
 
   def make_uri
     base = uri_base
-    params.delete(:type)
-    home.tunnel + base + "/discover" if base
+
+    return unless base
+
+    @status = true
+    home.tunnel + base + "/discover"
   end
 
   def uri_base
-    case params[:type]
-    when "Things::Light"
-      "/lights"
-    when "Things::Lock"
-      "/locks"
-    when "Things::Thermostat"
-      "/thermostat"
-    when "Things::Weather"
-      "/weather"
-    end
+    type = params.delete(:type)
+    return unless Thing.types.include?(type)
+
+    type.constantize.route
   end
 end

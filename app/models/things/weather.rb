@@ -4,9 +4,7 @@ class Things::Weather < Thing
     [:temperature, :windSpeed, :raining, :cloudy]
   end
 
-  private
-
-  def route
+  def self.route
     "/devices/weather".freeze
   end
 end

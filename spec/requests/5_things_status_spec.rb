@@ -8,7 +8,7 @@ RSpec.describe "things/status", type: :request do
   let(:thing_id) { thing.id }
   let(:thing_status) { { on: true } }
 
-  status_schema = {
+  status_params_schema = {
     properties: {
       status: {
         type: :object,
@@ -16,12 +16,16 @@ RSpec.describe "things/status", type: :request do
     },
   }
 
+  status_response_schema = {
+    type: :object,
+  }
+
   path "/things/{thing_id}/status", tags: ["Thing Status"] do
     parameter "Authorization", required: true, in: :header, type: :string, description: "auth token"
     parameter "thing_id", in: :path, type: :string
 
-    get(summary: "show status", schema: status_schema) do
-      response(200, description: "successful") do
+    get(summary: "show status", schema: { type: :object }) do
+      response(200, description: "successful", schema: status_response_schema) do
         let(:Authorization) { "Bearer #{token_for(user)}" }
 
         before { stub_status!(thing, thing_status) }
@@ -32,9 +36,9 @@ RSpec.describe "things/status", type: :request do
 
     patch(summary: "update status") do
       consumes "application/json"
-      parameter "body", in: :body, required: true, schema: status_schema, description: "status to apply"
+      parameter "body", in: :body, required: true, schema: status_params_schema, description: "status to apply"
 
-      response(200, description: "successful", schema: status_schema) do
+      response(200, description: "successful", schema: status_response_schema) do
         let(:Authorization) { "Bearer #{token_for(user)}" }
         let(:body) { { status: thing_status } }
         before { stub_send_status!(thing, thing_status) }
@@ -49,9 +53,9 @@ RSpec.describe "things/status", type: :request do
 
     put(summary: "update status") do
       consumes "application/json"
-      parameter "body", in: :body, required: true, schema: status_schema, description: "status to apply"
+      parameter "body", in: :body, required: true, schema: status_params_schema, description: "status to apply"
 
-      response(200, description: "successful", schema: status_schema) do
+      response(200, description: "successful", schema: status_response_schema) do
         let(:Authorization) { "Bearer #{token_for(user)}" }
         let(:body) { { status: thing_status } }
         before { stub_send_status!(thing, thing_status) }

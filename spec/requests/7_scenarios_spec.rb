@@ -6,28 +6,28 @@ RSpec.describe "scenarios", type: :request do
   let(:home_id) { create(:home, user: user).id }
   let(:id) { create(:scenario, home_id: home_id).id }
 
-  scenario_schema = {
+  scenario_response_schema = {
+    type: :object,
     properties: {
-      scenario: {
-        type: :object,
-        properties: {
-          id: { type: :integer },
-          name: { type: :string },
-          scenario_things: {
-            type: :array,
-            items: { "$ref": "#/definitions/Thing" },
-          },
-        },
+      id: { type: :integer },
+      name: { type: :string },
+      scenario_things: {
+        type: :array,
+        items: { "$ref": "#/definitions/Thing" },
       },
     },
   }
 
   scenario_array_schema = {
     type: :array,
-    items: scenario_schema[:properties][:scenario].deep_dup,
+    items: scenario_response_schema.deep_dup,
   }
 
-  scenario_params_schema = scenario_schema.deep_dup
+  scenario_params_schema = {
+    properties: {
+      scenario: scenario_response_schema.deep_dup,
+    },
+  }
   scenario_params_schema[:properties][:scenario][:properties].delete(:id)
 
   path "/homes/{home_id}/scenarios", tags: ["Scenarios"] do
@@ -46,7 +46,7 @@ RSpec.describe "scenarios", type: :request do
       consumes "application/json"
       parameter "body", in: :body, required: true, schema: scenario_params_schema, description: "thing to create"
 
-      response(201, description: "successful", schema: scenario_schema) do
+      response(201, description: "successful", schema: scenario_response_schema) do
         let(:Authorization) { "Bearer #{token_for(user)}" }
         let(:body) { { scenario: attributes_for(:scenario) } }
       end
@@ -64,7 +64,7 @@ RSpec.describe "scenarios", type: :request do
     parameter "id", in: :path, type: :string
 
     get(summary: "show thing") do
-      response(200, description: "successful", schema: scenario_schema) do
+      response(200, description: "successful", schema: scenario_response_schema) do
         let(:Authorization) { "Bearer #{token_for(user)}" }
       end
 
@@ -75,7 +75,7 @@ RSpec.describe "scenarios", type: :request do
       consumes "application/json"
       parameter "body", in: :body, required: true, schema: scenario_params_schema, description: "thing to create"
 
-      response(200, description: "successful", schema: scenario_schema) do
+      response(200, description: "successful", schema: scenario_response_schema) do
         let(:Authorization) { "Bearer #{token_for(user)}" }
         let(:body) { { scenario: attributes_for(:scenario) } }
       end
@@ -91,7 +91,7 @@ RSpec.describe "scenarios", type: :request do
       consumes "application/json"
       parameter "body", in: :body, required: true, schema: scenario_params_schema, description: "thing to create"
 
-      response(200, description: "successful", schema: scenario_schema) do
+      response(200, description: "successful", schema: scenario_response_schema) do
         let(:Authorization) { "Bearer #{token_for(user)}" }
         let(:body) { { scenario: attributes_for(:scenario) } }
       end

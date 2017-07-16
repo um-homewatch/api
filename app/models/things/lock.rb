@@ -8,9 +8,7 @@ class Things::Lock < Thing
     [:locked]
   end
 
-  private
-
-  def route
+  def self.route
     "/devices/locks".freeze
   end
 end
