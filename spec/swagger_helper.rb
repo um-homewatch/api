@@ -17,16 +17,22 @@ RSpec.configure do |config|
       host: "homewatch-api.herokuapp.com",
       definitions: {
         Thing: {
+          type: :object,
           properties: {
+            id: { type: :integer },
+            name: { type: :string },
+            type: { type: :string, enum: Thing.types },
+            subtype: { type: :string },
+            connection_info: { type: :object },
+          },
+        },
+        ScenarioThing: {
+          type: :object,
+          properties: {
+            id: { type: :integer },
+            status: { type: :object },
             thing: {
-              type: :object,
-              properties: {
-                id: { type: :integer },
-                name: { type: :string },
-                type: { type: :string, enum: Thing.types },
-                subtype: { type: :string },
-                connection_info: { type: :object },
-              },
+              "$ref": "#/definitions/Thing",
             },
           },
         },

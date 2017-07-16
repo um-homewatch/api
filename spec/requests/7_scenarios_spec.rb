@@ -13,7 +13,7 @@ RSpec.describe "scenarios", type: :request do
       name: { type: :string },
       scenario_things: {
         type: :array,
-        items: { "$ref": "#/definitions/Thing" },
+        items: { "$ref": "#/definitions/ScenarioThing" },
       },
     },
   }
@@ -44,7 +44,7 @@ RSpec.describe "scenarios", type: :request do
 
     post(summary: "create scenario") do
       consumes "application/json"
-      parameter "body", in: :body, required: true, schema: scenario_params_schema, description: "thing to create"
+      parameter "body", in: :body, required: true, schema: scenario_params_schema, description: "scenario to create"
 
       response(201, description: "successful", schema: scenario_response_schema) do
         let(:Authorization) { "Bearer #{token_for(user)}" }
@@ -63,7 +63,7 @@ RSpec.describe "scenarios", type: :request do
     parameter "Authorization", required: true, in: :header, type: :string, description: "auth token"
     parameter "id", in: :path, type: :string
 
-    get(summary: "show thing") do
+    get(summary: "show scenario") do
       response(200, description: "successful", schema: scenario_response_schema) do
         let(:Authorization) { "Bearer #{token_for(user)}" }
       end
@@ -73,7 +73,7 @@ RSpec.describe "scenarios", type: :request do
 
     patch(summary: "update scenario") do
       consumes "application/json"
-      parameter "body", in: :body, required: true, schema: scenario_params_schema, description: "thing to create"
+      parameter "body", in: :body, required: true, schema: scenario_params_schema, description: "new scenario data"
 
       response(200, description: "successful", schema: scenario_response_schema) do
         let(:Authorization) { "Bearer #{token_for(user)}" }
@@ -89,7 +89,7 @@ RSpec.describe "scenarios", type: :request do
 
     put(summary: "update scenario") do
       consumes "application/json"
-      parameter "body", in: :body, required: true, schema: scenario_params_schema, description: "thing to create"
+      parameter "body", in: :body, required: true, schema: scenario_params_schema, description: "new scenario data"
 
       response(200, description: "successful", schema: scenario_response_schema) do
         let(:Authorization) { "Bearer #{token_for(user)}" }

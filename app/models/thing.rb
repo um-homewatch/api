@@ -1,6 +1,7 @@
 # This class represents the base model for all of the api supported devices/things
 class Thing < ApplicationRecord
   include ThingComparator
+  
   validates :name, :type, :subtype, :connection_info, presence: true
 
   belongs_to :home
