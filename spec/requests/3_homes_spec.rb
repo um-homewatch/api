@@ -10,7 +10,7 @@ describe "homes", type: :request do
     properties: {
       id: { type: :integer },
       name: { type: :string },
-      tunnel: { type: :string, format: :uri },
+      tunnel: { type: :string, format: :uri, description: "Ngrok tunnel used to access the hub gateway" },
       location: { type: :string },
       ip_address: { type: :string, format: :ip_address },
     },
