@@ -22,7 +22,7 @@ RSpec.describe "user_token", type: :request do
       id: { type: :integer },
       name: { type: :string },
       email: { type: :string, format: :email },
-      jwt: { type: :string },
+      jwt: { type: :string, description: "Jwt token for authentication, valid for 24 hours" },
     },
   }
 

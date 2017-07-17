@@ -13,7 +13,9 @@ describe "users", type: :request do
   }
 
   user_token_schema = user_response_schema.deep_dup
-  user_token_schema[:properties][:jwt] = { type: :string }
+  user_token_schema[:properties][:jwt] = {
+    type: :string, description: "Jwt token for authentication, valid for 24 hours"
+  }
 
   user_password_schema = {
     properties: {
