@@ -44,6 +44,9 @@ Style/PredicateName:
     - is_
     - have_
 
+Style/SafeNavigation:
+  Enabled: false
+
 Style/StringLiterals:
   EnforcedStyle: double_quotes
 

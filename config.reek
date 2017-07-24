@@ -6,6 +6,7 @@ DuplicateMethodCall:
   allow_calls:
     - !ruby/regexp /.*\.save/
     - !ruby/regexp /params\[:triggered_task\]/
+    - !ruby/regexp /.delayed_job/
 TooManyInstanceVariables:
   max_instance_variables: 5
 NilCheck:

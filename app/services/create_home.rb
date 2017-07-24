@@ -30,5 +30,7 @@ class CreateHome
     home.delayed_job = home.delay(cron: HOME_TOKEN_UPDATE_CRON).fetch_token
 
     @status = home.save
+
+    home.delay.fetch_token if status
   end
 end
