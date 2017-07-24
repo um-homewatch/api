@@ -14,12 +14,12 @@ describe CreateHome do
       end.to change { Home.count }.by(1)
     end
 
-    it "should create a delayed job" do
+    it "should create two delayed jobs" do
       create_home = CreateHome.new(user: user, params: params)
 
       expect do
         create_home.perform
-      end.to change { Delayed::Job.count }.by(1)
+      end.to change { Delayed::Job.count }.by(2)
     end
 
     it "should set status to true if saved" do
@@ -39,6 +39,14 @@ describe CreateHome do
       expect(home.tunnel).to eq(params[:tunnel])
       expect(home.location).to eq(params[:location])
       expect(home.ip_address).to be
+    end
+
+    it "should call the fetch_token method" do
+      create_home = CreateHome.new(user: user, params: params)
+
+      expect_any_instance_of(Home).to receive(:delay).twice.and_call_original
+
+      create_home.perform
     end
 
     it "should set status to false if it fails" do

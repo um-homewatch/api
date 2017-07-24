@@ -3,6 +3,7 @@ require "rails_helper"
 describe UpdateHome do
   let(:home) { create(:home) }
   let(:params) { attributes_for(:home) }
+  before { allow(home).to receive(:fetch_token) }
 
   describe "perform" do
     it "should set status to true if updated" do
@@ -22,6 +23,14 @@ describe UpdateHome do
       expect(home.tunnel).to eq(params[:tunnel])
       expect(home.location).to eq(params[:location])
       expect(home.ip_address).to be
+    end
+
+    it "should call the fetch_token method" do
+      update_home = UpdateHome.new(home: home, params: params)
+
+      expect_any_instance_of(Home).to receive(:delay).twice.and_call_original
+
+      update_home.perform
     end
 
     it "should set status to false if it fails" do

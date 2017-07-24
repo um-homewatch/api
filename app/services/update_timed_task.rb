@@ -14,6 +14,8 @@ class UpdateTimedTask
       delete_old_job
 
       update_timed_task
+
+      raise ActiveRecord::Rollback if timed_task.errors.count.positive?
     end
 
     timed_task
@@ -24,7 +26,7 @@ class UpdateTimedTask
   attr_reader :timed_task, :cron, :params
 
   def delete_old_job
-    timed_task.delayed_job.destroy
+    timed_task.delayed_job.destroy if timed_task.delayed_job
   end
 
   def update_timed_task
