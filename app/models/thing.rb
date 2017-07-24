@@ -26,7 +26,7 @@ class Thing < ApplicationRecord
     HTTParty.get(uri,
       headers: {
         "Content-Type" => "application/json",
-        "TunnelAuthorization" => ENV["TUNNEL_ACCESS_TOKEN"],
+        "Authorization" => home.token,
       },
       query: connection_params,
       format: :json)
@@ -36,7 +36,7 @@ class Thing < ApplicationRecord
     HTTParty.put(uri,
       headers: {
         "Content-Type" => "application/json",
-        "TunnelAuthorization" => ENV["TUNNEL_ACCESS_TOKEN"],
+        "Authorization" => home.token,
       },
       query: connection_params,
       body: status.to_json,
