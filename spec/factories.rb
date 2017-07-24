@@ -12,6 +12,11 @@ FactoryGirl.define do
     location { Faker::Lorem.word }
     ip_address { Faker::Internet.ip_v4_address }
     tunnel { Faker::Internet.url }
+
+    after(:create) do |home|
+      home.delayed_job = home.delay(cron: HOME_TOKEN_UPDATE_CRON).fetch_token
+      home.save
+    end
   end
 
   factory :thing do
@@ -72,7 +77,7 @@ FactoryGirl.define do
     status { { on: Faker::Boolean.boolean.to_s } }
 
     after(:create) do |timed_task|
-      timed_task.delayed_job = timed_task.delay(cron: "*/5 * * * *").apply
+      timed_task.delayed_job = timed_task.delay(cron: POLLING_RATE_CRON).apply
       timed_task.save
     end
 

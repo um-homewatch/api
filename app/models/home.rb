@@ -5,6 +5,7 @@ class Home < ApplicationRecord
   validates :ip_address, uniqueness: true
 
   belongs_to :user
+  belongs_to :delayed_job, class_name: "::Delayed::Job", dependent: :destroy
   has_many :things
   has_many :lights, class_name: "Things::Light"
   has_many :locks, class_name: "Things::Lock"
@@ -14,4 +15,21 @@ class Home < ApplicationRecord
   has_many :scenarios
   has_many :timed_tasks, class_name: "Tasks::TimedTask"
   has_many :triggered_tasks, class_name: "Tasks::TriggeredTask"
+
+  def fetch_token
+    token = HTTParty.get(token_uri,
+      headers: {
+        "Content-Type" => "application/json",
+        "Authorization" => token,
+      },
+      format: :json).body
+
+    update_attribute(:token, token)
+  end
+
+  private
+
+  def token_uri
+    tunnel + "/token"
+  end
 end

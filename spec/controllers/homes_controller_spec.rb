@@ -54,6 +54,7 @@ describe HomesController, type: :controller do
       post :create, params: { home: home_params }
 
       expect(parsed_response[:name]).to eq(home_params[:name])
+      expect(parsed_response[:tunnel]).to eq(home_params[:tunnel])
       expect(parsed_response[:location]).to eq(home_params[:location])
       expect(parsed_response[:ip_address]).to be
     end
@@ -69,6 +70,7 @@ describe HomesController, type: :controller do
       home.reload
 
       expect(home.name).to eq(home_params[:name])
+      expect(home.tunnel).to eq(home_params[:tunnel])
       expect(home.location).to eq(home_params[:location])
       expect(home.ip_address).to be
     end
