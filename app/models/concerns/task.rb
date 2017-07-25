@@ -13,6 +13,7 @@ module Task
 
     before_destroy :delete_job
 
+    validate :thing_must_not_be_read_only
     validate :thing_must_belong_to_home
     validate :must_have_scenario_or_thing_not_both
     validate :scenario_and_thing_cannot_be_empty
@@ -29,6 +30,12 @@ module Task
 
     def delete_job
       delayed_job.destroy
+    end
+
+    def thing_must_not_be_read_only
+      return unless thing && thing.read_only?
+
+      errors.add(:thing, "read only thing")
     end
 
     def thing_must_belong_to_home

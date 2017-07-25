@@ -1,11 +1,11 @@
 # This class is responsible for representing devices of type "thermostat"
 class Things::Thermostat < Thing
   def allowed_params
-    [:targetTemperature]
+    [:targetTemperature].freeze
   end
 
   def returned_params
-    [:targetTemperature]
+    [:targetTemperature].freeze
   end
 
   def self.route
