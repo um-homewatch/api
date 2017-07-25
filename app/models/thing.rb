@@ -6,10 +6,6 @@ class Thing < ApplicationRecord
   belongs_to :home
   delegate :user, to: :home
 
-  def self.types
-    subclasses.map(&:name)
-  end
-
   def allowed_params
     []
   end
@@ -20,6 +16,10 @@ class Thing < ApplicationRecord
 
   def connection_info
     self[:connection_info]&.symbolize_keys
+  end
+
+  def read_only?
+    allowed_params.empty?
   end
 
   def status
@@ -41,6 +41,10 @@ class Thing < ApplicationRecord
       query: connection_params,
       body: status.to_json,
       format: :json)
+  end
+
+  def self.types
+    subclasses.map(&:name)
   end
 
   def self.route

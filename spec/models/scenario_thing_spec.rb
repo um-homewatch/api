@@ -7,6 +7,7 @@ describe ScenarioThing, type: :model do
       other_scenario_thing = build(:scenario_thing, thing: scenario_thing.thing, scenario: scenario_thing.scenario)
 
       expect(other_scenario_thing).to be_invalid
+      expect(other_scenario_thing.errors[:thing_id].empty?).to be(false)
     end
 
     it "should validate that thing belongs to user" do
@@ -14,6 +15,23 @@ describe ScenarioThing, type: :model do
       scenario_thing = build(:scenario_light, thing: thing)
 
       expect(scenario_thing).to be_invalid
+      expect(scenario_thing.errors[:thing_id].empty?).to be(false)
+    end
+
+    it "should invalidate when thing is read only" do
+      thing = create(:weather)
+      scenario_thing = build(:scenario_light, thing: thing)
+
+      expect(scenario_thing).to be_invalid
+      expect(scenario_thing.errors[:thing_id].empty?).to be(false)
+    end
+
+    it "should invalidate when status is not valid" do
+      thing = create(:light)
+      scenario_thing = build(:scenario_light, thing: thing, status: { fail: true })
+
+      expect(scenario_thing).to be_invalid
+      expect(scenario_thing.errors[:status].empty?).to be(false)
     end
   end
 

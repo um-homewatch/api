@@ -1,11 +1,11 @@
 # This class is responsible for representing devices of type "light"
 class Things::Light < Thing
   def allowed_params
-    [:on]
+    [:on].freeze
   end
 
   def returned_params
-    [:on]
+    [:on].freeze
   end
 
   def self.route

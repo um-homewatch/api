@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe CreateTriggeredTask do
   let(:home) { create(:home) }
-  let(:thing_to_compare) { create(:light, home: home) }
+  let(:thing_to_compare) { create(:motion_sensor, home: home) }
   let(:thing) { create(:light, home: home) }
   let(:scenario) { create(:scenario, home: home) }
 

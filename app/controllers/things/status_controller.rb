@@ -10,12 +10,11 @@ class Things::StatusController < ApplicationController
 
   def update
     thing = fetch_thing
-    thing_status_params = filter_status_params(thing)
 
-    if thing_status_params.empty?
+    if thing.read_only?
       render json: { message: "Update not supported" }, status: :bad_request
     else
-      thing_status = thing.send_status(thing_status_params)
+      thing_status = thing.send_status(filter_status_params(thing))
 
       render json: thing_status, status: thing_status.code
     end

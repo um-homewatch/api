@@ -5,6 +5,8 @@ class Tasks::TriggeredTask < ApplicationRecord
   belongs_to :thing_to_compare, class_name: "Thing"
   validates :status_to_compare, :status_to_apply, presence: true
 
+  validate :status_to_compare_params_equals_thing_params
+  validate :status_to_apply_params_equals_thing_params
   validate :thing_to_compare_must_belong_to_home
 
   def status
@@ -32,9 +34,20 @@ class Tasks::TriggeredTask < ApplicationRecord
 
   private
 
+  def status_to_compare_params_equals_thing_params
+    return if thing_to_compare && status_to_compare && (status_to_compare.keys - thing_to_compare.returned_params).empty?
+
+    errors.add(:status_to_compare, "not a valid status for this thing type")
+  end
+
+  def status_to_apply_params_equals_thing_params
+    return unless thing && status_to_apply && status_to_apply.keys != thing.allowed_params
+
+    errors.add(:status_to_apply, "not a valid status for this thing type")
+  end
+
   def thing_to_compare_must_belong_to_home
-    return unless home && thing
-    return if home == thing.home
+    return if home && thing_to_compare && home == thing_to_compare.home
 
     errors.add(:thing_to_compare_id, "thing must belong to home")
   end

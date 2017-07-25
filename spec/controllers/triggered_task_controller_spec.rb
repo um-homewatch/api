@@ -6,7 +6,7 @@ describe Tasks::TriggeredTaskController, type: :controller do
   def triggered_task_params_thing(thing)
     attributes_for(
       :triggered_task,
-      thing_to_compare_id: create(:light, home: home).id,
+      thing_to_compare_id: create(:motion_sensor, home: home).id,
       thing_id: thing.id,
     )
   end
@@ -14,7 +14,7 @@ describe Tasks::TriggeredTaskController, type: :controller do
   def triggered_task_params_scenario(scenario)
     attributes_for(
       :triggered_task,
-      thing_to_compare_id: create(:light, home: home).id,
+      thing_to_compare_id: create(:motion_sensor, home: home).id,
       scenario_id: scenario.id,
     )
   end

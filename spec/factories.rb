@@ -99,11 +99,11 @@ FactoryGirl.define do
   factory :triggered_task, class: Tasks::TriggeredTask do
     home
     status_to_apply { { on: Faker::Boolean.boolean.to_s } }
-    status_to_compare { { on: Faker::Boolean.boolean.to_s } }
+    status_to_compare { { movement: Faker::Boolean.boolean.to_s } }
     comparator { "==" }
 
     before(:create) do |triggered_task|
-      triggered_task.thing_to_compare = FactoryGirl.create(:light, home: triggered_task.home)
+      triggered_task.thing_to_compare = FactoryGirl.create(:motion_sensor, home: triggered_task.home)
       triggered_task.save
     end
 
