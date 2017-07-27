@@ -21,7 +21,10 @@ class DiscoverDevices
 
   def do_request(uri)
     HTTParty.get(uri,
-      headers: { "Content-Type" => "application/json" },
+      headers: {
+        "Content-Type" => "application/json",
+        "Authorization" => home.token,
+      },
       query: params,
       format: :json)
   end
