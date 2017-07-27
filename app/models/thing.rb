@@ -4,6 +4,10 @@ class Thing < ApplicationRecord
   validates :name, :type, :subtype, :connection_info, presence: true
 
   belongs_to :home
+  has_many :timed_tasks, class_name: "Tasks::TimedTask", dependent: :destroy
+  has_many :triggered_tasks, class_name: "Tasks::TriggeredTask", dependent: :destroy
+  has_many :scenario_things, dependent: :destroy
+
   delegate :user, to: :home
 
   def allowed_params
