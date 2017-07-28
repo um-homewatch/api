@@ -74,6 +74,7 @@ GEM
     concurrent-ruby (1.0.5)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
+    curb (0.9.1)
     database_cleaner (1.6.1)
     debug_inspector (0.0.3)
     delayed_cron_job (0.7.2)
@@ -111,8 +112,6 @@ GEM
     globalid (0.4.0)
       activesupport (>= 4.2.0)
     hashdiff (0.3.4)
-    httparty (0.15.5)
-      multi_xml (>= 0.5.2)
     i18n (0.8.4)
     ice_nine (0.11.2)
     json (2.1.0)
@@ -136,7 +135,6 @@ GEM
     mini_portile2 (2.2.0)
     minitest (5.10.2)
     multi_json (1.12.1)
-    multi_xml (0.6.0)
     nio4r (2.1.0)
     nokogiri (1.8.0)
       mini_portile2 (~> 2.2.0)
@@ -278,6 +276,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   codecov
+  curb (= 0.9.1)
   database_cleaner
   delayed_cron_job
   delayed_job (= 4.1.2)
@@ -286,7 +285,6 @@ DEPENDENCIES
   factory_girl_rails
   faker (~> 1.7.0)
   foreman
-  httparty
   knock
   listen (~> 3.0.5)
   pg
@@ -310,4 +308,4 @@ RUBY VERSION
    ruby 2.4.0p0
 
 BUNDLED WITH
-   1.15.1
+   1.15.3

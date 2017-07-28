@@ -7,7 +7,7 @@ class Things::DiscoveryController < ApplicationController
     response = DiscoverDevices.new(home: home, params: discovery_params.to_h).perform
 
     if response
-      render json: response.body, status: response.code
+      render json: response.body_json, status: response.response_code
     else
       head :bad_request
     end

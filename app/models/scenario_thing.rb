@@ -12,7 +12,7 @@ class ScenarioThing < ApplicationRecord
   validate :thing_must_belong_to_home
 
   def apply
-    thing.send_status(status).code == 200
+    thing.send_status(status).response_code == 200
   end
 
   def home
