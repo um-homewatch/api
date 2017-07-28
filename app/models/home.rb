@@ -22,7 +22,7 @@ class Home < ApplicationRecord
     token = Curl.get(token_uri) do |http|
       http.headers["Content-Type"] = "application/json"
       http.headers["Authorization"] = token
-    end.body_json
+    end.body_str
 
     update_attribute(:token, token)
   end
