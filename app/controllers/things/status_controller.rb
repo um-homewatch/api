@@ -5,7 +5,7 @@ class Things::StatusController < ApplicationController
   def show
     thing_status = fetch_thing.status
 
-    render json: thing_status.body_json, status: thing_status.response_code
+    render json: thing_status.body_json, status: normalize_status_code(thing_status.response_code)
   end
 
   def update
@@ -16,7 +16,7 @@ class Things::StatusController < ApplicationController
     else
       thing_status = thing.send_status(filter_status_params(thing))
 
-      render json: thing_status.body_json, status: thing_status.response_code
+      render json: thing_status.body_json, status: normalize_status_code(thing_status.response_code)
     end
   end
 
@@ -28,5 +28,9 @@ class Things::StatusController < ApplicationController
 
   def filter_status_params(thing)
     params.require(:status).permit(thing.allowed_params)
+  end
+
+  def normalize_status_code(status_code)
+    return 404 unless status_code == 200
   end
 end
