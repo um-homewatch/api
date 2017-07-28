@@ -31,7 +31,7 @@ class UpdateTriggeredTask
   def update_triggered_task
     triggered_task.update(params)
 
-    triggered_task.delayed_job = triggered_task.delay(cron: POLLING_RATE_CRON).apply
+    triggered_task.delayed_job = triggered_task.delay(cron: POLLING_RATE_CRON).apply_if
 
     @status = triggered_task.save
   end

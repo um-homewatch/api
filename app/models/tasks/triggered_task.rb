@@ -3,22 +3,24 @@
 class Tasks::TriggeredTask < ApplicationRecord
   include Task
   belongs_to :thing_to_compare, class_name: "Thing"
-  validates :status_to_compare, :status_to_apply, presence: true
+  validates :status_to_compare, :status_to_apply, :thing_to_compare, presence: true
 
   validate :status_to_compare_params_equals_thing_params
   validate :status_to_apply_params_equals_thing_params
   validate :thing_to_compare_must_belong_to_home
+
+  before_validation :trim_comparator
 
   def status
     status_to_apply
   end
 
   def status_to_compare
-    self[:status_to_compare].symbolize_keys
+    self[:status_to_compare].symbolize_keys if self[:status_to_compare]
   end
 
   def status_to_apply
-    self[:status_to_apply].symbolize_keys
+    self[:status_to_apply].symbolize_keys if self[:status_to_apply]
   end
 
   def apply_if
@@ -50,5 +52,9 @@ class Tasks::TriggeredTask < ApplicationRecord
     return if home && thing_to_compare && home == thing_to_compare.home
 
     errors.add(:thing_to_compare_id, "thing must belong to home")
+  end
+
+  def trim_comparator
+    comparator.strip! if comparator
   end
 end

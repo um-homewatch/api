@@ -49,6 +49,14 @@ RSpec.describe Tasks::TriggeredTask, type: :model do
     end
   end
 
+  describe "attribute validation" do
+    subject { build(:triggered_task) }
+
+    it { should validate_presence_of(:status_to_compare) }
+    it { should validate_presence_of(:status_to_apply) }
+    it { should validate_presence_of(:thing_to_compare) }
+  end
+
   describe "relation validation" do
     it { should belong_to(:thing) }
     it { should belong_to(:home) }
