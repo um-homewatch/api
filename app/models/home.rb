@@ -19,12 +19,10 @@ class Home < ApplicationRecord
   has_many :motion_sensors, class_name: "Things::MotionSensor"
 
   def fetch_token
-    token = HTTParty.get(token_uri,
-      headers: {
-        "Content-Type" => "application/json",
-        "Authorization" => token,
-      },
-      format: :json).body
+    token = Curl.get(token_uri) do |http|
+      http.headers["Content-Type"] = "application/json"
+      http.headers["Authorization"] = token
+    end.body_json
 
     update_attribute(:token, token)
   end

@@ -8,6 +8,7 @@ DuplicateMethodCall:
     - !ruby/regexp /params\[:triggered_task\]/
     - !ruby/regexp /.delayed_job/
     - !ruby/regexp /self.*/
+    - !ruby/regexp /http.headers/
 TooManyInstanceVariables:
   max_instance_variables: 5
 UtilityFunction:

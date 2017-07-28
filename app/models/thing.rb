@@ -1,6 +1,7 @@
 # This class represents the base model for all of the api supported devices/things
 class Thing < ApplicationRecord
   include ThingComparator
+
   validates :name, :type, :subtype, :connection_info, presence: true
 
   belongs_to :home
@@ -27,24 +28,17 @@ class Thing < ApplicationRecord
   end
 
   def status
-    HTTParty.get(uri,
-      headers: {
-        "Content-Type" => "application/json",
-        "Authorization" => home.token,
-      },
-      query: connection_params,
-      format: :json)
+    Curl.get(uri) do |http|
+      http.headers["Content-Type"] = "application/json"
+      http.headers["Authorization"] = home.token
+    end
   end
 
   def send_status(status)
-    HTTParty.put(uri,
-      headers: {
-        "Content-Type" => "application/json",
-        "Authorization" => home.token,
-      },
-      query: connection_params,
-      body: status.to_json,
-      format: :json)
+    Curl.put(uri, status.to_json) do |http|
+      http.headers["Content-Type"] = "application/json"
+      http.headers["Authorization"] = home.token
+    end
   end
 
   def self.types
@@ -62,6 +56,6 @@ class Thing < ApplicationRecord
   end
 
   def uri
-    home.tunnel + self.class.route
+    home.tunnel + self.class.route + "?" + connection_params.to_query
   end
 end

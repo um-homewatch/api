@@ -5,7 +5,7 @@ class Things::StatusController < ApplicationController
   def show
     thing_status = fetch_thing.status
 
-    render json: thing_status, status: thing_status.code
+    render json: thing_status.body_json, status: thing_status.response_code
   end
 
   def update
@@ -16,7 +16,7 @@ class Things::StatusController < ApplicationController
     else
       thing_status = thing.send_status(filter_status_params(thing))
 
-      render json: thing_status, status: thing_status.code
+      render json: thing_status.body_json, status: thing_status.response_code
     end
   end
 
