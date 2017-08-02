@@ -21,7 +21,7 @@ describe Tasks::TriggeredTaskController, type: :controller do
 
   describe "GET #index" do
     it "returns the triggered tasks of a home" do
-      triggered_tasks = create_list(:triggered_task, 3, :thing, home: home)
+      triggered_tasks = create_list(:triggered_task, 3, home: home)
       json = serialize_to_json(triggered_tasks)
 
       authenticate(home.user)
@@ -32,7 +32,7 @@ describe Tasks::TriggeredTaskController, type: :controller do
 
     it "returns a not found status code" do
       other_home = create(:home)
-      create_list(:triggered_task, 3, :thing, home: other_home)
+      create_list(:triggered_task, 3, home: other_home)
 
       authenticate(home.user)
       get :index, params: { home_id: other_home.id }
@@ -43,7 +43,7 @@ describe Tasks::TriggeredTaskController, type: :controller do
 
   describe "GET #show" do
     it "returns a triggered_task" do
-      triggered_task = create(:triggered_task, :thing, home: home)
+      triggered_task = create(:triggered_task, home: home)
       json = serialize_to_json(triggered_task)
 
       authenticate(home.user)
@@ -54,7 +54,7 @@ describe Tasks::TriggeredTaskController, type: :controller do
 
     it "returns a not found status code" do
       other_home = create(:home)
-      triggered_task = create(:triggered_task, :thing, home: other_home)
+      triggered_task = create(:triggered_task, home: other_home)
 
       authenticate(home.user)
       get :show, params: { id: triggered_task.id }
@@ -91,7 +91,7 @@ describe Tasks::TriggeredTaskController, type: :controller do
 
     it "returns a not found status code" do
       other_home = create(:home)
-      triggered_task_params = attributes_for(:triggered_task, :thing)
+      triggered_task_params = attributes_for(:triggered_task)
 
       authenticate(home.user)
       post :create, params: { home_id: other_home.id, triggered_task: triggered_task_params }
@@ -129,7 +129,7 @@ describe Tasks::TriggeredTaskController, type: :controller do
 
   describe "PUT #update" do
     it "updates the info of a triggered_task" do
-      triggered_task = create(:triggered_task, :thing, home: home)
+      triggered_task = create(:triggered_task, home: home)
       thing = create(:light, home: home)
       triggered_task_params = triggered_task_params_thing(thing)
 
@@ -146,8 +146,8 @@ describe Tasks::TriggeredTaskController, type: :controller do
 
     it "returns a not found status code" do
       other_home = create(:home)
-      triggered_task = create(:triggered_task, :thing, home: other_home)
-      triggered_task_params = attributes_for(:triggered_task, :thing)
+      triggered_task = create(:triggered_task, home: other_home)
+      triggered_task_params = attributes_for(:triggered_task)
 
       authenticate(home.user)
       put :update, params: { id: triggered_task.id, triggered_task: triggered_task_params }
@@ -158,7 +158,7 @@ describe Tasks::TriggeredTaskController, type: :controller do
 
   describe "DELETE #destroy" do
     it "destroys the requested triggered_task" do
-      triggered_task = create(:triggered_task, :thing, home: home)
+      triggered_task = create(:triggered_task, home: home)
 
       authenticate(home.user)
 
@@ -168,7 +168,7 @@ describe Tasks::TriggeredTaskController, type: :controller do
     end
 
     it "destroys the associated delayed job" do
-      triggered_task = create(:triggered_task, :thing, home: home)
+      triggered_task = create(:triggered_task, home: home)
 
       authenticate(home.user)
 
@@ -179,7 +179,7 @@ describe Tasks::TriggeredTaskController, type: :controller do
 
     it "returns a not found status code" do
       other_home = create(:home)
-      triggered_task = create(:triggered_task, :thing, home: other_home)
+      triggered_task = create(:triggered_task, home: other_home)
 
       authenticate(home.user)
       delete :destroy, params: { id: triggered_task.id }
