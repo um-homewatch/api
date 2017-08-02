@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe UpdateTriggeredTask do
-  let(:triggered_task) { create(:triggered_task, :thing) }
+  let(:triggered_task) { create(:triggered_task) }
   let(:params) do
     attributes_for(
       :triggered_task,

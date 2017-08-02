@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe UpdateTimedTask do
-  let(:timed_task) { create(:timed_task, :thing) }
+  let(:timed_task) { create(:timed_task) }
   let(:params) do
     attributes_for(
       :timed_task,
@@ -26,7 +26,7 @@ describe UpdateTimedTask do
 
       expect(timed_task.thing.id).to eq(params[:thing_id])
       expect(timed_task.delayed_job.cron).to eq(params[:cron])
-      expect(timed_task.status.symbolize_keys).to eq(params[:status])
+      expect(timed_task.status_to_apply.symbolize_keys).to eq(params[:status_to_apply])
     end
 
     it "should set status to false if it fails" do

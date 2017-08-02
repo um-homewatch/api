@@ -5,7 +5,7 @@ describe ScenarioThingsController, type: :controller do
 
   describe "GET #index" do
     it "returns the scenarios of a home" do
-      scenario_things = create_list(:scenario_light, 3, scenario: scenario)
+      scenario_things = create_list(:scenario_thing, 3, scenario: scenario)
       json = serialize_to_json(scenario_things)
 
       authenticate(scenario.home.user)
@@ -16,7 +16,7 @@ describe ScenarioThingsController, type: :controller do
 
     it "returns a not found status code" do
       other_scenario = create(:scenario)
-      create_list(:scenario_light, 3, scenario: other_scenario)
+      create_list(:scenario_thing, 3, scenario: other_scenario)
 
       authenticate(scenario.home.user)
       get :index, params: { scenario_id: other_scenario.id }
@@ -27,7 +27,7 @@ describe ScenarioThingsController, type: :controller do
 
   describe "GET #show" do
     it "returns a scenario from a home" do
-      scenario_thing = create(:scenario_light, scenario: scenario)
+      scenario_thing = create(:scenario_thing, scenario: scenario)
       json = serialize_to_json(scenario_thing)
 
       authenticate(scenario.home.user)
@@ -38,7 +38,7 @@ describe ScenarioThingsController, type: :controller do
 
     it "returns a not found status code" do
       other_scenario = create(:scenario)
-      scenario_thing = create(:scenario_light, scenario: other_scenario)
+      scenario_thing = create(:scenario_thing, scenario: other_scenario)
 
       authenticate(scenario.home.user)
       get :index, params: { scenario_id: other_scenario.id, id: scenario_thing.id }
@@ -50,7 +50,7 @@ describe ScenarioThingsController, type: :controller do
   context "POST #create" do
     it "creates a user scenario" do
       thing = create(:light, home: scenario.home)
-      scenario_thing_params = attributes_for(:scenario_light).merge(thing_id: thing.id)
+      scenario_thing_params = attributes_with_foreign_keys(:scenario_thing, thing: thing)
 
       authenticate(scenario.home.user)
 
@@ -61,7 +61,7 @@ describe ScenarioThingsController, type: :controller do
 
     it "returns the created resource" do
       thing = create(:light, home: scenario.home)
-      scenario_thing_params = attributes_for(:scenario_light).merge(thing_id: thing.id)
+      scenario_thing_params = attributes_with_foreign_keys(:scenario_thing, thing: thing)
 
       authenticate(scenario.home.user)
       post :create, params: { scenario_id: scenario.id, scenario_thing: scenario_thing_params }
@@ -73,7 +73,7 @@ describe ScenarioThingsController, type: :controller do
     it "returns a not found status code" do
       other_scenario = create(:scenario)
       thing = create(:light, home: other_scenario.home)
-      scenario_thing_params = attributes_for(:scenario_light).merge(thing_id: thing.id)
+      scenario_thing_params = attributes_with_foreign_keys(:scenario_thing, thing: thing)
 
       authenticate(scenario.home.user)
       post :create, params: { scenario_id: other_scenario.id, scenario_thing: scenario_thing_params }
@@ -84,9 +84,9 @@ describe ScenarioThingsController, type: :controller do
 
   describe "PUT #update" do
     it "updates the info of a scenario" do
-      scenario_thing = create(:scenario_light, scenario: scenario)
+      scenario_thing = create(:scenario_thing, scenario: scenario)
       thing = create(:light, home: scenario.home)
-      scenario_thing_params = attributes_for(:scenario_light).merge(thing_id: thing.id)
+      scenario_thing_params = attributes_with_foreign_keys(:scenario_thing, thing: thing)
 
       authenticate(scenario.home.user)
       put :update, params: { scenario_id: scenario.id, id: scenario_thing.id, scenario_thing: scenario_thing_params }
@@ -98,9 +98,9 @@ describe ScenarioThingsController, type: :controller do
 
     it "returns a not found status code" do
       other_scenario = create(:scenario)
-      scenario_thing = create(:scenario_light, scenario: other_scenario)
+      scenario_thing = create(:scenario_thing, scenario: other_scenario)
       thing = create(:light, home: other_scenario.home)
-      scenario_thing_params = attributes_for(:scenario_light).merge(thing_id: thing.id)
+      scenario_thing_params = attributes_with_foreign_keys(:scenario_thing, thing: thing)
 
       authenticate(scenario.home.user)
       put :update, params: { scenario_id: other_scenario.id, id: scenario_thing.id, scenario_thing: scenario_thing_params }
@@ -111,7 +111,7 @@ describe ScenarioThingsController, type: :controller do
 
   describe "DELETE #destroy" do
     it "destroys the requested scenario" do
-      scenario_thing = create(:scenario_light, scenario: scenario)
+      scenario_thing = create(:scenario_thing, scenario: scenario)
 
       authenticate(scenario.home.user)
 
@@ -122,7 +122,7 @@ describe ScenarioThingsController, type: :controller do
 
     it "returns a not found status code" do
       other_scenario = create(:scenario)
-      create(:scenario_light, scenario: other_scenario)
+      create(:scenario_thing, scenario: other_scenario)
 
       authenticate(scenario.home.user)
       delete :destroy, params: { scenario_id: other_scenario.id, id: scenario.id }
