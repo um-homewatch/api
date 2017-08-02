@@ -9,13 +9,7 @@ class UpdateTriggeredTask
   end
 
   def perform
-    ActiveRecord::Base.transaction do
-      delete_old_job
-
-      update_triggered_task
-
-      raise ActiveRecord::Rollback if triggered_task.errors.count.positive?
-    end
+    perform_transaction
 
     triggered_task
   end
@@ -23,6 +17,16 @@ class UpdateTriggeredTask
   private
 
   attr_reader :triggered_task, :cron, :params
+
+  def perform_transaction
+    ActiveRecord::Base.transaction do
+      delete_old_job
+
+      update_triggered_task
+
+      raise ActiveRecord::Rollback if triggered_task.errors.count.positive?
+    end
+  end
 
   def delete_old_job
     triggered_task.delayed_job.destroy if triggered_task.delayed_job

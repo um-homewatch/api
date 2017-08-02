@@ -10,13 +10,9 @@ class UpdateTimedTask
   end
 
   def perform
-    ActiveRecord::Base.transaction do
-      delete_old_job
+    return unless @cron
 
-      update_timed_task
-
-      raise ActiveRecord::Rollback if timed_task.errors.count.positive?
-    end
+    perform_transaction
 
     timed_task
   end
@@ -24,6 +20,16 @@ class UpdateTimedTask
   private
 
   attr_reader :timed_task, :cron, :params
+
+  def perform_transaction
+    ActiveRecord::Base.transaction do
+      delete_old_job
+
+      update_timed_task
+
+      raise ActiveRecord::Rollback if timed_task.errors.count.positive?
+    end
+  end
 
   def delete_old_job
     timed_task.delayed_job.destroy if timed_task.delayed_job

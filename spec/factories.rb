@@ -56,52 +56,38 @@ FactoryGirl.define do
 
   factory :timed_task, class: Tasks::TimedTask do
     home
+    status_to_apply { { on: Faker::Boolean.boolean.to_s } }
+    thing { create(:light, home: home) }
+
+    trait :scenario do
+      thing nil
+      scenario { create(:scenario, home: home) }
+    end
 
     after(:create) do |timed_task|
       timed_task.delayed_job = timed_task.delay(cron: POLLING_RATE_CRON).apply
       timed_task.save
     end
-
-    trait :scenario do
-      scenario {create(:scenario, home: home)      }
-    end
-
-    trait :thing do
-      status { { on: Faker::Boolean.boolean.to_s } }
-
-      thing {create(:light, home: home)}
-    end
   end
 
   factory :triggered_task, class: Tasks::TriggeredTask do
-    home    
-    status_to_compare { { movement: Faker::Boolean.boolean.to_s } }
+    home
     comparator { "==" }
+    status_to_compare { { movement: Faker::Boolean.boolean.to_s } }
+    thing_to_compare { create(:motion_sensor, home: home) }
 
-    before(:create) do |triggered_task|
-      triggered_task.thing_to_compare = FactoryGirl.create(:motion_sensor, home: triggered_task.home)
-      triggered_task.save
+    status_to_apply { { on: Faker::Boolean.boolean.to_s } }
+    thing { create(:light, home: home) }
+
+    trait :scenario do
+      thing nil
+      status_to_apply nil
+      scenario { create(:scenario, home: home) }
     end
 
     after(:create) do |triggered_task|
       triggered_task.delayed_job = triggered_task.delay(cron: POLLING_RATE_CRON).apply_if
       triggered_task.save
-    end
-
-    trait :scenario do
-      before(:create) do |triggered_task|
-        triggered_task.scenario = FactoryGirl.create(:scenario, home: triggered_task.home)
-        triggered_task.save
-      end
-    end
-
-    trait :thing do
-      status_to_apply { { on: Faker::Boolean.boolean.to_s } }
-      
-      before(:create) do |triggered_task|
-        triggered_task.thing = FactoryGirl.create(:light, home: triggered_task.home)
-        triggered_task.save
-      end
     end
   end
 end

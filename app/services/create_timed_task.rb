@@ -10,13 +10,9 @@ class CreateTimedTask
   end
 
   def perform
-    @timed_task = home.timed_tasks.build(params)
+    return unless @cron
 
-    ActiveRecord::Base.transaction do
-      create_job
-
-      raise ActiveRecord::Rollback if timed_task.errors.count.positive?
-    end
+    perform_transaction
 
     timed_task
   end
@@ -24,6 +20,16 @@ class CreateTimedTask
   private
 
   attr_reader :home, :params, :cron, :timed_task
+
+  def perform_transaction
+    ActiveRecord::Base.transaction do
+      @timed_task = home.timed_tasks.build(params)
+
+      create_job
+
+      raise ActiveRecord::Rollback if timed_task.errors.count.positive?
+    end
+  end
 
   def create_job
     return unless timed_task.save

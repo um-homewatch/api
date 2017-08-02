@@ -19,10 +19,6 @@ class Tasks::TriggeredTask < ApplicationRecord
     self[:status_to_compare].symbolize_keys if self[:status_to_compare]
   end
 
-  def status_to_apply
-    self[:status_to_apply].symbolize_keys if self[:status_to_apply]
-  end
-
   def apply_if
     comparison = thing_to_compare.compare(comparator, status_to_compare)
 
@@ -40,12 +36,6 @@ class Tasks::TriggeredTask < ApplicationRecord
     return if thing_to_compare && status_to_compare && (status_to_compare.keys - thing_to_compare.returned_params).empty?
 
     errors.add(:status_to_compare, "not a valid status for this thing type")
-  end
-
-  def status_to_apply_params_equals_thing_params
-    return unless thing && status_to_apply && status_to_apply.keys != thing.allowed_params
-
-    errors.add(:status_to_apply, "not a valid status for this thing type")
   end
 
   def thing_to_compare_must_belong_to_home

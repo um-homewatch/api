@@ -6,11 +6,11 @@ if %w[development test].include? Rails.env
   Rake::Task[:default].prerequisites.clear
 
   if defined?(RSpec)
-    desc 'Run factory specs.'
-    RSpec::Core::RakeTask.new(:factory_specs) do |t|
-      t.pattern = './spec/factories_spec.rb'
+    desc "Run factory specs."
+    task :factory_specs do
+      FactoryGirl.lint(traits: true)
     end
-  end  
+  end
 
   if defined? RSpec
     task(:spec).clear
