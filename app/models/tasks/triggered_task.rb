@@ -3,7 +3,7 @@
 class Tasks::TriggeredTask < ApplicationRecord
   include Task
   belongs_to :thing_to_compare, class_name: "Thing"
-  validates :status_to_compare, :status_to_apply, :thing_to_compare, presence: true
+  validates :status_to_compare, :thing_to_compare, presence: true
 
   validate :status_to_compare_params_equals_thing_params
   validate :status_to_apply_params_equals_thing_params

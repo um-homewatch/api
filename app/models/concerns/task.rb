@@ -16,7 +16,8 @@ module Task
     validate :thing_must_not_be_read_only
     validate :thing_must_belong_to_home
     validate :must_have_scenario_or_thing_not_both
-    validate :scenario_and_thing_cannot_be_empty
+    validate :must_have_status_to_apply_if_thing
+    validate :scenario_and_thing_cannot_be_empty    
 
     def apply
       if thing
@@ -50,6 +51,12 @@ module Task
 
       errors.add(:thing_id, "task must activate a scenario or a thing, not both")
       errors.add(:scenario_id, "task must activate a scenario or a thing, not both")
+    end
+
+    def must_have_status_to_apply_if_thing
+      return if thing && status_to_apply
+
+      errors.add(:status_to_apply, "can't be blank")
     end
 
     def scenario_and_thing_cannot_be_empty
