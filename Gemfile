@@ -10,7 +10,7 @@ gem "delayed_job", "4.1.2"
 gem "delayed_job_active_record", "4.1.2"
 gem "delayed_cron_job"
 gem "foreman"
-gem "knock"
+gem "knock", "~> 2.1.1"
 gem "pg"
 gem "pry-rails"
 gem "pry-remote"
@@ -41,4 +41,8 @@ group :test do
   gem "database_cleaner"
   gem "shoulda-matchers", "~> 3.1"
   gem "simplecov", require: false
+end
+
+group :production do 
+  gem "redis"
 end
