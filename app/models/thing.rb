@@ -41,10 +41,8 @@ class Thing < ApplicationRecord
     end
   end
 
-  def broadcast_status
-    status = thing.status.body_json
-
-    ActionCable.server.broadcast("thing_#{thing.id}", status)
+  def broadcast_status    
+    ActionCable.server.broadcast("thing_#{id}", status.body_json)
   end
 
   def self.types

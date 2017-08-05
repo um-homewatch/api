@@ -11,5 +11,7 @@ class ThingStatusChannel < ApplicationCable::Channel
     thing = Thing.find(params[:data][:thing_id])
 
     return unless thing
+
+    thing.broadcast_status
   end
 end
