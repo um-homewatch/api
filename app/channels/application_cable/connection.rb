@@ -12,7 +12,7 @@ module ApplicationCable
     def find_verified_user
       token = Knock::AuthToken.new token: request.params[:token]
 
-      verified_user = User.find_by id: token.payload['sub']
+      verified_user = User.find_by id: token.payload["sub"]
       return verified_user if verified_user
 
       reject_unauthorized_connection
