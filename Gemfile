@@ -19,6 +19,7 @@ gem "rack-cors"
 gem "rollbar"
 
 group :development, :test do
+  gem "bullet"
   gem "factory_girl_rails"
   gem "faker", "~> 1.7.0"
   gem "pry-byebug"
