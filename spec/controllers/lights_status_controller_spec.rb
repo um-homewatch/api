@@ -24,6 +24,17 @@ describe Things::StatusController, type: :controller do
 
       expect(response).to be_not_found
     end
+
+    it "should normalize the response code" do
+      light = create(:light, home: home)
+      light_status = { on: true }
+      stub_status!(light, light_status, status_code: 123)
+
+      authenticate(home.user)
+      get :show, params: { thing_id: light.id }
+
+      expect(response).to be_not_found
+    end
   end
 
   describe "PUT #update" do
@@ -44,6 +55,17 @@ describe Things::StatusController, type: :controller do
 
       authenticate(home.user)
       put :update, params: { thing_id: light.id }
+
+      expect(response).to be_not_found
+    end
+
+    it "should normalize the response code" do
+      light = create(:light, home: home)
+      light_status = { on: false }
+      stub_send_status!(light, light_status, true, status_code: 123)
+
+      authenticate(home.user)
+      put :update, params: { thing_id: light.id, status: light_status }
 
       expect(response).to be_not_found
     end

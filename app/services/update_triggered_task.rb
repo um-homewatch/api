@@ -9,11 +9,7 @@ class UpdateTriggeredTask
   end
 
   def perform
-    ActiveRecord::Base.transaction do
-      delete_old_job
-
-      update_triggered_task
-    end
+    perform_transaction
 
     triggered_task
   end
@@ -22,14 +18,24 @@ class UpdateTriggeredTask
 
   attr_reader :triggered_task, :cron, :params
 
+  def perform_transaction
+    ActiveRecord::Base.transaction do
+      delete_old_job
+
+      update_triggered_task
+
+      raise ActiveRecord::Rollback if triggered_task.errors.count.positive?
+    end
+  end
+
   def delete_old_job
-    triggered_task.delayed_job.destroy
+    triggered_task.delayed_job.destroy if triggered_task.delayed_job
   end
 
   def update_triggered_task
     triggered_task.update(params)
 
-    triggered_task.delayed_job = triggered_task.delay(cron: POLLING_RATE_CRON).apply
+    triggered_task.delayed_job = triggered_task.delay(cron: POLLING_RATE_CRON).apply_if
 
     @status = triggered_task.save
   end

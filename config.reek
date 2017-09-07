@@ -1,3 +1,6 @@
+ControlParameter:
+  exclude:
+    - 'normalize_status_code'
 UtilityFunction:
   public_methods_only: true
   exclude:
@@ -6,8 +9,13 @@ DuplicateMethodCall:
   allow_calls:
     - !ruby/regexp /.*\.save/
     - !ruby/regexp /params\[:triggered_task\]/
+    - !ruby/regexp /.delayed_job/
+    - !ruby/regexp /self.*/
+    - !ruby/regexp /http.headers/
 TooManyInstanceVariables:
   max_instance_variables: 5
+UtilityFunction:
+  enabled: false
 NilCheck:
   enabled: false
 exclude_paths:

@@ -44,10 +44,6 @@ RSpec.describe "things/status", type: :request do
         before { stub_send_status!(thing, thing_status) }
       end
 
-      response(400, description: "bad request") do
-        let(:Authorization) { "Bearer #{token_for(user)}" }
-      end
-
       response(401, description: "not authenticated")
     end
 
@@ -59,10 +55,6 @@ RSpec.describe "things/status", type: :request do
         let(:Authorization) { "Bearer #{token_for(user)}" }
         let(:body) { { status: thing_status } }
         before { stub_send_status!(thing, thing_status) }
-      end
-
-      response(400, description: "bad request") do
-        let(:Authorization) { "Bearer #{token_for(user)}" }
       end
 
       response(401, description: "not authenticated")

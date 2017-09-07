@@ -5,8 +5,9 @@ RSpec.describe "scenario_things", type: :request do
   let(:user) { create(:user) }
   let(:home_id) { create(:home, user: user).id }
   let(:thing_id) { create(:light, home_id: home_id).id }
-  let(:scenario_id) { create(:scenario, home_id: home_id).id }
-  let(:id) { create(:scenario_light, scenario_id: scenario_id).id }
+  let(:scenario) { create(:scenario, home_id: home_id) }
+  let(:scenario_id) { scenario.id }
+  let(:id) { create(:scenario_thing, thing_id: thing_id, scenario_id: scenario_id).id }
 
   scenario_thing_response_schema = {
     "$ref": "#/definitions/ScenarioThing",
@@ -47,7 +48,7 @@ RSpec.describe "scenario_things", type: :request do
 
       response(201, description: "successful", schema: scenario_thing_response_schema) do
         let(:Authorization) { "Bearer #{token_for(user)}" }
-        let(:body) { { scenario_thing: attributes_for(:scenario_light, thing_id: thing_id) } }
+        let(:body) { { scenario_thing: attributes_for(:scenario_thing, thing_id: thing_id) } }
       end
 
       response(400, description: "bad request") do
@@ -77,7 +78,7 @@ RSpec.describe "scenario_things", type: :request do
 
       response(200, description: "successful", schema: scenario_thing_response_schema) do
         let(:Authorization) { "Bearer #{token_for(user)}" }
-        let(:body) { { scenario_thing: attributes_for(:scenario_light) } }
+        let(:body) { { scenario_thing: attributes_for(:scenario_thing, scenario: scenario) } }
       end
 
       response(400, description: "bad request") do
@@ -93,7 +94,7 @@ RSpec.describe "scenario_things", type: :request do
 
       response(200, description: "successful", schema: scenario_thing_response_schema) do
         let(:Authorization) { "Bearer #{token_for(user)}" }
-        let(:body) { { scenario_thing: attributes_for(:scenario_light) } }
+        let(:body) { { scenario_thing: attributes_for(:scenario_thing, scenario: scenario) } }
       end
 
       response(400, description: "bad request") do

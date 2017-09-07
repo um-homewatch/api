@@ -5,19 +5,18 @@ class Things::StatusController < ApplicationController
   def show
     thing_status = fetch_thing.status
 
-    render json: thing_status, status: thing_status.code
+    render json: thing_status.body_json, status: normalize_status_code(thing_status.response_code)
   end
 
   def update
     thing = fetch_thing
-    thing_status_params = filter_status_params(thing)
 
-    if thing_status_params.empty?
+    if thing.read_only?
       render json: { message: "Update not supported" }, status: :bad_request
     else
-      thing_status = thing.send_status(thing_status_params)
+      thing_status = thing.send_status(filter_status_params(thing))
 
-      render json: thing_status, status: thing_status.code
+      render json: thing_status.body_json, status: normalize_status_code(thing_status.response_code)
     end
   end
 
@@ -29,5 +28,9 @@ class Things::StatusController < ApplicationController
 
   def filter_status_params(thing)
     params.require(:status).permit(thing.allowed_params)
+  end
+
+  def normalize_status_code(status_code)
+    return 404 unless status_code == 200
   end
 end

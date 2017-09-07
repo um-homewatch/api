@@ -1,4 +1,4 @@
-class AddCronToDelayedJobs < ActiveRecord::Migration
+class AddCronToDelayedJobs < ActiveRecord::Migration[5.0]
   def self.up
     add_column :delayed_jobs, :cron, :string
   end

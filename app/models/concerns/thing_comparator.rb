@@ -23,7 +23,7 @@ module ThingComparator
 
       return false unless (status.keys - returned_params).empty?
 
-      remote_status = self.status.parsed_response
+      remote_status = self.status.body_json
       return false unless remote_status
 
       remote_status.symbolize_keys

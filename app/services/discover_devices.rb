@@ -20,10 +20,10 @@ class DiscoverDevices
   attr_writer :status
 
   def do_request(uri)
-    HTTParty.get(uri,
-      headers: { "Content-Type" => "application/json" },
-      query: params,
-      format: :json)
+    Curl.get(uri + "?" + params.to_query) do |http|
+      http.headers["Content-Type"] = "application/json"
+      http.headers["Authorization"] = home.token
+    end
   end
 
   def make_uri
