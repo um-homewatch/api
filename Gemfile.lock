@@ -177,7 +177,6 @@ GEM
     rb-fsevent (0.10.2)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
-    redis (3.3.3)
     reek (4.7.2)
       codeclimate-engine-rb (~> 0.4.0)
       parser (>= 2.4.0.0, < 2.5)
@@ -274,7 +273,6 @@ DEPENDENCIES
   puma (~> 3.0)
   rack-cors
   rails (~> 5.1.0)
-  redis
   reek
   rollbar
   rspec-rails
