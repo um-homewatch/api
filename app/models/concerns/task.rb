@@ -26,7 +26,7 @@ module Task
 
     def apply
       if thing
-        thing.send_status(status)
+        thing.send_status(status_to_apply)
       elsif scenario
         scenario.apply
       end
