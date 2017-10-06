@@ -9,8 +9,6 @@ describe Home, type: :model do
     it { should validate_presence_of(:location) }
 
     it { should validate_presence_of(:ip_address) }
-
-    it { should validate_uniqueness_of(:ip_address) }
   end
 
   describe "relation validation" do

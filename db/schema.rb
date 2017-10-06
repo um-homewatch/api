@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170802164202) do
+ActiveRecord::Schema.define(version: 20171006163130) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,7 +42,6 @@ ActiveRecord::Schema.define(version: 20170802164202) do
     t.string "token"
     t.integer "delayed_job_id"
     t.index ["delayed_job_id"], name: "index_homes_on_delayed_job_id"
-    t.index ["ip_address"], name: "index_homes_on_ip_address", unique: true
     t.index ["user_id"], name: "index_homes_on_user_id"
   end
 

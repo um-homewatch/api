@@ -2,7 +2,6 @@
 # It belongs to an user and is composed of devices, scenarios and tasks
 class Home < ApplicationRecord
   validates :name, :location, :ip_address, :tunnel, presence: true
-  validates :ip_address, uniqueness: true
 
   belongs_to :user
   belongs_to :delayed_job, class_name: "::Delayed::Job", dependent: :destroy
