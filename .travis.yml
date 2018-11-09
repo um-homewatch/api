@@ -8,9 +8,7 @@ services:
 before_script:
 - cp config/database.yml.travis config/database.yml
 rvm:
-- 2.4.2
-env:
-- RAILS_VERSION=5.0.2
+- 2.5.3
 branches:
   only:
   - master
