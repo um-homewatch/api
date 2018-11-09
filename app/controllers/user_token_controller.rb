@@ -2,6 +2,7 @@
 # or with an already valid token
 class UserTokenController < Knock::AuthTokenController
   include Knock::Authenticable
+  include ExceptionHandler
   before_action :authenticate_user, only: [:show]
   before_action :authenticate, only: [:create]
 

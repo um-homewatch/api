@@ -21,6 +21,7 @@ group :development, :test do
   gem "pry-byebug"
   gem "reek", require: false
   gem "rspec-rails"
+  gem "rspec-rails-swagger"
   gem "rubocop", require: false
   gem "webmock"
 end
